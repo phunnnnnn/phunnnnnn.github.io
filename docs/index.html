@@ -3,58 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name — Portfolio</title>
-  <meta name="description" content="Personal portfolio of Your Name — student, projects, skills and contact." />
+  <title>Phunn — Portfolio</title>
+  <meta name="description" content="Portfolio of Phunn (Pannatat Chaikaew) — developer & creator of AutoBlox." />
+  <link rel="icon" type="image/png" href="assets/phunn.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <!-- Navigation -->
   <header class="nav" id="nav">
     <div class="container nav__inner">
-      <a href="#home" class="nav__logo">YN<span>.</span></a>
+      <a href="#home" class="nav__logo">Phunn<span>.</span></a>
       <nav>
         <ul class="nav__links" id="navLinks">
-          <li><a href="#about">About</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#about" data-i18n="nav.about">About</a></li>
+          <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
+          <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+          <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
         </ul>
       </nav>
-      <button class="nav__theme" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
-      <button class="nav__burger" id="burger" aria-label="Open menu">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="nav__controls">
+        <button class="nav__lang" id="langToggle" aria-label="Switch language">TH</button>
+        <button class="nav__theme" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <button class="nav__burger" id="burger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Hero / About -->
+  <!-- Hero -->
   <section class="hero" id="home">
     <div class="container hero__inner">
       <div class="hero__text">
-        <p class="hero__eyebrow">Hi there, I'm 👋</p>
-        <h1 class="hero__name">Your Name</h1>
-        <h2 class="hero__role">Student &amp; Aspiring <span class="accent">Developer</span></h2>
-        <p class="hero__bio">
-          A short, friendly introduction about who you are, what you're studying,
-          and what you love to build. Keep it to two or three sentences that give
-          visitors a feel for your personality and goals.
+        <p class="hero__eyebrow" data-i18n="hero.eyebrow">Hi there, I'm 👋</p>
+        <h1 class="hero__name" data-i18n="hero.name">Phunn</h1>
+        <h2 class="hero__role" data-i18n-html="hero.role">Developer &amp; Creator of <span class="accent">AutoBlox</span></h2>
+        <p class="hero__bio" data-i18n="hero.bio">
+          I build tools and automation that make things easier — one project at a time.
+          Welcome to my corner of the web.
         </p>
         <div class="hero__cta">
-          <a href="#projects" class="btn btn--primary">View my work</a>
-          <a href="#contact" class="btn btn--ghost">Get in touch</a>
+          <a href="#projects" class="btn btn--primary" data-i18n="hero.cta1">View my work</a>
+          <a href="#contact" class="btn btn--ghost" data-i18n="hero.cta2">Get in touch</a>
         </div>
         <div class="hero__socials">
-          <a href="https://github.com/yourusername" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
-          <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
-          <a href="mailto:your.email@example.com" aria-label="Email">Email</a>
+          <a href="https://fastwork.co/user/phunnnnnn" target="_blank" rel="noopener">Fastwork</a>
+          <a href="https://discord.gg/rVgktUzHR3" target="_blank" rel="noopener">Discord</a>
+          <a href="mailto:phunn.chaikaew@gmail.com">Email</a>
         </div>
       </div>
       <div class="hero__avatar">
         <div class="avatar-ring">
-          <div class="avatar">YN</div>
+          <img class="avatar" src="assets/phunn.png" alt="Phunn" />
         </div>
       </div>
     </div>
@@ -63,24 +66,24 @@
   <!-- About -->
   <section class="section" id="about">
     <div class="container">
-      <p class="section__kicker">01 / About</p>
-      <h2 class="section__title">A little about me</h2>
+      <p class="section__kicker" data-i18n="about.kicker">01 / About</p>
+      <h2 class="section__title" data-i18n="about.title">A little about me</h2>
       <div class="about">
         <div class="about__text">
-          <p>
-            Write a longer paragraph here about your background. Where do you study?
-            What are you passionate about? What kind of problems do you enjoy solving?
+          <p data-i18n="about.p1">
+            I'm Phunn — a developer who loves building automation tools and turning
+            repetitive tasks into something that just runs on its own.
           </p>
-          <p>
-            Mention your interests, any activities or clubs, and where you'd like to
-            head next. This is your chance to sound human — write like you talk.
+          <p data-i18n="about.p2">
+            My main project is AutoBlox. I'm always exploring new ideas and happy to
+            take on freelance work. Feel free to reach out anytime.
           </p>
         </div>
         <ul class="about__facts">
-          <li><span class="about__label">Education</span> Your School / University</li>
-          <li><span class="about__label">Location</span> Your City, Country</li>
-          <li><span class="about__label">Focus</span> Web Development</li>
-          <li><span class="about__label">Interests</span> Coding, Design, Music</li>
+          <li><span class="about__label" data-i18n="about.factName">Name</span> <span data-i18n="about.factNameVal">Pannatat Chaikaew</span></li>
+          <li><span class="about__label" data-i18n="about.factNick">Nickname</span> <span data-i18n="about.factNickVal">Phunn</span></li>
+          <li><span class="about__label" data-i18n="about.factFocus">Focus</span> <span data-i18n="about.factFocusVal">Automation &amp; Development</span></li>
+          <li><span class="about__label" data-i18n="about.factWork">Freelance</span> <span data-i18n="about.factWorkVal">Available for hire</span></li>
         </ul>
       </div>
     </div>
@@ -89,48 +92,19 @@
   <!-- Projects -->
   <section class="section section--alt" id="projects">
     <div class="container">
-      <p class="section__kicker">02 / Projects</p>
-      <h2 class="section__title">Things I've built</h2>
+      <p class="section__kicker" data-i18n="projects.kicker">02 / Projects</p>
+      <h2 class="section__title" data-i18n="projects.title">Things I've built</h2>
       <div class="projects">
         <article class="card">
-          <div class="card__top"><span class="card__tag">Web</span></div>
-          <h3 class="card__title">Project One</h3>
-          <p class="card__desc">
-            A short description of what this project does, the problem it solves,
-            and what you learned while building it.
+          <div class="card__top"><span class="card__tag" data-i18n="projects.autobloxTag">Automation</span></div>
+          <h3 class="card__title">AutoBlox</h3>
+          <p class="card__desc" data-i18n="projects.autobloxDesc">
+            My flagship project — an automation tool built to streamline workflows
+            and take the manual effort out of everyday tasks.
           </p>
-          <div class="card__tech"><span>HTML</span><span>CSS</span><span>JS</span></div>
+          <div class="card__tech"><span>Automation</span><span>Tooling</span></div>
           <div class="card__links">
-            <a href="#" target="_blank" rel="noopener">Live Demo →</a>
-            <a href="#" target="_blank" rel="noopener">Code →</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card__top"><span class="card__tag">App</span></div>
-          <h3 class="card__title">Project Two</h3>
-          <p class="card__desc">
-            Describe another project. Focus on impact — what makes it interesting
-            or useful, and your specific contribution.
-          </p>
-          <div class="card__tech"><span>Python</span><span>API</span></div>
-          <div class="card__links">
-            <a href="#" target="_blank" rel="noopener">Live Demo →</a>
-            <a href="#" target="_blank" rel="noopener">Code →</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card__top"><span class="card__tag">School</span></div>
-          <h3 class="card__title">Project Three</h3>
-          <p class="card__desc">
-            A class project, hackathon entry, or something you made for fun.
-            Every project tells part of your story.
-          </p>
-          <div class="card__tech"><span>React</span><span>Node</span></div>
-          <div class="card__links">
-            <a href="#" target="_blank" rel="noopener">Live Demo →</a>
-            <a href="#" target="_blank" rel="noopener">Code →</a>
+            <a href="#contact" data-i18n="projects.autobloxLink">Learn more →</a>
           </div>
         </article>
       </div>
@@ -140,25 +114,25 @@
   <!-- Skills -->
   <section class="section" id="skills">
     <div class="container">
-      <p class="section__kicker">03 / Skills</p>
-      <h2 class="section__title">Tools &amp; technologies</h2>
+      <p class="section__kicker" data-i18n="skills.kicker">03 / Skills</p>
+      <h2 class="section__title" data-i18n="skills.title">Tools &amp; technologies</h2>
       <div class="skills">
         <div class="skill-group">
-          <h3>Languages</h3>
+          <h3 data-i18n="skills.langs">Languages</h3>
           <ul class="chips">
-            <li>HTML</li><li>CSS</li><li>JavaScript</li><li>Python</li>
+            <li>JavaScript</li><li>Python</li><li>Lua</li>
           </ul>
         </div>
         <div class="skill-group">
-          <h3>Frameworks &amp; Libraries</h3>
+          <h3 data-i18n="skills.focus">Focus Areas</h3>
           <ul class="chips">
-            <li>React</li><li>Node.js</li><li>Tailwind</li>
+            <li data-i18n="skills.chipAuto">Automation</li><li data-i18n="skills.chipBots">Bots</li><li data-i18n="skills.chipTools">Tooling</li>
           </ul>
         </div>
         <div class="skill-group">
-          <h3>Tools</h3>
+          <h3 data-i18n="skills.tools">Tools</h3>
           <ul class="chips">
-            <li>Git</li><li>GitHub</li><li>VS Code</li><li>Figma</li>
+            <li>Git</li><li>GitHub</li><li>VS Code</li>
           </ul>
         </div>
       </div>
@@ -168,23 +142,23 @@
   <!-- Contact -->
   <section class="section section--alt" id="contact">
     <div class="container">
-      <p class="section__kicker">04 / Contact</p>
-      <h2 class="section__title">Let's connect</h2>
-      <p class="contact__lead">
-        I'm always open to new opportunities, collaborations, or just a friendly chat.
-        Drop me a message!
+      <p class="section__kicker" data-i18n="contact.kicker">04 / Contact</p>
+      <h2 class="section__title" data-i18n="contact.title">Let's connect</h2>
+      <p class="contact__lead" data-i18n="contact.lead">
+        Want to hire me or just chat about a project? Reach out through any of these —
+        I'm always happy to hear from you.
       </p>
       <div class="contact__actions">
-        <a href="mailto:your.email@example.com" class="btn btn--primary">your.email@example.com</a>
-        <a href="https://github.com/yourusername" target="_blank" rel="noopener" class="btn btn--ghost">GitHub</a>
-        <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener" class="btn btn--ghost">LinkedIn</a>
+        <a href="https://fastwork.co/user/phunnnnnn" target="_blank" rel="noopener" class="btn btn--primary" data-i18n="contact.hire">Hire me on Fastwork</a>
+        <a href="https://discord.gg/rVgktUzHR3" target="_blank" rel="noopener" class="btn btn--ghost">Discord Server</a>
+        <a href="mailto:phunn.chaikaew@gmail.com" class="btn btn--ghost">phunn.chaikaew@gmail.com</a>
       </div>
     </div>
   </section>
 
   <footer class="footer">
     <div class="container">
-      <p>© <span id="year"></span> Your Name. Built with HTML, CSS &amp; JS.</p>
+      <p>© <span id="year"></span> Phunn (Pannatat Chaikaew).</p>
     </div>
   </footer>
 
