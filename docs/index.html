@@ -19,8 +19,9 @@
       <nav>
         <ul class="nav__links" id="navLinks">
           <li><a href="#about" data-i18n="nav.about">About</a></li>
-          <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
+          <li hidden><a href="#projects" data-i18n="nav.projects">Projects</a></li>
           <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+          <li hidden><a href="#certs" data-i18n="nav.certs">Certificates</a></li>
           <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
         </ul>
       </nav>
@@ -67,7 +68,7 @@
   <section class="section" id="about">
     <div class="container">
       <p class="section__kicker" data-i18n="about.kicker">01 / About</p>
-      <h2 class="section__title" data-i18n="about.title">A little about me</h2>
+      <h2 class="section__title shuffle-text" data-i18n="about.title">A little about me</h2>
       <div class="about">
         <div class="about__text">
           <p data-i18n="about.p1">
@@ -81,8 +82,6 @@
         </div>
         <ul class="about__facts">
           <li><span class="about__label" data-i18n="about.factName">Name</span> <span data-i18n="about.factNameVal">Pannatat Chaikaew</span></li>
-          <li><span class="about__label" data-i18n="about.factNick">Nickname</span> <span data-i18n="about.factNickVal">Phunn</span></li>
-          <li><span class="about__label" data-i18n="about.factFocus">Focus</span> <span data-i18n="about.factFocusVal">Automation &amp; Development</span></li>
           <li><span class="about__label" data-i18n="about.factWork">Freelance</span> <span data-i18n="about.factWorkVal">Available for hire</span></li>
         </ul>
       </div>
@@ -90,23 +89,12 @@
   </section>
 
   <!-- Projects -->
-  <section class="section section--alt" id="projects">
+  <section class="section section--alt" id="projects" hidden>
     <div class="container">
       <p class="section__kicker" data-i18n="projects.kicker">02 / Projects</p>
       <h2 class="section__title" data-i18n="projects.title">Things I've built</h2>
       <div class="projects">
-        <article class="card">
-          <div class="card__top"><span class="card__tag" data-i18n="projects.autobloxTag">Automation</span></div>
-          <h3 class="card__title">AutoBlox</h3>
-          <p class="card__desc" data-i18n="projects.autobloxDesc">
-            My flagship project — an automation tool built to streamline workflows
-            and take the manual effort out of everyday tasks.
-          </p>
-          <div class="card__tech"><span>Automation</span><span>Tooling</span></div>
-          <div class="card__links">
-            <a href="#contact" data-i18n="projects.autobloxLink">Learn more →</a>
-          </div>
-        </article>
+        <!-- Projects coming soon -->
       </div>
     </div>
   </section>
@@ -115,35 +103,48 @@
   <section class="section" id="skills">
     <div class="container">
       <p class="section__kicker" data-i18n="skills.kicker">03 / Skills</p>
-      <h2 class="section__title" data-i18n="skills.title">Tools &amp; technologies</h2>
+      <h2 class="section__title shuffle-text" data-i18n="skills.title">Tools &amp; technologies</h2>
       <div class="skills">
         <div class="skill-group">
           <h3 data-i18n="skills.langs">Languages</h3>
           <ul class="chips">
-            <li>JavaScript</li><li>Python</li><li>Lua</li>
-          </ul>
-        </div>
-        <div class="skill-group">
-          <h3 data-i18n="skills.focus">Focus Areas</h3>
-          <ul class="chips">
-            <li data-i18n="skills.chipAuto">Automation</li><li data-i18n="skills.chipBots">Bots</li><li data-i18n="skills.chipTools">Tooling</li>
+            <li data-skill="c" tabindex="0">C</li><li data-skill="cpp" tabindex="0">C++</li><li data-skill="lua" tabindex="0">Lua</li><li data-skill="gdscript" tabindex="0">GDScript</li>
           </ul>
         </div>
         <div class="skill-group">
           <h3 data-i18n="skills.tools">Tools</h3>
           <ul class="chips">
-            <li>Git</li><li>GitHub</li><li>VS Code</li>
+            <li data-skill="git" tabindex="0">Git</li><li data-skill="github" tabindex="0">GitHub</li><li data-skill="vscode" tabindex="0">VS Code</li><li data-skill="robloxstudio" tabindex="0">Roblox Studio</li><li data-skill="godot" tabindex="0">Godot Engine</li><li data-skill="unreal" tabindex="0">Unreal Engine</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section class="section section--alt" id="contact">
+  <!-- Certificates -->
+  <section class="section section--alt" id="certs" hidden>
     <div class="container">
-      <p class="section__kicker" data-i18n="contact.kicker">04 / Contact</p>
-      <h2 class="section__title" data-i18n="contact.title">Let's connect</h2>
+      <p class="section__kicker" data-i18n="certs.kicker">04 / Certificates</p>
+      <h2 class="section__title" data-i18n="certs.title">Certificates</h2>
+      <div class="certs">
+        <!-- Duplicate this card for each certificate -->
+        <article class="card">
+          <div class="card__top"><span class="card__tag" data-i18n="certs.c1Tag">Course</span></div>
+          <h3 class="card__title" data-i18n="certs.c1Title">Certificate title</h3>
+          <p class="card__desc" data-i18n="certs.c1Issuer">Issuer · Year</p>
+          <div class="card__links">
+            <a href="#" target="_blank" rel="noopener" data-i18n="certs.c1Link">View credential →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section" id="contact">
+    <div class="container">
+      <p class="section__kicker" data-i18n="contact.kicker">05 / Contact</p>
+      <h2 class="section__title shuffle-text" data-i18n="contact.title">Let's connect</h2>
       <p class="contact__lead" data-i18n="contact.lead">
         Want to hire me or just chat about a project? Reach out through any of these —
         I'm always happy to hear from you.

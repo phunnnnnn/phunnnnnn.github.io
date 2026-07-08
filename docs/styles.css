@@ -100,7 +100,7 @@ a { color: inherit; text-decoration: none; }
 .shuffle-char { color: var(--accent-2); }
 .hero__role { font-size: clamp(1.2rem, 3vw, 1.7rem); font-weight: 600; color: var(--text-muted); margin: 8px 0 20px; }
 .hero__role .accent { color: var(--accent); }
-.hero__bio { color: var(--text-muted); max-width: 520px; margin-bottom: 28px; }
+.hero__bio { color: var(--text-muted); max-width: 520px; margin-bottom: 28px; white-space: pre-line; }
 .hero__cta { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 28px; }
 .hero__socials { display: flex; gap: 22px; }
 .hero__socials a { font-weight: 500; color: var(--text-muted); position: relative; transition: color 0.2s; }
@@ -127,7 +127,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ===== About ===== */
 .about { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; }
-.about__text p { color: var(--text-muted); margin-bottom: 16px; }
+.about__text p { color: var(--text-muted); margin-bottom: 16px; white-space: pre-line; }
 .about__facts { list-style: none; display: flex; flex-direction: column; gap: 14px; }
 .about__facts li {
   padding: 14px 18px; background: var(--surface); border: 1px solid var(--border);
@@ -157,6 +157,9 @@ a { color: inherit; text-decoration: none; }
 .card__links a { font-weight: 600; font-size: 0.9rem; color: var(--accent); }
 .card__links a:hover { text-decoration: underline; }
 
+/* ===== Certificates ===== */
+.certs { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+
 /* ===== Skills ===== */
 .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px; }
 .skill-group h3 { font-size: 1.05rem; margin-bottom: 14px; }
@@ -165,7 +168,20 @@ a { color: inherit; text-decoration: none; }
   padding: 8px 16px; background: var(--surface); border: 1px solid var(--border);
   border-radius: 999px; font-weight: 500; font-size: 0.9rem; transition: 0.2s;
 }
+.chips li[data-skill] { cursor: pointer; }
 .chips li:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+.chips li[data-skill]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Skill mastery tooltip */
+.skill-tip {
+  position: absolute; z-index: 100; max-width: 260px;
+  padding: 10px 14px; border-radius: 10px;
+  background: var(--surface); color: var(--text); border: 1px solid var(--border);
+  box-shadow: var(--shadow); font-size: 0.85rem; line-height: 1.4;
+  pointer-events: none; opacity: 0; transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.skill-tip.visible { opacity: 1; transform: none; }
 
 /* ===== Contact ===== */
 .contact__lead { color: var(--text-muted); max-width: 560px; margin-bottom: 28px; font-size: 1.05rem; }
