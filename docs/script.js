@@ -48,10 +48,10 @@ const translations = {
     "nav.about": "เกี่ยวกับ",
     "nav.projects": "ผลงาน",
     "nav.skills": "ทักษะ",
-    "nav.contact": "ติดต่อ",
-    "hero.eyebrow": "สวัสดีครับ ผมชื่อ 👋",
+    "nav.contact": "ช่องทางติดต่อ",
+    "hero.eyebrow": "สวัสดีครับ ผมชื่อ",
     "hero.name": "ปุณณ์",
-    "hero.role": 'นักพัฒนา &amp; ผู้สร้าง <span class="accent">AutoBlox</span>',
+    "hero.role": 'ฟรีแลนส์สายสร้างเกม <span class="accent">Roblox</span>',
     "hero.bio": "ผมสร้างเครื่องมือและระบบอัตโนมัติที่ช่วยให้ทุกอย่างง่ายขึ้น ทีละโปรเจกต์ ยินดีต้อนรับสู่พื้นที่ของผมบนเว็บครับ",
     "hero.cta1": "ดูผลงานของผม",
     "hero.cta2": "ติดต่อผม",
@@ -87,13 +87,67 @@ const translations = {
   },
 };
 
+// ===== Shuffle / scramble text effect =====
+// Any element with class "shuffle-text" scrambles each character through
+// random glyphs until it settles on the real text. Runs on load and whenever
+// the text changes (e.g. language switch).
+const SHUFFLE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789!<>-_/[]{}=+*^?#";
+
+function scrambleText(el, newText) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.textContent = newText;
+    return;
+  }
+  if (el._shuffleRaf) cancelAnimationFrame(el._shuffleRaf);
+  const oldText = el.dataset.shuffleFinal || el.textContent || "";
+  el.dataset.shuffleFinal = newText;
+  const chars = Array.from(newText);
+  const oldChars = Array.from(oldText);
+  const length = Math.max(oldChars.length, chars.length);
+  const queue = [];
+  for (let i = 0; i < length; i++) {
+    const start = Math.floor(Math.random() * 20);
+    const end = start + 15 + Math.floor(Math.random() * 25);
+    queue.push({ from: oldChars[i] || "", to: chars[i] || "", start, end, char: "" });
+  }
+  let frame = 0;
+  const run = () => {
+    let out = "";
+    let done = 0;
+    for (const q of queue) {
+      if (frame >= q.end) {
+        done++;
+        out += q.to;
+      } else if (frame >= q.start && q.to) {
+        if (!q.char || Math.random() < 0.28) {
+          q.char = SHUFFLE_CHARS[Math.floor(Math.random() * SHUFFLE_CHARS.length)];
+        }
+        out += '<span class="shuffle-char">' + q.char + "</span>";
+      } else {
+        out += q.from;
+      }
+    }
+    el.innerHTML = out;
+    if (done === queue.length) {
+      el.textContent = newText;
+      el._shuffleRaf = null;
+      return;
+    }
+    frame++;
+    el._shuffleRaf = requestAnimationFrame(run);
+  };
+  run();
+}
+
 const langToggle = document.getElementById("langToggle");
 
 function applyLanguage(lang) {
   const dict = translations[lang];
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     const key = el.getAttribute("data-i18n");
-    if (dict[key] !== undefined) el.textContent = dict[key];
+    if (dict[key] === undefined) return;
+    if (el.classList.contains("shuffle-text")) scrambleText(el, dict[key]);
+    else el.textContent = dict[key];
   });
   document.querySelectorAll("[data-i18n-html]").forEach((el) => {
     const key = el.getAttribute("data-i18n-html");
@@ -108,6 +162,11 @@ function applyLanguage(lang) {
 
 const savedLang = localStorage.getItem("lang") || "en";
 applyLanguage(savedLang);
+
+// Scramble any shuffle-text elements that aren't handled by applyLanguage
+document.querySelectorAll(".shuffle-text:not([data-i18n])").forEach((el) => {
+  scrambleText(el, el.textContent.trim());
+});
 
 langToggle.addEventListener("click", () => {
   const current = document.documentElement.getAttribute("data-lang") || "en";
