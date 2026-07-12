@@ -21,7 +21,7 @@
           <li><a href="#about" data-i18n="nav.about">About</a></li>
           <li hidden><a href="#projects" data-i18n="nav.projects">Projects</a></li>
           <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
-          <li hidden><a href="#certs" data-i18n="nav.certs">Certificates</a></li>
+          <li><a href="#certs" data-i18n="nav.certs">Certificates</a></li>
           <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
         </ul>
       </nav>
@@ -122,20 +122,17 @@
   </section>
 
   <!-- Certificates -->
-  <section class="section section--alt" id="certs" hidden>
+  <section class="section section--alt" id="certs">
     <div class="container">
       <p class="section__kicker" data-i18n="certs.kicker">04 / Certificates</p>
-      <h2 class="section__title" data-i18n="certs.title">Certificates</h2>
-      <div class="certs">
-        <!-- Duplicate this card for each certificate -->
-        <article class="card">
-          <div class="card__top"><span class="card__tag" data-i18n="certs.c1Tag">Course</span></div>
-          <h3 class="card__title" data-i18n="certs.c1Title">Certificate title</h3>
-          <p class="card__desc" data-i18n="certs.c1Issuer">Issuer · Year</p>
-          <div class="card__links">
-            <a href="#" target="_blank" rel="noopener" data-i18n="certs.c1Link">View credential →</a>
-          </div>
-        </article>
+      <h2 class="section__title shuffle-text" data-i18n="certs.title">Certificates</h2>
+      <p class="certs__lead" data-i18n="certs.lead">A few highlights from competitions, camps, and workshops. Click any certificate to view it full size.</p>
+      <!-- Featured certificates + "view more" slot (rendered by script.js) -->
+      <div class="certs" id="certsFeatured"></div>
+      <!-- Additional certificates (hidden until the "view more" slot is clicked) -->
+      <div class="certs__more" id="certsMore" hidden>
+        <h3 class="certs__more-title" data-i18n="certs.moreTitle">More certificates</h3>
+        <div class="cert-gallery" id="certsGallery"></div>
       </div>
     </div>
   </section>
@@ -162,6 +159,15 @@
       <p>© <span id="year"></span> Phunn (Pannatat Chaikaew).</p>
     </div>
   </footer>
+
+  <!-- Certificate lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Certificate viewer">
+    <button class="lightbox__close" id="lightboxClose" aria-label="Close">&times;</button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightboxImg" src="" alt="" />
+      <figcaption class="lightbox__caption" id="lightboxCaption"></figcaption>
+    </figure>
+  </div>
 
   <script src="script.js"></script>
 </body>

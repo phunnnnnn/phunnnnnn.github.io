@@ -36,10 +36,13 @@ const translations = {
     "skills.tools": "Tools",
     "certs.kicker": "04 / Certificates",
     "certs.title": "Certificates",
-    "certs.c1Tag": "Course",
-    "certs.c1Title": "Certificate title",
-    "certs.c1Issuer": "Issuer · Year",
-    "certs.c1Link": "View credential →",
+    "certs.lead": "A few highlights from competitions, camps, and workshops. Click any certificate to view it full size.",
+    "certs.moreTitle": "More certificates",
+    "certs.view": "View certificate →",
+    "certs.moreTag": "More",
+    "certs.moreCardTitle": "View more certificates",
+    "certs.moreCount": "+{n} more",
+    "certs.moreCta": "See all →",
     "contact.kicker": "05 / Contact",
     "contact.title": "Let's connect",
     "contact.lead": "Want to hire me or just chat about a project? Reach out through any of these — I'm always happy to hear from you.",
@@ -78,10 +81,13 @@ const translations = {
     "skills.tools": "เครื่องมือ",
     "certs.kicker": "04 / ใบรับรอง",
     "certs.title": "ใบรับรอง",
-    "certs.c1Tag": "คอร์ส",
-    "certs.c1Title": "ชื่อใบรับรอง",
-    "certs.c1Issuer": "ผู้ออก · ปี",
-    "certs.c1Link": "ดูใบรับรอง →",
+    "certs.lead": "ตัวอย่างผลงานจากการแข่งขัน ค่าย และการอบรม คลิกที่ใบรับรองเพื่อดูภาพขนาดเต็มได้เลยครับ",
+    "certs.moreTitle": "ใบรับรองอื่น ๆ",
+    "certs.view": "ดูใบรับรอง →",
+    "certs.moreTag": "เพิ่มเติม",
+    "certs.moreCardTitle": "ดูใบรับรองเพิ่มเติม",
+    "certs.moreCount": "อีก {n} รายการ",
+    "certs.moreCta": "ดูทั้งหมด →",
     "contact.kicker": "05 / ติดต่อ",
     "contact.title": "ติดต่อ & จ้างงาน",
     "contact.lead": "อยากจ้างงานหรือแค่อยากคุยเรื่องโปรเจกต์? ติดต่อผมได้ทุกช่องทางเลยครับ ผมยินดีเสมอ",
@@ -141,6 +147,232 @@ function scrambleText(el, newText) {
   run();
 }
 
+// ===== Certificates data =====
+// Each entry points at an optimized image in assets/certs/{thumb,full}/<file>.jpg.
+// `tag`/`title`/`meta` are bilingual; `badge` (optional) shows a medal ribbon.
+const certData = [
+  // ---- Featured (shown as large cards) ----
+  {
+    file: "posn-camp1",
+    featured: true,
+    tag: { en: "Olympiad", th: "โอลิมปิกวิชาการ" },
+    title: { en: "POSN Computer Science — Camp 1", th: "สอวน. คอมพิวเตอร์ — ค่าย 1" },
+    meta: { en: "Yupparaj Wittayalai Center · Oct 2024", th: "ศูนย์ ร.ร.ยุพราชวิทยาลัย · ต.ค. 2567" },
+  },
+  {
+    file: "posn-camp2",
+    featured: true,
+    tag: { en: "Olympiad", th: "โอลิมปิกวิชาการ" },
+    title: { en: "POSN Computer Science — Camp 2", th: "สอวน. คอมพิวเตอร์ — ค่าย 2" },
+    meta: { en: "Faculty of Science, CMU · Mar–Apr 2026", th: "คณะวิทยาศาสตร์ ม.เชียงใหม่ · มี.ค.–เม.ย. 2569" },
+  },
+  {
+    file: "camt-gamedev-2026",
+    featured: true,
+    tag: { en: "Game Dev", th: "พัฒนาเกม" },
+    title: { en: "Game Development with Unreal Engine", th: "การพัฒนาเกมด้วย Unreal Engine" },
+    meta: { en: "CAMT Summer Course 2026, CMU · May 2026", th: "CAMT Summer Course 2026, ม.เชียงใหม่ · พ.ค. 2569" },
+  },
+  {
+    file: "gold-programming-2025",
+    featured: true,
+    badge: { kind: "gold", en: "🥇 1st Place", th: "🥇 ชนะเลิศ" },
+    tag: { en: "Gold Medal", th: "เหรียญทอง" },
+    title: { en: "Computer Programming — Gold Medal, 1st Place", th: "การเขียนโปรแกรมคอมพิวเตอร์ — เหรียญทอง ชนะเลิศ" },
+    meta: { en: "73rd Regional Academic Fair, Chiang Rai · Sep 2025", th: "ศิลปหัตถกรรมฯ ครั้งที่ 73 ระดับเขต เชียงราย · ก.ย. 2568" },
+  },
+  {
+    file: "gold-robotics-2024",
+    featured: true,
+    badge: { kind: "gold", en: "🥇 Gold", th: "🥇 ทอง" },
+    tag: { en: "Gold Medal", th: "เหรียญทอง" },
+    title: { en: "Robotics (Intermediate) — Gold Medal", th: "การแข่งขันหุ่นยนต์ระดับกลาง — เหรียญทอง" },
+    meta: { en: "72nd Regional Academic Fair · 2024", th: "ศิลปหัตถกรรมฯ ครั้งที่ 72 ระดับเขต · 2567" },
+  },
+  // ---- Gallery (remaining certificates) ----
+  {
+    file: "silver-programming-2024",
+    badge: { kind: "silver", en: "🥈 Silver", th: "🥈 เงิน" },
+    title: { en: "Computer Programming — Silver Medal", th: "การเขียนโปรแกรมคอมพิวเตอร์ — เหรียญเงิน" },
+    meta: { en: "72nd Regional Academic Fair · 2024", th: "ศิลปหัตถกรรมฯ ครั้งที่ 72 ระดับเขต · 2567" },
+  },
+  {
+    file: "mfu-hackathon-honorable",
+    title: { en: "Hackathon (Team) — Honorable Mention", th: "แฮกกาธอน (ทีม) — รางวัลชมเชย" },
+    meta: { en: "ADT Open Space 2025, MFU · 2025", th: "ADT Open Space 2025, ม.แม่ฟ้าหลวง · 2568" },
+  },
+  {
+    file: "mfu-hackathon-participant",
+    title: { en: "Hackathon (Team) — Participant", th: "แฮกกาธอน (ทีม) — เข้าร่วม" },
+    meta: { en: "ADT Open Space 2025, MFU · 2025", th: "ADT Open Space 2025, ม.แม่ฟ้าหลวง · 2568" },
+  },
+  {
+    file: "stem-robotics-trainer-2024",
+    title: { en: "STEM Robotics Camp — Trainer", th: "ค่าย STEM Robotics — วิทยากร" },
+    meta: { en: "Damrongratsongkroh School · Dec 2024", th: "ร.ร.ดำรงราษฎร์สงเคราะห์ · ธ.ค. 2567" },
+  },
+  {
+    file: "boardgame-instructor-2025",
+    title: { en: "Science Day Board Game — Station Instructor", th: "วันวิทยาศาสตร์ บอร์ดเกม — วิทยากรประจำฐาน" },
+    meta: { en: "Damrongratsongkroh School · Aug 2025", th: "ร.ร.ดำรงราษฎร์สงเคราะห์ · ส.ค. 2568" },
+  },
+  {
+    file: "ai-coding-innovation-2025",
+    title: { en: "AI & Coding Innovation Workshop", th: "อบรม AI & Coding Innovation" },
+    meta: { en: "Sci–Math–Computer Program · Jun 2025", th: "ห้องเรียนพิเศษ วิทย์–คณิต–คอม · มิ.ย. 2568" },
+  },
+  {
+    file: "coding-course-2024",
+    title: { en: "Coding Course Workshop", th: "อบรม Coding Course" },
+    meta: { en: "Sci–Math–Computer Program · Dec 2024", th: "ห้องเรียนพิเศษ วิทย์–คณิต–คอม · ธ.ค. 2567" },
+  },
+  {
+    file: "coding-basic-2025",
+    title: { en: "Basic Coding for Beginners", th: "อบรม Basic Coding for Beginners" },
+    meta: { en: "ICT Talent Program · Aug 2025", th: "ส่งเสริมศักยภาพด้าน ICT · ส.ค. 2568" },
+  },
+  {
+    file: "coding-basic-2024",
+    title: { en: "Basic Coding for Beginners", th: "อบรม Basic Coding for Beginners" },
+    meta: { en: "ICT Talent Program · Aug 2024", th: "ส่งเสริมศักยภาพด้าน ICT · ส.ค. 2567" },
+  },
+  {
+    file: "scientist-cosplay-2024",
+    title: { en: "Scientist Cosplay — 2nd Runner-up", th: "คอสเพลย์นักวิทยาศาสตร์ — รองชนะเลิศอันดับ 2" },
+    meta: { en: "Science Day · Aug 2024", th: "วันวิทยาศาสตร์ · ส.ค. 2567" },
+  },
+  {
+    file: "sports-committee-2024",
+    title: { en: "Internal Sports — Organizing Committee", th: "กีฬาภายใน — คณะกรรมการ" },
+    meta: { en: "Damrongratsongkroh School · Nov 2024", th: "ร.ร.ดำรงราษฎร์สงเคราะห์ · พ.ย. 2567" },
+  },
+  {
+    file: "ccru-esport-2024",
+    title: { en: "e-Sport (VALORANT) Workshop", th: "อบรม e-Sport (VALORANT)" },
+    meta: { en: "Innovation Day 2024, CRRU · Jul 2024", th: "Innovation Day 2024, ม.ราชภัฏเชียงราย · ก.ค. 2567" },
+  },
+  {
+    file: "military-cadet-cmd-2026",
+    title: { en: "Territorial Defense — Commanding Cadet", th: "นักศึกษาวิชาทหาร — ผู้บังคับบัญชา" },
+    meta: { en: "Field Training, Military Circle 37 · Feb 2026", th: "ฝึกภาคสนาม มทบ.37 · ก.พ. 2569" },
+  },
+  {
+    file: "military-tower-2025",
+    title: { en: "Territorial Defense — 34ft Tower Jump", th: "นักศึกษาวิชาทหาร — กระโดดหอสูง 34 ฟุต" },
+    meta: { en: "Royal Thai Army · Sep 2025", th: "กองทัพบก · ก.ย. 2568" },
+  },
+];
+
+// Escape user-facing strings before injecting into markup.
+function escHtml(s) {
+  return String(s).replace(/[&<>"]/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])
+  );
+}
+
+const certsFeaturedEl = document.getElementById("certsFeatured");
+const certsGalleryEl = document.getElementById("certsGallery");
+const certsMoreEl = document.getElementById("certsMore");
+
+function certBadge(cert, lang) {
+  if (!cert.badge) return "";
+  return `<span class="cert-badge cert-badge--${cert.badge.kind}">${escHtml(cert.badge[lang])}</span>`;
+}
+
+function renderCerts(lang) {
+  if (!certsFeaturedEl || !certsGalleryEl) return;
+  const viewLabel = translations[lang]["certs.view"];
+
+  // The first five featured certs fill the large slots; the final slot is a
+  // "view more" tile that reveals the rest of the gallery.
+  const featured = certData.filter((c) => c.featured).slice(0, 5);
+  const gallery = certData.filter((c) => !c.featured);
+
+  const featuredCards = featured
+    .map((c) => {
+      const title = escHtml(c.title[lang]);
+      const meta = escHtml(c.meta[lang]);
+      const caption = escHtml(c.title[lang] + " · " + c.meta[lang]);
+      return `
+      <article class="card card--cert" role="button" tabindex="0"
+               data-cert-full="assets/certs/full/${c.file}.jpg" data-cert-caption="${caption}">
+        <div class="cert-thumb-wrap">
+          ${certBadge(c, lang)}
+          <img src="assets/certs/thumb/${c.file}.jpg" alt="${title}" loading="lazy" />
+        </div>
+        <div class="card__body">
+          <span class="card__tag">${escHtml(c.tag[lang])}</span>
+          <h3 class="card__title">${title}</h3>
+          <p class="card__desc">${meta}</p>
+          <span class="card__view">${escHtml(viewLabel)}</span>
+        </div>
+      </article>`;
+    })
+    .join("");
+
+  // Fifth slot: reveals the remaining certificates when clicked.
+  const dict = translations[lang];
+  const moreTag = escHtml(dict["certs.moreTag"]);
+  const moreTitle = escHtml(dict["certs.moreCardTitle"]);
+  const moreCount = escHtml(dict["certs.moreCount"].replace("{n}", gallery.length));
+  const moreCta = escHtml(dict["certs.moreCta"]);
+  const moreCard = `
+      <button class="card card--cert card--cert-more" type="button" id="certsMoreToggle"
+              aria-controls="certsMore" aria-expanded="false">
+        <div class="cert-thumb-wrap cert-thumb-wrap--more">
+          <span class="cert-more__plus">+${gallery.length}</span>
+        </div>
+        <div class="card__body">
+          <span class="card__tag">${moreTag}</span>
+          <h3 class="card__title">${moreTitle}</h3>
+          <p class="card__desc">${moreCount}</p>
+          <span class="card__view">${moreCta}</span>
+        </div>
+      </button>`;
+
+  certsFeaturedEl.innerHTML = featuredCards + moreCard;
+
+  certsGalleryEl.innerHTML = gallery
+    .map((c) => {
+      const title = escHtml(c.title[lang]);
+      const meta = escHtml(c.meta[lang]);
+      const caption = escHtml(c.title[lang] + " · " + c.meta[lang]);
+      return `
+      <button class="cert-item" type="button"
+              data-cert-full="assets/certs/full/${c.file}.jpg" data-cert-caption="${caption}">
+        <div class="cert-thumb-wrap">
+          ${certBadge(c, lang)}
+          <img src="assets/certs/thumb/${c.file}.jpg" alt="${title}" loading="lazy" />
+        </div>
+        <span class="cert-item__cap">
+          <span class="cert-item__title">${title}</span>
+          <span class="cert-item__meta">${meta}</span>
+        </span>
+      </button>`;
+    })
+    .join("");
+
+  // Re-render recreates the toggle button, so restore its expanded state.
+  const toggle = document.getElementById("certsMoreToggle");
+  if (toggle) toggle.setAttribute("aria-expanded", String(certsExpanded));
+}
+
+// Whether the extra certificates are revealed. Clicking the fifth slot toggles
+// it; state is preserved across language re-renders.
+let certsExpanded = false;
+if (certsFeaturedEl && certsMoreEl) {
+  certsFeaturedEl.addEventListener("click", (e) => {
+    const toggle = e.target.closest("#certsMoreToggle");
+    if (!toggle) return;
+    certsExpanded = !certsExpanded;
+    certsMoreEl.hidden = !certsExpanded;
+    toggle.setAttribute("aria-expanded", String(certsExpanded));
+    if (certsExpanded) {
+      certsMoreEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+}
+
 const langToggle = document.getElementById("langToggle");
 
 function applyLanguage(lang) {
@@ -155,6 +387,7 @@ function applyLanguage(lang) {
     const key = el.getAttribute("data-i18n-html");
     if (dict[key] !== undefined) el.innerHTML = dict[key];
   });
+  renderCerts(lang);
   document.documentElement.setAttribute("lang", lang);
   document.documentElement.setAttribute("data-lang", lang);
   // Button shows the language you'll switch TO
@@ -334,3 +567,59 @@ window.addEventListener("scroll", () => {
   pinnedChip = null;
   hideSkillTip();
 });
+
+// ===== Certificate lightbox =====
+// Click (or press Enter/Space on) any certificate to open it full size.
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+const lightboxCaption = document.getElementById("lightboxCaption");
+const lightboxClose = document.getElementById("lightboxClose");
+const certsSection = document.getElementById("certs");
+
+function openLightbox(trigger) {
+  const full = trigger.getAttribute("data-cert-full");
+  const caption = trigger.getAttribute("data-cert-caption") || "";
+  if (!full) return;
+  lightboxImg.setAttribute("src", full);
+  lightboxImg.setAttribute("alt", caption);
+  lightboxCaption.textContent = caption;
+  lightbox.classList.add("open");
+  lightbox.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+  lightboxClose.focus();
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("open");
+  lightbox.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+  // Release the (large) image so it isn't kept in memory while hidden.
+  lightboxImg.setAttribute("src", "");
+}
+
+if (certsSection && lightbox) {
+  certsSection.addEventListener("click", (e) => {
+    const trigger = e.target.closest("[data-cert-full]");
+    if (trigger) openLightbox(trigger);
+  });
+  // Enter / Space on the role="button" featured cards.
+  certsSection.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const trigger = e.target.closest(".card--cert[data-cert-full]");
+    if (trigger) {
+      e.preventDefault();
+      openLightbox(trigger);
+    }
+  });
+
+  lightboxClose.addEventListener("click", closeLightbox);
+  // Click the backdrop (but not the image/caption) to close.
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox || e.target.classList.contains("lightbox__figure")) {
+      closeLightbox();
+    }
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && lightbox.classList.contains("open")) closeLightbox();
+  });
+}
