@@ -92,7 +92,20 @@ a { color: inherit; text-decoration: none; }
 .btn--ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
 /* ===== Hero ===== */
-.hero { padding: 90px 0 80px; overflow: hidden; }
+.hero { padding: 90px 0 80px; overflow: hidden; position: relative; }
+
+/* Animated LetterGlitch layer (see letter-glitch.js). Its glyph colours come
+   from the accent tokens, so it tracks the theme; we keep it faint and fade the
+   edges with a mask so the hero text stays legible in both light and dark. */
+.hero__glitch {
+  position: absolute; inset: 0; z-index: 0;
+  pointer-events: none;
+  opacity: 0.14;
+  -webkit-mask-image: radial-gradient(115% 115% at 72% 42%, #000 0%, #000 40%, transparent 76%);
+          mask-image: radial-gradient(115% 115% at 72% 42%, #000 0%, #000 40%, transparent 76%);
+}
+:root[data-theme="dark"] .hero__glitch { opacity: 0.24; }
+.hero__inner { position: relative; z-index: 1; }
 .hero__inner { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 48px; align-items: center; }
 .hero__eyebrow { color: var(--accent); font-weight: 600; margin-bottom: 8px; }
 .hero__name { font-size: clamp(2.4rem, 6vw, 3.8rem); font-weight: 800; letter-spacing: -1.5px; line-height: 1.05; }
@@ -293,6 +306,13 @@ a { color: inherit; text-decoration: none; }
   .avatar { width: 150px; height: 150px; font-size: 2.6rem; }
   .hero__cta, .hero__socials { justify-content: center; }
   .about { grid-template-columns: 1fr; }
+  /* Hero stacks/centres here, so recentre the glitch fade and ease it back. */
+  .hero__glitch {
+    opacity: 0.1;
+    -webkit-mask-image: radial-gradient(135% 120% at 50% 28%, #000 0%, #000 42%, transparent 80%);
+            mask-image: radial-gradient(135% 120% at 50% 28%, #000 0%, #000 42%, transparent 80%);
+  }
+  :root[data-theme="dark"] .hero__glitch { opacity: 0.18; }
 }
 @media (max-width: 640px) {
   .nav__links {
