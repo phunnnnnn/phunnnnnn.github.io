@@ -44,7 +44,7 @@ body::after {
 .container { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 24px; }
 a { color: inherit; text-decoration: none; }
 .serif { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -0.5px; }
-:root[data-lang="th"] .serif { font-style: normal; letter-spacing: 0; } /* Charmonman is already a script face */
+:root[data-lang="th"] .serif { font-style: normal; letter-spacing: 0; font-size: 1.45em; } /* Charmonman is already a script face */
 .muted-strong { color: var(--text); font-weight: 500; }
 
 .label, .overline {
@@ -147,7 +147,7 @@ a { color: inherit; text-decoration: none; }
 
 .hero__title {
   font-size: clamp(2.6rem, 7vw, 5rem); font-weight: 500; letter-spacing: -2px; line-height: 0.98;
-  max-width: 13ch;
+  white-space: pre-line; /* \n in content.js = line break */
   text-shadow: 0 5px 12px #0057ff26, 0 -5px 12px #ff5a001a, 0 -5px 25px #ffffff33;
 }
 .hero__title .serif { letter-spacing: -1px; }
@@ -245,6 +245,7 @@ a { color: inherit; text-decoration: none; }
 .card__tag[data-kind="olympiad"] { --tag: #60a5fa; }
 .card__tag[data-kind="game-dev"] { --tag: #a78bfa; }
 .card__tag[data-kind="gold-medal"] { --tag: #facc15; }
+.card__tag[data-kind="silver-medal"] { --tag: #cbd5e1; }
 .card__tag[data-kind="hackathon"] { --tag: #22d3ee; }
 .card__tag[data-kind="instructor"] { --tag: #4ade80; }
 .card__tag[data-kind="workshop"] { --tag: #fb923c; }
@@ -267,7 +268,7 @@ a { color: inherit; text-decoration: none; }
 .contact { padding: 56px 48px; text-align: center; display: flex; flex-direction: column; align-items: center; overflow: hidden;
   background: radial-gradient(ellipse 60% 80% at 50% 0%, #f2f2f214, transparent 70%), var(--box-bg); }
 .contact .overline { justify-content: center; }
-.contact__title { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 500; letter-spacing: -1.5px; line-height: 1; margin-bottom: 16px; }
+.contact__title { white-space: pre-line; font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 500; letter-spacing: -1.5px; line-height: 1; margin-bottom: 16px; }
 .contact__lead { color: var(--text-muted); max-width: 480px; margin-bottom: 32px; }
 .contact__actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 
