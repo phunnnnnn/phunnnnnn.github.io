@@ -31,8 +31,6 @@ const translations = {
     "about.factWork": "Freelance",
     "about.factWorkVal": "Available for hire",
     "projects.title": "Things I've built",
-    "projects.autobloxTag": "In development",
-    "projects.autobloxDesc": "An auto-battler game inspired by Riot's TFT. Build your team, place it on the board, and watch the fight play out.",
     "certs.title": "Certificates",
     "certs.lead": "Highlights from competitions, camps, and workshops. Use the arrows or swipe. Click the middle one to view it full size.",
     "contact.title": 'Let\'s build <em class="serif">something.</em>',
@@ -55,8 +53,6 @@ const translations = {
     "about.factWork": "ฟรีแลนซ์",
     "about.factWorkVal": "รับงาน",
     "projects.title": "ผลงาน",
-    "projects.autobloxTag": "กำลังพัฒนา",
-    "projects.autobloxDesc": "เกมแนว auto-battler ที่ได้แรงบันดาลใจจาก TFT ของ Riot จัดทีม วางตัวบนกระดาน แล้วดูการต่อสู้",
     "certs.title": "เกียรติบัตร",
     "certs.lead": "ผลงานจากการแข่งขัน ค่าย และการอบรม กดลูกศรหรือปัดได้เลย คลิกภาพตรงกลางเพื่อดูขนาดเต็มครับ",
     "contact.title": 'มาสร้าง <em class="serif">อะไรสักอย่าง</em> กัน',
@@ -64,6 +60,49 @@ const translations = {
     "contact.hire": "จ้างผมผ่าน Fastwork",
   },
 };
+
+// ===== Projects =====
+// Shown in this order. To add a project, copy one { ... } block, paste it
+// below, and change the text. Fields:
+//   youtube: the video id (the part after "watch?v=" in the YouTube link)
+//   image:   use instead of youtube, e.g. "assets/projects/mygame.jpg"
+//   link:    optional button, e.g. { url: "https://...", label: { en: "Play on Roblox", th: "เล่นบน Roblox" } }
+const projectData = [
+  {
+    title: "AutoBlox",
+    status: { en: "In development", th: "กำลังพัฒนา" },
+    meta: "Roblox, '26",
+    desc: { en: "A multiplayer auto-battler inspired by Teamfight Tactics. Draft units from a shared shop, build trait synergies and items, then watch your army fight other players in real time.", th: "เกม auto-battler แบบผู้เล่นหลายคน ได้แรงบันดาลใจจาก Teamfight Tactics ซื้อตัวละครจากร้านค้าที่ทุกคนใช้ร่วมกัน จัดทีมให้เข้าคอมโบ ประกอบไอเทม แล้วดูกองทัพของคุณสู้กับผู้เล่นคนอื่นแบบเรียลไทม์" },
+    role: { en: "Duo project · I wrote all the code — my partner handles design & balance", th: "ทำกัน 2 คน · ผมเขียนโค้ดทั้งหมด — เพื่อนดูแลดีไซน์และบาลานซ์" },
+    points: [
+      { en: "Server-side combat simulation — clients just draw the fight, so nobody can cheat", th: "ระบบต่อสู้คำนวณฝั่งเซิร์ฟเวอร์ — ฝั่งผู้เล่นแค่แสดงผล จึงโกงไม่ได้" },
+      { en: "Real-time combat engine: abilities with wind-up, crowd control, items mid-fight", th: "เอนจินต่อสู้แบบเรียลไทม์: สกิลมีจังหวะร่าย, ควบคุมฝูงชน (CC), ใส่ไอเทมระหว่างสู้ได้" },
+      { en: "Lobby + match servers — create/join rooms by code or Quick Play", th: "แยกเซิร์ฟเวอร์ล็อบบี้กับเซิร์ฟเวอร์แมตช์ — สร้าง/เข้าห้องด้วยโค้ด หรือ Quick Play" },
+      { en: "~115 Luau files, data-driven units, traits & items", th: "โค้ด Luau ~115 ไฟล์ ตัวละคร คอมโบ และไอเทมกำหนดเป็นข้อมูล เพิ่มเนื้อหาใหม่ได้ง่าย" },
+    ],
+    tech: ["Roblox Studio", "Luau", "Rojo", "Git"],
+    youtube: "61VS6Pz__ZM",
+  },
+  {
+    title: "Scary Forest",
+    status: { en: "Released", th: "เปิดให้เล่นแล้ว" },
+    meta: "Roblox, '24",
+    desc: {
+      en: "A round-based zombie survival game. Players ready up in a lobby, get sent into the arena together, and hold off waves of zombies until the last one falls.",
+      th: "เกมเอาชีวิตรอดจากซอมบี้แบบเป็นรอบ ผู้เล่นกดพร้อมที่ล็อบบี้ แล้วถูกส่งเข้าสนามพร้อมกัน ต้องสู้กับซอมบี้ที่บุกมาไม่หยุดจนกว่าคนสุดท้ายจะตาย",
+    },
+    role: { en: "Solo project · design, scripting and level setup", th: "ทำคนเดียว · ออกแบบเกม เขียนสคริปต์ และจัดฉาก" },
+    points: [
+      { en: "Lobby flow: ready pad, team switch, 10s countdown that cancels if players leave", th: "ระบบล็อบบี้: เหยียบจุดพร้อม เปลี่ยนทีม นับถอยหลัง 10 วิ ถ้าคนออกก็ยกเลิกเอง" },
+      { en: "One server-side flag drives the round: opens gates, teleports teams, starts spawns", th: "ใช้ค่าเดียวฝั่งเซิร์ฟเวอร์คุมทั้งรอบ ทั้งเปิดประตู วาร์ปผู้เล่น และเริ่มปล่อยซอมบี้" },
+      { en: "Zombie chase AI, plus a spawner that only runs while players are alive in the arena", th: "เขียน AI ซอมบี้ไล่ล่าผู้เล่น และระบบเกิดซอมบี้ที่ทำงานเฉพาะตอนยังมีคนรอดในสนาม" },
+      { en: "Kill credit, points and high scores; the round resets when the last player dies", th: "นับคนฆ่า เก็บแต้มและสถิติสูงสุด รอบจะรีเซ็ตเองเมื่อผู้เล่นคนสุดท้ายตาย" },
+    ],
+    tech: ["Roblox Studio", "Luau"],
+    youtube: "XRyY2hqgXyk",
+    link: { url: "https://www.roblox.com/games/18830002485", label: { en: "Play on Roblox", th: "เล่นบน Roblox" } },
+  },
+];
 
 // ===== Certificates data =====
 // Shown in this order. Images live in assets/certs/{thumb,full}/<file>.jpg;

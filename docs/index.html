@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@500&family=Noto+Sans+Thai+Looped:wght@400;500;600;700&family=Charmonman:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=5" />
+  <link rel="stylesheet" href="styles.css?v=6" />
 </head>
 <body>
   <!-- Navigation -->
@@ -61,24 +61,14 @@
     <section class="section" id="projects">
       <div class="container">
         <h2 class="section__title shuffle-text" data-i18n="projects.title">Things I've built</h2>
-        <article class="box project">
-          <div class="project__top">
-            <div class="project__title-row">
-              <h3 class="project__title">AutoBlox</h3>
-              <span class="tag tag--live" data-i18n="projects.autobloxTag">In development</span>
-            </div>
-            <p class="project__desc"><span class="muted-strong">Roblox, '26</span> — <span data-i18n="projects.autobloxDesc">An auto-battler game inspired by Riot's TFT.</span></p>
-            <ul class="tech"><li>Roblox Studio</li><li>Lua</li><li>Auto-battler</li></ul>
+        <div class="proj-carousel" id="projViewer" aria-roledescription="carousel" aria-label="Projects">
+          <div class="proj-track" id="projTrack"></div>
+          <div class="proj-nav" id="projNav">
+            <button class="cert-nav__btn" id="projPrev" type="button" aria-label="Previous project">←</button>
+            <span class="cert-nav__count" id="projCounter"></span>
+            <button class="cert-nav__btn" id="projNext" type="button" aria-label="Next project">→</button>
           </div>
-          <div class="project__visual" aria-hidden="true">
-            <div class="board">
-              <i></i><i></i><i class="on"></i><i></i><i></i><i></i><i></i>
-              <i></i><i class="on"></i><i></i><i></i><i class="on"></i><i></i><i></i>
-              <i></i><i></i><i></i><i class="on"></i><i></i><i></i><i class="on"></i>
-              <i class="on"></i><i></i><i></i><i></i><i></i><i class="on"></i><i></i>
-            </div>
-          </div>
-        </article>
+        </div>
       </div>
     </section>
 
@@ -151,8 +141,8 @@
     </figure>
   </div>
 
-  <script src="letter-glitch.js?v=5"></script>
-  <script src="content.js?v=5"></script>
-  <script src="script.js?v=5"></script>
+  <script src="letter-glitch.js?v=6"></script>
+  <script src="content.js?v=6"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>
