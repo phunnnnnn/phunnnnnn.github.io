@@ -182,7 +182,7 @@ let projIndex = 0;
 
 function projectMedia(p, lang) {
   if (p.youtube) {
-    return `<button class="project__visual" type="button" data-yt="${p.youtube}" aria-label="${escHtml(p.title)} video">
+    return `<button class="project__visual" type="button" data-yt="${p.youtube}" data-list="${p.playlist || ""}" aria-label="${escHtml(p.title)} video">
         <img src="https://i.ytimg.com/vi/${p.youtube}/maxresdefault.jpg" alt="" loading="lazy" draggable="false" />
         <span class="yt__play" aria-hidden="true"></span>
       </button>`;
@@ -251,7 +251,8 @@ if (projTrack) {
     const btn = e.target.closest("[data-yt]");
     if (!btn) return;
     const frame = document.createElement("iframe");
-    frame.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.yt}?autoplay=1&rel=0`;
+    const list = btn.dataset.list ? `&list=${btn.dataset.list}` : ""; // playlist: player shows all its videos
+    frame.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.yt}?autoplay=1&rel=0${list}`;
     frame.title = btn.getAttribute("aria-label");
     frame.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
     frame.allowFullscreen = true;

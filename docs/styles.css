@@ -13,7 +13,7 @@
   --radius: 16px;
   --max: 1080px;
   --ease: cubic-bezier(0.165, 0.84, 0.44, 1);
-  --serif: "Instrument Serif", "Charmonman", Georgia, serif; /* Charmonman covers Thai glyphs */
+  --serif: "Instrument Serif", "Itim", Georgia, serif; /* Itim covers Thai glyphs */
   --mono: "JetBrains Mono", "Noto Sans Thai Looped", ui-monospace, monospace;
   color-scheme: dark;
 }
@@ -43,8 +43,8 @@ body::after {
 
 .container { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 24px; }
 a { color: inherit; text-decoration: none; }
-.serif { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -0.5px; }
-:root[data-lang="th"] .serif { font-style: normal; letter-spacing: 0; font-size: 1.45em; } /* Charmonman is already a script face */
+.serif { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -0.5px; font-size: 1.45em; }
+:root[data-lang="th"] .serif { font-style: normal; letter-spacing: 0; } /* Itim is upright, so no fake italic */
 .muted-strong { color: var(--text); font-weight: 500; }
 
 .label, .overline {
@@ -376,3 +376,7 @@ a { color: inherit; text-decoration: none; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+/* \n in content.js = line break, for every text that comes from content.js */
+.section__lead, .contact__lead, .project__desc, .project__role, .project__points li,
+.cert-info__title, .cert-info__meta, .about__facts span { white-space: pre-line; }
