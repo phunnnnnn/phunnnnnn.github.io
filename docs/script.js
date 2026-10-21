@@ -285,11 +285,12 @@ function applyLanguage(lang) {
   renderCerts(lang);
   // Button shows the language you'll switch TO
   langToggle.textContent = lang === "en" ? "TH" : "EN";
-  localStorage.setItem("lang", lang);
 }
 
-const savedLang = localStorage.getItem("lang") || "en";
-applyLanguage(savedLang);
+// First visit: follow the browser/phone language (Thai → th, anything else → en).
+// After the visitor presses the TH/EN button, their choice is remembered instead.
+const browserLang = (navigator.languages || [navigator.language]).some((l) => /^th\b/i.test(l)) ? "th" : "en";
+applyLanguage(localStorage.getItem("langChoice") || browserLang);
 
 // Scramble any shuffle-text elements that aren't handled by applyLanguage
 document.querySelectorAll(".shuffle-text:not([data-i18n])").forEach((el) => {
@@ -298,7 +299,9 @@ document.querySelectorAll(".shuffle-text:not([data-i18n])").forEach((el) => {
 
 langToggle.addEventListener("click", () => {
   const current = document.documentElement.getAttribute("data-lang") || "en";
-  applyLanguage(current === "en" ? "th" : "en");
+  const next = current === "en" ? "th" : "en";
+  applyLanguage(next);
+  localStorage.setItem("langChoice", next);
 });
 
 // ===== Reveal on scroll =====

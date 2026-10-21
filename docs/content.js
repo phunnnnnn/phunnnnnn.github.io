@@ -124,6 +124,22 @@ const projectData = [
     youtube: "UQ5mK7B7lXY", // highlight edit; full streams are in the playlist link below
     link: { url: "https://www.youtube.com/playlist?list=PLKeO2w5a0nGY", label: { en: "Watch the full playlist", th: "ดูเพลย์ลิสต์ทั้งหมด" } },
   },
+  {
+    title: "Lost Dept",
+    meta: "Godot, '26",
+    desc: {
+      en: "An underwater wave-survival game. You play a diver who can't fight: sweep your mouse over kelp to earn money, then spend it between waves on pet fish that fight for you.",
+      th: "เกมเอาชีวิตรอดเป็นเวฟใต้ทะเล ผู้เล่นเป็นนักดำน้ำที่ต่อสู้เองไม่ได้ ต้องลากเมาส์ผ่านสาหร่ายเพื่อหาเงิน แล้วใช้เงินนั้นซื้อปลาเลี้ยงที่ช่วยต่อสู้แทนในช่วงพักระหว่างเวฟ",
+    },
+    points: [
+      { en: "20 pets in 5 rarities, from Common to Legendary, each with its own skill: stunning chain lightning, a shockwave, an ice freeze that shatters", th: "สัตว์เลี้ยง 20 ตัวใน 5 ระดับความหายาก ตั้งแต่ Common ถึง Legendary แต่ละตัวมีสกิลของตัวเอง เช่น สายฟ้าลูกโซ่ที่ทำให้ศัตรูมึน คลื่นกระแทก หรือการแช่แข็งที่แตกเป็นน้ำแข็ง" },
+      { en: "Every round ends with one of 5 bosses, each with a Soul Knight-style intro card and readable attacks", th: "ทุกรอบจบด้วยบอส 1 ใน 5 ตัว แต่ละตัวมีฉากเปิดตัวแบบ Soul Knight และท่าโจมตีที่อ่านออกได้" },
+      { en: "Central event system for sound and screen effects, 15 automated tests and a bot that plays the game to balance it", th: "ระบบ event กลางสำหรับเสียงและเอฟเฟกต์หน้าจอ มีเทสอัตโนมัติ 15 ชุด และบอทที่เล่นเกมเองเพื่อใช้ปรับสมดุล" },
+    ],
+    tech: ["Godot 4.7", "GDScript", "Pixel Art"],
+    youtube: "pFsGzg_bJ8Y",
+    link: { url: "https://phunn.itch.io/lost-dept", label: { en: "Play on itch.io", th: "เล่นบน itch.io" } },
+  },
 ];
 
 // ===== Certificates data =====
