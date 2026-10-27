@@ -205,19 +205,23 @@ a { color: inherit; text-decoration: none; }
           mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
 .proj-slide {
-  /* --o / --abs set by script.js */
-  grid-area: 1 / 1; justify-self: center; width: min(92%, 980px);
-  transform: translateX(calc(var(--o) * 96%)) scale(calc(1 - var(--abs) * 0.1));
-  opacity: calc(1 - var(--abs) * 0.65);
+  /* --o / --abs set by script.js; same shrink + fade as the certificates */
+  grid-area: 1 / 1; justify-self: center; width: min(72%, 820px);
+  transform: translateX(calc(var(--o) * 70%)) scale(calc(1 - var(--abs) * 0.18));
+  opacity: calc(1 - var(--abs) * 0.45);
   z-index: calc(10 - var(--abs));
-  transition: transform 0.6s var(--ease), opacity 0.6s var(--ease);
+  transition: transform 0.6s var(--ease), opacity 0.6s var(--ease), filter 0.6s var(--ease);
 }
-.proj-slide:not([data-pos="0"]) { cursor: pointer; }
+.proj-slide:not([data-pos="0"]) { cursor: pointer; filter: saturate(0.6) brightness(0.8); }
 .proj-slide:not([data-pos="0"]) * { pointer-events: none; }
 .proj-slide[data-pos="hidden"] { opacity: 0; pointer-events: none; }
-.proj-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 8px; }
+/* Prev/next on the left and right edges, counter underneath */
+.proj-carousel { position: relative; }
+.proj-nav { display: flex; align-items: center; justify-content: center; margin-top: 8px; }
 .proj-nav[hidden] { display: none; }
-.proj-nav .cert-nav__btn { position: static; }
+.proj-nav .cert-nav__btn { position: absolute; top: calc(50% - 22px); z-index: 20; }
+#projPrev { left: 0; }
+#projNext { right: 0; }
 .project__link { margin-top: 20px; }
 
 /* Project video: YouTube thumbnail, swapped for the player on click */
@@ -355,6 +359,10 @@ a { color: inherit; text-decoration: none; }
   .cert-info { width: 100%; }
   .cert-nav__btn { position: static; flex-shrink: 0; align-self: flex-start; margin-top: 25px; }
   .cert-slide { width: 72%; transform: translate(-50%, -50%) translateX(calc(var(--o) * 78%)) scale(calc(1 - var(--abs) * 0.18)); }
+  /* Too narrow for side buttons over the cards: back under the card, around the counter */
+  .proj-nav { gap: 14px; }
+  .proj-nav .cert-nav__btn { position: static; }
+  .proj-slide { width: 84%; }
   .project__body { grid-template-columns: 1fr; }
   .project__body .project__points { grid-column: 1; grid-row: auto; margin-bottom: 8px; }
 }
@@ -366,7 +374,6 @@ a { color: inherit; text-decoration: none; }
   .window__bar { grid-template-columns: 1fr auto; }
   .about { grid-template-columns: 1fr; }
   .project { padding: 24px; }
-  .proj-slide { width: 92%; }
   .contact { padding: 40px 22px; }
   .cert-info { gap: 12px; }
   .footer__cols { gap: 40px; }
