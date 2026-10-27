@@ -140,6 +140,26 @@ const projectData = [
     youtube: "pFsGzg_bJ8Y",
     link: { url: "https://phunn.itch.io/lost-dept", label: { en: "Play on itch.io", th: "เล่นบน itch.io" } },
   },
+  {
+    title: "Help Your Waifu",
+    status: { en: "Released", th: "เปิดให้เล่นแล้ว" },
+    meta: "Roblox, '26",
+    desc: {
+      en: "An anime collecting simulator. Run a randomly generated obby to grab mystery waifus, carry them home to your base, and they earn cash for you, even while you're offline. Harder levels hide rarer waifus.",
+      th: "เกมซิมูเลเตอร์สะสมสาวอนิเมะ วิ่งฝ่าด่าน obby ที่สุ่มสร้างใหม่เพื่อเก็บ waifu ปริศนา แบกกลับบ้าน แล้วเธอจะช่วยหาเงินให้ แม้ตอนคุณออฟไลน์ ยิ่งด่านยากยิ่งเจอตัวหายาก",
+    },
+    role: { en: "Duo project · I made the code and UI, my friend handles game design & level design",
+            th: "ทำกัน 2 คน · ผมเขียนโค้ดและทำ UI เพื่อนดูแลการออกแบบเกมและออกแบบด่าน" },
+    points: [
+      { en: "Procedural obby rebuilt every 5 minutes from hand-built pieces across 8 difficulty levels, with no repeated pieces in a lane", th: "ด่าน obby สุ่มสร้างใหม่ทุก 5 นาทีจากชิ้นส่วนที่ออกแบบไว้ 8 ระดับความยาก ไม่มีชิ้นซ้ำในเลนเดียวกัน" },
+      { en: "The server checks everything: every remote is validated, and speed and distance checks stop teleport and pickup exploits", th: "เซิร์ฟเวอร์เป็นตัวตัดสิน ตรวจทุก remote มีเช็คความเร็วและระยะ กันการวาร์ปและโกงเก็บตัวละคร" },
+      { en: "Full monetization: game passes, dev products and lootboxes with a shared server stock, following Roblox's paid random item policy", th: "ระบบหารายได้ครบ: game pass, dev product และกล่องสุ่มที่ใช้สต็อกร่วมกันทั้งเซิร์ฟเวอร์ ทำตามนโยบายไอเทมสุ่มแบบเสียเงินของ Roblox" },
+      { en: "~57 Luau files (~11K lines), ProfileStore saves with offline earnings, plus a live admin panel with a save editor", th: "โค้ด Luau ~57 ไฟล์ (~11,000 บรรทัด) เซฟด้วย ProfileStore มีรายได้ตอนออฟไลน์ และแผงแอดมินที่แก้เซฟผู้เล่นได้สด" },
+    ],
+    tech: ["Roblox Studio", "Luau", "Rojo", "ProfileStore", "Git"],
+    image: "assets/projects/help-your-waifu.jpg",
+    link: { url: "https://www.roblox.com/games/88467181439547/Help-your-waifu", label: { en: "Play on Roblox", th: "เล่นบน Roblox" } },
+  },
 ];
 
 // ===== Certificates data =====
