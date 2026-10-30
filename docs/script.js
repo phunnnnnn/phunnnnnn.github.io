@@ -183,7 +183,7 @@ let projIndex = 0;
 function projectMedia(p, lang) {
   if (p.youtube) {
     return `<button class="project__visual" type="button" data-yt="${p.youtube}" data-list="${p.playlist || ""}" aria-label="${escHtml(p.title)} video">
-        <img src="https://i.ytimg.com/vi/${p.youtube}/maxresdefault.jpg" alt="" loading="lazy" draggable="false" />
+        <img src="${p.image || `https://i.ytimg.com/vi/${p.youtube}/maxresdefault.jpg`}" alt="" loading="lazy" draggable="false" />
         <span class="yt__play" aria-hidden="true"></span>
       </button>`;
   }

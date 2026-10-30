@@ -67,7 +67,7 @@ const translations = {
 //   youtube: the video id (the part after "watch?v=" in the YouTube link)
 //   playlist: optional playlist id (after "list=") — the player then shows the
 //            whole playlist; youtube: is still needed for the cover picture
-//   image:   use instead of youtube, e.g. "assets/projects/mygame.jpg"
+//   image:   a picture instead of a video, or with youtube: the cover picture shown before play
 //   link:    optional button, e.g. { url: "https://...", label: { en: "Play on Roblox", th: "เล่นบน Roblox" } }
 const projectData = [
   {
@@ -87,7 +87,8 @@ const projectData = [
       { en: "~57 Luau files (~11K lines), ProfileStore saves with offline earnings, plus a live admin panel with a save editor", th: "โค้ด Luau ~57 ไฟล์ (~11,000 บรรทัด) เซฟด้วย ProfileStore มีรายได้ตอนออฟไลน์ และแผงแอดมินที่แก้เซฟผู้เล่นได้สด" },
     ],
     tech: ["Roblox Studio", "Luau", "Rojo", "ProfileStore", "Git"],
-    image: "assets/projects/help-your-waifu.jpg",
+    youtube: "n8mtudqqYa4",
+    image: "assets/projects/help-your-waifu.jpg", // cover picture; the video plays on click
     link: { url: "https://www.roblox.com/games/88467181439547/Help-your-waifu", label: { en: "Play on Roblox", th: "เล่นบน Roblox" } },
   },
   {
