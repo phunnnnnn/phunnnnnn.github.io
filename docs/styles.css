@@ -194,7 +194,13 @@ a { color: inherit; text-decoration: none; }
 }
 .tag--live { color: var(--green); border-color: #4ade8040; }
 .tech { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
-.tech li { font-size: 0.8rem; color: var(--text-muted); background: #f2f2f20d; padding: 4px 10px; border-radius: 6px; }
+.tech li { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); background: #f2f2f20d; padding: 4px 10px; border-radius: 6px; transition: background-color 0.3s var(--ease), color 0.3s var(--ease); }
+.tech li:has(a) { padding: 0; }
+.tech a { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; color: inherit; text-decoration: none; } /* whole tag is clickable */
+.tech li:has(a):hover { background: #f2f2f21f; color: var(--text); }
+.tech img { width: 14px; height: 14px; object-fit: contain; }
+.tech img.tech__wordmark { width: auto; height: 16px; }
+.tech img[src*="GitHub"] { filter: invert(1); } /* black logo → white on the dark tag */
 
 /* ===== Projects: big coverflow of full project cards ===== */
 /* All slides share one grid cell, so the track is as tall as the tallest card. */

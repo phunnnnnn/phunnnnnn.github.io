@@ -35,7 +35,6 @@ const translations = {
     "certs.lead": "Highlights from competitions, camps, and workshops.\nUse the arrows or swipe. Click the middle one to view it full size.",
     "contact.title": 'Let\'s make <em class="serif">games</em> together.',
     "contact.lead": "Want to hire me or just chat about a project?\nReach out through any of these, I'm always happy to hear from you.",
-    "contact.hire": "Hire me on Fastwork",
   },
   th: {
     "nav.work": "ผลงาน",
@@ -57,7 +56,6 @@ const translations = {
     "certs.lead": "ผลงานจากการแข่งขัน ค่าย และการอบรม\nกดลูกศรหรือปัดได้เลย คลิกภาพตรงกลางเพื่อดูขนาดเต็ม",
     "contact.title": 'มาสร้าง <em class="serif">เกม</em> กันเถอะ',
     "contact.lead": "อยากจ้างงานหรือแค่อยากคุยเรื่องโปรเจกต์ ?\nติดต่อผมได้ทุกช่องทางเลยครับ ผมยินดีเสมอ",
-    "contact.hire": "จ้างผมผ่าน Fastwork",
   },
 };
 
@@ -86,13 +84,14 @@ const projectData = [
       { en: "Full monetization: game passes, dev products and lootboxes with a shared server stock, following Roblox's paid random item policy", th: "ระบบหารายได้ครบ: game pass, dev product และกล่องสุ่มที่ใช้สต็อกร่วมกันทั้งเซิร์ฟเวอร์ ทำตามนโยบายไอเทมสุ่มแบบเสียเงินของ Roblox" },
       { en: "~57 Luau files (~11K lines), ProfileStore saves with offline earnings, plus a live admin panel with a save editor", th: "โค้ด Luau ~57 ไฟล์ (~11,000 บรรทัด) เซฟด้วย ProfileStore มีรายได้ตอนออฟไลน์ และแผงแอดมินที่แก้เซฟผู้เล่นได้สด" },
     ],
-    tech: ["Roblox Studio", "Luau", "Rojo", "ProfileStore", "Git"],
+    tech: ["Roblox Studio", "Rojo", "ProfileStore", "Git"],
     youtube: "n8mtudqqYa4",
     image: "assets/projects/help-your-waifu.jpg", // cover picture; the video plays on click
     link: { url: "https://www.roblox.com/games/88467181439547/Help-your-waifu", label: { en: "Play on Roblox", th: "เล่นบน Roblox" } },
   },
   {
     title: "Lost Dept",
+    status: { en: "Released", th: "เปิดให้เล่นแล้ว" },
     meta: "Godot, '26",
     desc: {
       en: "An underwater wave-survival game. You play a diver who can't fight: sweep your mouse over kelp to earn money, then spend it between waves on pet fish that fight for you.",
@@ -103,7 +102,7 @@ const projectData = [
       { en: "Every round ends with one of 5 bosses, each with a Soul Knight-style intro card and readable attacks", th: "ทุกรอบจบด้วยบอส 1 ใน 5 ตัว แต่ละตัวมีฉากเปิดตัวแบบ Soul Knight และท่าโจมตีที่อ่านออกได้" },
       { en: "Central event system for sound and screen effects, 15 automated tests and a bot that plays the game to balance it", th: "ระบบ event กลางสำหรับเสียงและเอฟเฟกต์หน้าจอ มีเทสอัตโนมัติ 15 ชุด และบอทที่เล่นเกมเองเพื่อใช้ปรับสมดุล" },
     ],
-    tech: ["Godot 4.7", "GDScript", "Pixel Art"],
+    tech: ["Godot 4.7", "Pixel Art"],
     youtube: "pFsGzg_bJ8Y",
     link: { url: "https://phunn.itch.io/lost-dept", label: { en: "Play on itch.io", th: "เล่นบน itch.io" } },
   },
@@ -121,7 +120,7 @@ const projectData = [
       { en: "Lobby + match servers, create/join rooms by code or Quick Play", th: "แยกเซิร์ฟเวอร์ล็อบบี้กับเซิร์ฟเวอร์แมตช์ สร้าง/เข้าห้องด้วยโค้ด หรือ Quick Play" },
       { en: "~115 Luau files, data-driven units, traits & items", th: "โค้ด Luau ~115 ไฟล์ ตัวละคร คอมโบ และไอเทมกำหนดเป็นข้อมูล เพิ่มเนื้อหาใหม่ได้ง่าย" },
     ],
-    tech: ["Roblox Studio", "Luau", "Rojo", "Git"],
+    tech: ["Roblox Studio", "Rojo", "Git"],
     youtube: "61VS6Pz__ZM",
   },
   {
@@ -139,7 +138,7 @@ const projectData = [
       { en: "Zombie chase AI, plus a spawner that only runs while players are alive in the arena", th: "เขียน AI ซอมบี้ไล่ล่าผู้เล่น และระบบเกิดซอมบี้ที่ทำงานเฉพาะตอนยังมีคนรอดในสนาม" },
       { en: "Kill credit, points and high scores; the round resets when the last player dies", th: "นับคนฆ่า เก็บแต้มและสถิติสูงสุด รอบจะรีเซ็ตเองเมื่อผู้เล่นคนสุดท้ายตาย" },
     ],
-    tech: ["Roblox Studio", "Luau"],
+    tech: ["Roblox Studio"],
     youtube: "XRyY2hqgXyk",
     link: { url: "https://www.roblox.com/games/18830002485", label: { en: "Play on Roblox", th: "เล่นบน Roblox" } },
   },
@@ -157,7 +156,7 @@ const projectData = [
       { en: "Split a log into two pieces at the point where it was cut", th: "ผ่าท่อนซุงออกเป็นสองชิ้นตรงจุดที่ฟัน" },
       { en: "Every step coded live: watch the whole build in the playlist", th: "เขียนสดทุกขั้นตอน ดูการสร้างทั้งหมดได้ในเพลย์ลิสต์" },
     ],
-    tech: ["Roblox Studio", "Luau"],
+    tech: ["Roblox Studio"],
     youtube: "UQ5mK7B7lXY", // highlight edit; full streams are in the playlist link below
     link: { url: "https://www.youtube.com/playlist?list=PLKeO2w5a0nGY", label: { en: "Watch the full playlist", th: "ดูเพลย์ลิสต์ทั้งหมด" } },
   },

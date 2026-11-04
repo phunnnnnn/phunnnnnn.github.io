@@ -191,6 +191,24 @@ function projectMedia(p, lang) {
   return "";
 }
 
+// Tech tags that start with one of these names get a logo (file in assets/logo/)
+// and/or a link. wordmark: the logo already spells the name, so no text next to it.
+const techInfo = {
+  "Roblox Studio": { logo: "Roblox_Studio_icon_2025.svg.webp", url: "https://create.roblox.com/" },
+  Godot: { logo: "Godot_icon.svg.webp", url: "https://godotengine.org/" },
+  Git: { logo: "GitHub_Invertocat_Logo.svg", url: "https://github.com/" },
+  Rojo: { logo: "logo.png", url: "https://rojo.space/", wordmark: true },
+  ProfileStore: { url: "https://madstudioroblox.github.io/ProfileStore/" },
+};
+
+function techTag(name) {
+  const key = Object.keys(techInfo).find((k) => name.startsWith(k));
+  const info = techInfo[key] || {};
+  const img = info.logo ? `<img src="assets/logo/${info.logo}" alt="${info.wordmark ? escHtml(name) : ""}" draggable="false"${info.wordmark ? ' class="tech__wordmark"' : ""} />` : "";
+  const inner = img + (info.wordmark ? "" : escHtml(name));
+  return info.url ? `<li><a href="${info.url}" target="_blank" rel="noopener">${inner}</a></li>` : `<li>${inner}</li>`;
+}
+
 function projectCard(p, i, lang) {
   const t = (o) => escHtml(o ? o[lang] || o.en : "");
   const link = p.link
@@ -208,7 +226,7 @@ function projectCard(p, i, lang) {
         <p class="project__desc">${t(p.desc)}</p>
         ${p.role ? `<p class="project__role">${t(p.role)}</p>` : ""}
         ${p.points ? `<ul class="project__points">${p.points.map((x) => `<li>${t(x)}</li>`).join("")}</ul>` : ""}
-        ${p.tech ? `<ul class="tech">${p.tech.map((x) => `<li>${escHtml(x)}</li>`).join("")}</ul>` : ""}
+        ${p.tech ? `<ul class="tech">${p.tech.map(techTag).join("")}</ul>` : ""}
         ${link}
       </div>
     </article>`;
