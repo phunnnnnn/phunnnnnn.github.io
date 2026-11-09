@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@500&family=Noto+Sans+Thai+Looped:wght@400;500;600;700&family=Itim&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=12" />
+  <link rel="stylesheet" href="styles.css?v=13" />
 </head>
 <body>
   <!-- Navigation -->
@@ -47,15 +47,34 @@
         <p class="overline"><span class="overline__dot"></span><span data-i18n="about.kicker">01 / About</span></p>
         <h2 class="section__title shuffle-text" data-i18n="about.title">A little about me</h2>
         <div class="about">
-          <div class="box box--pad about__text">
-            <p data-i18n="about.p1">I'm Phunn, a freelance game developer, currently focused on the Roblox platform.</p>
-            <p data-i18n="about.p2">The project I'm working on right now is AutoBlox.</p>
-          </div>
-          <ul class="box box--pad about__facts">
+          <ul class="about__facts">
             <li><span class="label" data-i18n="about.factName">Name</span><span data-i18n="about.factNameVal">Pannatat Chaikaew</span></li>
             <li><span class="label" data-i18n="about.factNick">Nickname</span><span data-i18n="about.factNickVal">Phunn</span></li>
-            <li><span class="label" data-i18n="about.factWork">Freelance</span><span data-i18n="about.factWorkVal">Available for hire</span></li>
           </ul>
+          <!-- Each row: text + photo side by side. --flip puts the photo on the left. -->
+          <div class="about__row">
+            <div class="about__text">
+              <p data-i18n="about.p1">I'm Phunn. I write code and make games.</p>
+              <p data-i18n="about.p2">As a kid, the friend I remember most clearly was games.</p>
+            </div>
+            <figure class="about__photo">
+              <img src="assets/punn-childhood-clean.jpg" width="960" height="720" alt="Phunn as a kid, smiling next to the computer" loading="lazy" />
+              <figcaption data-i18n="about.photo1">Me as a kid</figcaption>
+            </figure>
+          </div>
+          <div class="about__row about__row--flip">
+            <div class="about__text">
+              <p data-i18n="about.p3">The turning point was the POSN Computer Science Camp 1.</p>
+            </div>
+            <figure class="about__photo">
+              <img src="assets/punn-sorwor-camp-clean.jpg" width="1200" height="610" alt="Phunn in front of the POSN Computer Science Camp 1 banner" loading="lazy" />
+              <figcaption data-i18n="about.photo2">POSN Computer Camp 1 · Oct 2024</figcaption>
+            </figure>
+          </div>
+          <div class="about__text about__text--end">
+            <p data-i18n="about.p4">Neither project ever got finished.</p>
+            <p class="about__end" data-i18n="about.p5">But I started again, and now I have games of my own.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -83,7 +102,7 @@
       </div>
     </div>
   </footer>
-  <script src="content.js?v=12"></script>
-  <script src="script.js?v=12"></script>
+  <script src="content.js?v=13"></script>
+  <script src="script.js?v=13"></script>
 </body>
 </html>
