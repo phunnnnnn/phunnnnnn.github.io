@@ -20,8 +20,8 @@
   --accent: #8b7bff;
   --accent-2: #22d3ee;
   --green: #4ade80;
-  --radius: 16px;
-  --max: 1080px;
+  --max: 1400px;                      /* content width cap: grows with the screen up to this, then leaves space at the sides */
+  --gutter: clamp(24px, 4vw, 72px);   /* side space, wider on big screens */
   --ease: cubic-bezier(0.165, 0.84, 0.44, 1);
   --serif: "Instrument Serif", "Itim", Georgia, serif; /* Itim covers Thai glyphs */
   --mono: "JetBrains Mono", "Noto Sans Thai Looped", ui-monospace, monospace;
@@ -29,6 +29,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+button { font: inherit; color: inherit; } /* buttons use the page font (incl. Thai), not the browser default */
 
 html { scroll-behavior: smooth; scroll-padding-top: 90px; }
 
@@ -84,7 +85,7 @@ body::after {
 
 :root[data-lang="th"] body { font-family: "Noto Sans Thai Looped", "Inter", system-ui, sans-serif; }
 
-.container { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+.container { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
 a { color: inherit; text-decoration: none; }
 .serif { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -0.5px; font-size: 1.45em; }
 :root[data-lang="th"] .serif { font-style: normal; letter-spacing: 0; } /* Itim is upright, so no fake italic */
@@ -95,14 +96,13 @@ a { color: inherit; text-decoration: none; }
   color: var(--text-faint);
 }
 .overline { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-.overline__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text); box-shadow: 0 0 10px #fff8; }
+.overline__dot { width: 6px; height: 6px; background: var(--text); box-shadow: 0 0 10px #fff8; }
 
 /* ===== The box: card with a soft double-border ring ===== */
 .box {
   position: relative;
   background: var(--box-bg);
   border: 1px solid var(--box-border);
-  border-radius: var(--radius);
   box-shadow:
     0 0 0 8px #f2f2f208,
     0 0 0 9px #f2f2f20f,
@@ -122,40 +122,41 @@ a { color: inherit; text-decoration: none; }
   padding: 16px 0 28px;
 }
 .nav__inner {
-  padding: 0 32px;
+  max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); /* same width as .container, so the edges line up */
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px;
 }
 .nav__brand { display: flex; align-items: center; gap: 10px; justify-self: start; }
-.nav__brand img { width: 36px; height: 36px; border-radius: 10px; object-fit: cover; border: 1px solid var(--box-border); }
+.nav__brand img { width: 36px; height: 36px; object-fit: cover; border: 1px solid var(--box-border); }
 .nav__brand-text { display: flex; flex-direction: column; line-height: 1.15; }
 .nav__brand-text strong { font-weight: 600; }
 .nav__brand-text small { font-size: 0.78rem; color: var(--text-muted); }
 
 .nav__pill {
   list-style: none; display: flex; gap: 2px; padding: 4px;
-  border-radius: 999px; border: 1px solid var(--box-border);
+ border: 1px solid var(--box-border);
   background: var(--surface); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 10px 30px #0006;
 }
 .nav__pill a {
-  display: block; padding: 8px 16px; border-radius: 999px; font-size: 0.9rem; font-weight: 500;
+  display: block; padding: 8px 16px; font-size: 0.9rem; font-weight: 500;
   color: var(--text-muted); transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
 }
 .nav__pill a:hover, .nav__pill a.active { background: #f2f2f21a; color: var(--text); }
 
 .nav__controls { display: flex; align-items: center; gap: 6px; justify-self: end; }
-.chip {
-  display: inline-flex; align-items: center; gap: 4px; height: 40px; padding: 0 14px;
-  border-radius: 999px; border: none; background: transparent; color: var(--text);
-  font: inherit; font-size: 0.9rem; font-weight: 500; cursor: pointer;
-  transition: background-color 0.3s var(--ease);
+/* Language switch: two-sided pill, TH left / ENG right, the selected side is filled */
+.lang-pill { display: flex; padding: 3px; border: 1px solid var(--box-border); background: var(--surface); }
+.lang-pill button {
+  height: 32px; padding: 0 12px; border: 0; cursor: pointer;
+  background: transparent; color: var(--text-muted); font-family: var(--mono); font-size: 0.78rem;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
 }
-.chip:hover { background: #f2f2f21a; }
-#langToggle { font-family: var(--mono); font-size: 0.8rem; border: 1px solid var(--box-border); }
+.lang-pill button:hover { color: var(--text); }
+.lang-pill button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
 
 /* ===== Buttons ===== */
 .btn {
-  display: inline-flex; align-items: center; height: 44px; padding: 0 20px; border-radius: 999px;
+  display: inline-flex; align-items: center; height: 44px; padding: 0 20px;
   font-weight: 500; font-size: 0.92rem; border: 1px solid transparent; cursor: pointer;
   transition: transform 0.3s var(--ease), background-color 0.3s var(--ease), border-color 0.3s var(--ease);
 }
@@ -167,16 +168,6 @@ a { color: inherit; text-decoration: none; }
 /* ===== Hero window ===== */
 .hero { padding: 48px 0 24px; }
 .window { overflow: hidden; }
-.window__bar {
-  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
-  height: 42px; padding: 0 16px; border-bottom: 1px solid var(--line);
-  background: linear-gradient(to right, #f2f2f20a, #f2f2f21f 50%, #f2f2f20a);
-}
-.window__dots { display: flex; gap: 8px; }
-.window__dots i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; }
-.window__dots i:nth-child(2) { background: #febc2e; }
-.window__dots i:nth-child(3) { background: #28c840; }
-.window__url { font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted); }
 
 .window__content { position: relative; padding: 80px 48px 80px; overflow: hidden; }
 .window__content > *:not(.hero__glitch) { position: relative; z-index: 1; }
@@ -189,7 +180,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .hero__title {
-  font-size: clamp(2.6rem, 7vw, 5rem); font-weight: 500; letter-spacing: -2px; line-height: 0.98;
+  font-size: clamp(2.6rem, 6vw, 6rem); font-weight: 500; letter-spacing: -2px; line-height: 0.98;
   white-space: pre-line; /* \n in content.js = line break */
   text-shadow: 0 5px 12px #0057ff26, 0 -5px 12px #ff5a001a, 0 -5px 25px #ffffff33;
 }
@@ -215,38 +206,25 @@ a { color: inherit; text-decoration: none; }
 .about__text p + p { margin-top: 16px; }
 .about__text--end { max-width: 640px; }
 .about__text .about__end { color: var(--text); font-weight: 500; } /* last line of the story */
-.about__photo img { display: block; width: 100%; height: auto; border-radius: 12px; }
+.about__photo img { display: block; width: 100%; height: auto; }
 .about__photo figcaption {
   margin-top: 10px; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
   color: var(--text-faint);
 }
 
-/* ===== Project card ===== */
-/* Title on top, big video, info below */
-.project {
-  display: flex; flex-direction: column; gap: 24px;
-  padding: 32px; overflow: hidden;
-  transition: border-color 0.4s var(--ease);
-}
-.project:hover { border-color: #f2f2f266; }
-.project__title-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+/* ===== Project bits shared by the cards and the game pages ===== */
 .project__meta { margin-left: auto; font-family: var(--mono); font-size: 0.78rem; color: var(--text-muted); }
-.project__body { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 40px; }
-.project__body > :not(.project__points) { grid-column: 1; }
-.project__body .project__points { grid-column: 2; grid-row: 1 / span 4; margin: 0; }
-.project__title { font-size: 2.2rem; font-weight: 500; letter-spacing: -0.5px; text-shadow: 0 -2px 10px #fff3; }
-.project__desc { color: var(--text-muted); margin-bottom: 8px; }
-.project__role { font-size: 0.88rem; color: var(--text); margin: -8px 0 14px; }
+.project__role { font-size: 0.88rem; color: var(--text); margin-bottom: 16px; }
 .project__points { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
 .project__points li { position: relative; padding-left: 18px; color: var(--text-muted); font-size: 0.9rem; line-height: 1.45; }
-.project__points li::before { content: ""; position: absolute; left: 2px; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px #8b7bff99; }
+.project__points li::before { content: ""; position: absolute; left: 2px; top: 0.6em; width: 6px; height: 6px; background: var(--accent); box-shadow: 0 0 8px #8b7bff99; }
 .tag {
   font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.8px;
-  padding: 4px 10px; border-radius: 999px; border: 1px solid var(--box-border); color: var(--text-muted);
+  padding: 4px 10px; border: 1px solid var(--box-border); color: var(--text-muted);
 }
 .tag--live { color: var(--green); border-color: #4ade8040; }
 .tech { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
-.tech li { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); background: #f2f2f20d; padding: 4px 10px; border-radius: 6px; transition: background-color 0.3s var(--ease), color 0.3s var(--ease); }
+.tech li { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); background: #f2f2f20d; padding: 4px 10px; transition: background-color 0.3s var(--ease), color 0.3s var(--ease); }
 .tech li:has(a) { padding: 0; }
 .tech a { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; color: inherit; text-decoration: none; } /* whole tag is clickable */
 .tech li:has(a):hover { background: #f2f2f21f; color: var(--text); }
@@ -254,44 +232,127 @@ a { color: inherit; text-decoration: none; }
 .tech img.tech__wordmark { width: auto; height: 16px; }
 .tech img[src*="GitHub"] { filter: invert(1); } /* black logo → white on the dark tag */
 
-/* ===== Projects: big coverflow of full project cards ===== */
-/* All slides share one grid cell, so the track is as tall as the tallest card. */
-.proj-track {
-  display: grid; padding: 12px 0 24px; touch-action: pan-y;
-  overflow-x: clip; overflow-y: visible;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+/* ===== Projects: Steam-style featured carousel ===== */
+/* One card at a time: picture on the left, name + info on the right, dots underneath.
+   All cards share one grid cell, so the track is as tall as the tallest card. */
+.steam { display: grid; gap: 14px; }
+.steam__track { display: grid; touch-action: pan-y; position: relative; }
+.steam__dots { display: flex; justify-content: center; gap: 6px; }
+
+.steam-card {
+  grid-area: 1 / 1; z-index: 1;
+  display: grid; grid-template-columns: minmax(0, 2.6fr) minmax(0, 1fr); overflow: hidden; /* minmax: columns keep their share */
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.5s var(--ease), visibility 0.5s, border-color 0.3s var(--ease);
 }
-.proj-slide {
-  /* --o / --abs set by script.js; same shrink + fade as the certificates */
-  grid-area: 1 / 1; justify-self: center; width: min(72%, 820px);
-  transform: translateX(calc(var(--o) * 70%)) scale(calc(1 - var(--abs) * 0.18));
-  opacity: calc(1 - var(--abs) * 0.45);
-  z-index: calc(10 - var(--abs));
-  transition: transform 0.6s var(--ease), opacity 0.6s var(--ease), filter 0.6s var(--ease);
+.steam-card.is-active { opacity: 1; visibility: visible; }
+.steam-card:hover { border-color: #f2f2f266; }
+.steam-card__media { position: relative; aspect-ratio: 16 / 9; place-self: stretch; overflow: hidden; background: var(--media-bg); } /* at least 16:9, taller if the info is; stretch both ways or the ratio sets the width */
+.steam-card__media img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
 }
-.proj-slide:not([data-pos="0"]) { cursor: pointer; filter: saturate(0.6) brightness(0.8); }
-.proj-slide:not([data-pos="0"]) * { pointer-events: none; }
-.proj-slide[data-pos="hidden"] { opacity: 0; pointer-events: none; }
-/* Prev/next on the left and right edges, counter underneath */
-.proj-carousel { position: relative; }
-.proj-nav { display: flex; align-items: center; justify-content: center; margin-top: 8px; }
-.proj-nav[hidden] { display: none; }
-.proj-nav .cert-nav__btn { position: absolute; top: calc(50% - 22px); z-index: 20; }
-#projPrev { left: 0; }
-#projNext { right: 0; }
-.project__link { margin-top: 20px; }
+/* Hover preview (the gif: picture) fades in over the cover once loaded */
+.steam-card__media .steam-card__preview { opacity: 0; pointer-events: none; transition: opacity 0.4s var(--ease); }
+.steam-card__media .steam-card__preview.is-ready { opacity: 1; }
+.steam-card__info { display: flex; flex-direction: column; gap: 16px; padding: clamp(20px, 2.2vw, 40px); min-width: 0; }
+.steam-card__title { font-size: clamp(1.5rem, 2vw, 2.4rem); font-weight: 500; letter-spacing: -0.5px; line-height: 1.15; }
+.steam-card__desc {
+  color: var(--text-muted); font-size: clamp(0.9rem, 1vw, 1.1rem); line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 8; -webkit-box-orient: vertical; overflow: hidden;
+}
+.steam-card__foot { margin-top: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* Side games: indigo-tinted covers of the previous / next game, 90% of the card's height, edge to
+   edge with it and running off the screen edge; the arrow sits on the part you can see.
+   They are the prev / next buttons and only show when the page margin leaves a strip
+   of 160px+ (from 1611px screens). */
+.steam-side { display: none; }
+@media (min-width: 1611px) {
+  .steam__track { width: max(100%, 66vw); justify-self: center; } /* card grows with the screen, past the content width */
+  .steam-side {
+    display: block; position: absolute; top: 50%; translate: 0 -50%; height: 90%;
+    width: calc((100vw - 100%) / 2 - 10px); /* the visible strip: card edge -> screen edge */
+    padding: 0; border: 0; background: transparent; cursor: pointer; overflow: hidden;
+  }
+  /* dark, and fading out toward the screen edge so they melt into the background */
+  .steam-side--prev { right: 100%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 45%); mask-image: linear-gradient(90deg, transparent, #000 45%); }
+  .steam-side--next { left: 100%; -webkit-mask-image: linear-gradient(270deg, transparent, #000 45%); mask-image: linear-gradient(270deg, transparent, #000 45%); }
+  .steam-side img { position: absolute; top: 0; height: 100%; width: auto; aspect-ratio: 16 / 9; max-width: none; border: 1px solid var(--box-border); }
+  .steam-side--prev img { right: 0; } /* touches the card; the rest is cut off at the screen edge */
+  .steam-side--next img { left: 0; }
+}
+.steam-side img {
+  object-fit: cover; display: block;
+  filter: grayscale(1) brightness(0.45); transition: filter 0.3s var(--ease);
+}
+.steam-side:hover img { filter: grayscale(1) brightness(0.75); }
+/* recolour the cover in the page's indigo, so it blends into the background */
+.steam-side::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: var(--bg); mix-blend-mode: color;
+}
+/* the arrow drawn on the grey game */
+.steam-side::after {
+  content: ""; position: absolute; inset: 0; z-index: 2; margin: auto; width: 28px; height: 44px; background: var(--text);
+  clip-path: polygon(100% 0, 0 50%, 100% 100%); /* points left */
+  transition: transform 0.3s var(--ease), background-color 0.3s var(--ease);
+}
+.steam-side--next::after { clip-path: polygon(0 0, 100% 50%, 0 100%); } /* points right */
+/* arrows sit close to the main card, not in the middle of the side game */
+.steam-side--prev::after { left: auto; right: 32px; }
+.steam-side--next::after { right: auto; left: 32px; }
+.steam-side:hover::after { background: var(--accent); transform: scale(1.2); }
+.steam-side:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; }
+
+/* Dots: small bars, the current one is wider and bright */
+.steam__dots button {
+  width: 18px; height: 24px; padding: 8px 0; border: 0; cursor: pointer;
+  background: #f2f2f240; background-clip: content-box;
+  transition: width 0.3s var(--ease), background-color 0.3s var(--ease);
+}
+.steam__dots button[aria-current="true"] { width: 30px; background-color: var(--text); }
+
+/* ===== Games page (games.html): every game as a tile ===== */
+.game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 32px; }
+.game-tile { display: flex; flex-direction: column; overflow: hidden; transition: border-color 0.3s var(--ease), transform 0.3s var(--ease); }
+.game-tile:hover { border-color: #f2f2f266; transform: translateY(-4px); }
+.game-tile__info { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 18px 22px 22px; }
+.game-tile__title { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.3px; line-height: 1.2; }
+.game-tile__desc {
+  color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.game-tile__foot { margin-top: auto; padding-top: 6px; display: flex; align-items: center; gap: 10px; }
+
+/* ===== Game page (one per project, e.g. help-your-waifu.html): Steam-style store page ===== */
+.game { padding: 24px 0 72px; }
+.game__back { display: inline-block; margin-bottom: 12px; color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s var(--ease); }
+.game__back:hover { color: var(--text); }
+.game__title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 500; letter-spacing: -1px; line-height: 1.1; margin-bottom: 24px; }
+.game__top { display: grid; grid-template-columns: 1.8fr 1fr; gap: 24px; align-items: start; }
+.game__side { padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+.game__desc { color: var(--text-muted); font-size: 0.95rem; }
+.game__facts { display: grid; gap: 10px; }
+.game__facts div { display: grid; grid-template-columns: 90px 1fr; align-items: center; gap: 12px; }
+.game__facts dd { font-size: 0.9rem; }
+.game__play { margin-top: 32px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.game__play h2 { font-size: 1.2rem; font-weight: 500; }
+.game__about { margin-top: 48px; max-width: 760px; }
+.game__heading {
+  font-family: var(--mono); font-size: 0.8rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--text-faint); padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 20px;
+}
 
 /* Project video: YouTube thumbnail, swapped for the player on click */
 .project__visual {
   position: relative; aspect-ratio: 16 / 9; width: 100%; padding: 0; overflow: hidden; cursor: pointer;
-  border-radius: 12px; border: 1px solid var(--line); background: var(--media-bg);
+ border: 1px solid var(--line); background: var(--media-bg);
 }
 .project__visual img, .project__visual iframe { width: 100%; height: 100%; object-fit: cover; display: block; border: 0; }
 .project__visual img { transition: transform 0.5s var(--ease), filter 0.5s var(--ease); filter: brightness(0.8); }
 .project__visual:hover img { transform: scale(1.03); filter: none; }
 .yt__play {
-  position: absolute; inset: 0; margin: auto; width: 68px; height: 68px; border-radius: 50%;
+  position: absolute; inset: 0; margin: auto; width: 68px; height: 68px;
   background: #f2f2f2e6; box-shadow: 0 10px 30px #0008; transition: transform 0.3s var(--ease);
 }
 .yt__play::after {
@@ -303,7 +364,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ===== Certificates: looping coverflow carousel ===== */
 .cert-track {
-  position: relative; height: clamp(260px, 42vw, 440px);
+  position: relative; height: clamp(260px, 42vw, 580px);
   touch-action: pan-y; user-select: none; -webkit-user-select: none;
   overflow: hidden;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
@@ -311,36 +372,62 @@ a { color: inherit; text-decoration: none; }
 }
 .cert-slide {
   /* --o: signed distance from the middle, --abs: |--o| (set by script.js) */
-  position: absolute; top: 50%; left: 50%; width: min(60%, 560px); aspect-ratio: 3 / 2;
-  padding: 0; border: 1px solid var(--box-border); border-radius: 12px; overflow: hidden;
+  position: absolute; top: 50%; left: 50%; width: min(60%, 760px); aspect-ratio: 3 / 2;
+  padding: 0; border: 1px solid var(--box-border); overflow: hidden;
   background: var(--media-bg); cursor: pointer;
   transform: translate(-50%, -50%) translateX(calc(var(--o) * 62%)) scale(calc(1 - var(--abs) * 0.22));
-  opacity: calc(1 - var(--abs) * 0.45);
+  opacity: calc(1.5 - var(--abs) * 0.5); /* middle and next/prev solid (their arrows stay bright), further ones fade */
   z-index: calc(10 - var(--abs));
   box-shadow: 0 0 0 8px #f2f2f208, 0 0 0 9px #f2f2f20f, 0 40px 80px var(--shadow);
-  transition: transform 0.6s var(--ease), opacity 0.6s var(--ease), filter 0.6s var(--ease);
+  transition: transform 0.6s var(--ease), opacity 0.6s var(--ease);
 }
-.cert-slide:not([data-pos="0"]) { filter: saturate(0.6) brightness(0.8); }
 .cert-slide[data-pos="0"] { cursor: zoom-in; }
 .cert-slide[data-pos="hidden"] { opacity: 0; pointer-events: none; }
-.cert-slide img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; pointer-events: none; }
+.cert-slide img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; pointer-events: none; transition: filter 0.6s var(--ease); }
+/* Side certificates: dark navy like the side games, with the same triangle arrow; click to slide */
+.cert-slide:not([data-pos="0"]) img { filter: grayscale(1) brightness(0.22); } /* white paper needs more darkening than game covers */
+.cert-slide::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: var(--bg); mix-blend-mode: color; opacity: 0; transition: opacity 0.6s var(--ease);
+}
+.cert-slide:not([data-pos="0"])::before { opacity: 1; }
+.cert-slide[data-pos="-1"]::after, .cert-slide[data-pos="1"]::after {
+  content: ""; position: absolute; inset: 0; z-index: 3; margin: auto; width: 28px; height: 44px; background: var(--text);
+  clip-path: polygon(100% 0, 0 50%, 100% 100%); /* points left */
+  transition: transform 0.3s var(--ease), background-color 0.3s var(--ease);
+}
+.cert-slide[data-pos="1"]::after { clip-path: polygon(0 0, 100% 50%, 0 100%); } /* points right */
+/* arrows sit close to the middle certificate (its edge is ~65% across a side one) */
+.cert-slide[data-pos="-1"]::after { left: auto; right: 42%; }
+.cert-slide[data-pos="1"]::after { right: auto; left: 42%; }
+.cert-slide[data-pos="-1"]:hover::after, .cert-slide[data-pos="1"]:hover::after { background: var(--accent); transform: scale(1.2); }
+
+/* Tag / title / place on the middle certificate, over a black fade at its bottom */
+.cert-slide__info {
+  position: absolute; inset: auto 0 0 0; z-index: 2;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left;
+  padding: 72px 84px 18px 22px; color: var(--text);
+  background: linear-gradient(transparent, #000000e0 60%);
+  opacity: 0; transition: opacity 0.4s var(--ease);
+}
+.cert-slide[data-pos="0"] .cert-slide__info { opacity: 1; }
+.cert-slide__info .card__tag { margin-bottom: 6px; }
+.cert-slide__title { font-size: 1.2rem; font-weight: 500; line-height: 1.3; letter-spacing: -0.3px; }
+.cert-slide__meta { color: var(--text-muted); font-size: 0.88rem; }
+.cert-slide__count { position: absolute; right: 22px; bottom: 18px; font-family: var(--mono); font-size: 0.8rem; color: var(--text-muted); }
 .cert-slide:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; }
 .cert-badge {
   position: absolute; top: 12px; left: 12px; z-index: 2;
-  font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; color: #1a1a1a;
+  font-size: 0.75rem; font-weight: 700; padding: 4px 10px; color: #1a1a1a;
   box-shadow: 0 4px 12px #0006;
 }
 .cert-badge--gold { background: linear-gradient(135deg, #ffe08a, #d4af37); }
 .cert-badge--silver { background: linear-gradient(135deg, #eef1f6, #b8c0cc); }
 
-.cert-info {
-  position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: 20px;
-  width: min(60%, 560px); margin: 32px auto 0;
-}
 .card__tag {
   display: inline-block; margin-bottom: 10px;
   font-family: var(--mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.8px;
-  color: var(--text-muted); padding: 3px 9px; border-radius: 999px; border: 1px solid var(--box-border);
+  color: var(--text-muted); padding: 3px 9px; border: 1px solid var(--box-border);
 }
 /* Tag colour per category (data-kind is the English tag, slugified) */
 .card__tag[data-kind] { color: var(--tag); border-color: color-mix(in srgb, var(--tag) 40%, transparent); background: color-mix(in srgb, var(--tag) 12%, transparent); }
@@ -351,20 +438,6 @@ a { color: inherit; text-decoration: none; }
 .card__tag[data-kind="hackathon"] { --tag: #22d3ee; }
 .card__tag[data-kind="instructor"] { --tag: #4ade80; }
 .card__tag[data-kind="workshop"] { --tag: #fb923c; }
-.cert-info__title { font-size: 1.2rem; font-weight: 500; line-height: 1.3; letter-spacing: -0.3px; }
-.cert-info__meta { color: var(--text-muted); font-size: 0.88rem; margin-top: 4px; }
-/* Prev/next sit level with the title, just outside the middle certificate */
-.cert-nav__btn { position: absolute; top: 25px; } /* fixed offset so it never shifts with 1- vs 2-line titles */
-.cert-nav__btn--prev { right: calc(100% + 51px); }
-.cert-nav__btn--next { left: calc(100% + 51px); }
-.cert-nav__btn {
-  width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.1rem;
-  background: var(--surface); color: var(--text); border: 1px solid var(--box-border);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  transition: background-color 0.3s var(--ease);
-}
-.cert-nav__btn:hover { background: #f2f2f21f; }
-.cert-nav__count { flex-shrink: 0; font-family: var(--mono); font-size: 0.8rem; color: var(--text-muted); min-width: 5.5ch; text-align: center; }
 
 /* ===== Contact ===== */
 .contact { padding: 56px 48px; text-align: center; display: flex; flex-direction: column; align-items: center; overflow: hidden;
@@ -397,10 +470,10 @@ a { color: inherit; text-decoration: none; }
   transform: scale(0.96); transition: transform 0.25s ease;
 }
 .lightbox.open .lightbox__figure { transform: scale(1); }
-.lightbox__img { max-width: 100%; max-height: 78vh; object-fit: contain; border-radius: 8px; box-shadow: 0 20px 60px #000a; background: #fff; }
+.lightbox__img { max-width: 100%; max-height: 78vh; object-fit: contain; box-shadow: 0 20px 60px #000a; background: #fff; }
 .lightbox__caption { color: var(--text); font-size: 0.92rem; text-align: center; max-width: 640px; }
 .lightbox__close {
-  position: absolute; top: 18px; right: 22px; width: 44px; height: 44px; border-radius: 50%;
+  position: absolute; top: 18px; right: 22px; width: 44px; height: 44px;
   background: #ffffff1f; color: #fff; border: none; font-size: 1.6rem; line-height: 1; cursor: pointer;
   display: flex; align-items: center; justify-content: center; transition: background 0.2s ease;
 }
@@ -412,17 +485,10 @@ a { color: inherit; text-decoration: none; }
 
 /* ===== Responsive ===== */
 @media (max-width: 860px) {
-  .chip--hide-sm { display: none; }
-
-  .cert-info { width: 100%; }
-  .cert-nav__btn { position: static; flex-shrink: 0; align-self: flex-start; margin-top: 25px; }
   .cert-slide { width: 72%; transform: translate(-50%, -50%) translateX(calc(var(--o) * 78%)) scale(calc(1 - var(--abs) * 0.18)); }
-  /* Too narrow for side buttons over the cards: back under the card, around the counter */
-  .proj-nav { gap: 14px; }
-  .proj-nav .cert-nav__btn { position: static; }
-  .proj-slide { width: 84%; }
-  .project__body { grid-template-columns: 1fr; }
-  .project__body .project__points { grid-column: 1; grid-row: auto; margin-bottom: 8px; }
+  /* Picture above the info */
+  .steam-card { grid-template-columns: 1fr; }
+  .game__top { grid-template-columns: 1fr; }
   .about { gap: 40px; }
   /* Stack text above its photo, in reading order */
   .about__row { grid-template-columns: 1fr; gap: 20px; }
@@ -430,13 +496,14 @@ a { color: inherit; text-decoration: none; }
 }
 @media (max-width: 640px) {
   .window__content { padding: 56px 22px 56px; }
-  .nav__inner { padding: 0 16px; gap: 8px; }
+  .nav__inner { gap: 8px; }
   .nav__brand-text { display: none; }
-  .window__url { display: none; }
-  .window__bar { grid-template-columns: 1fr auto; }
-  .project { padding: 24px; }
+  .steam-card__info { padding: 20px; }
   .contact { padding: 40px 22px; }
-  .cert-info { gap: 12px; }
+  .cert-slide__info { padding: 40px 60px 10px 12px; }
+  .cert-slide__title { font-size: 0.9rem; }
+  .cert-slide__meta, .cert-slide__count { font-size: 0.72rem; }
+  .cert-slide__count { right: 12px; bottom: 10px; }
   .footer__cols { gap: 40px; }
 }
 
@@ -447,5 +514,5 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* \n in content.js = line break, for every text that comes from content.js */
-.section__lead, .contact__lead, .project__desc, .project__role, .project__points li,
-.cert-info__title, .cert-info__meta, .about__facts span { white-space: pre-line; }
+.section__lead, .contact__lead, .steam-card__desc, .game-tile__desc, .game__desc, .project__role, .project__points li,
+.cert-slide__title, .cert-slide__meta, .about__facts span { white-space: pre-line; }

@@ -16,7 +16,8 @@
 // ===== Translations (EN / TH) =====
 const translations = {
   en: {
-    "nav.work": "Work",
+    "nav.home": "Home",
+    "nav.games": "Games",
     "nav.info": "Info",
     "nav.role": "Game Developer",
     "hero.headline": 'I code, debug,\nimprove &amp; build <em class="serif">games.</em>',
@@ -36,13 +37,21 @@ const translations = {
     "about.factNick": "Nickname",
     "about.factNickVal": "Phunn",
     "projects.title": "Things I've built",
+    "game.back": "All games",
+    "games.title": "All games",
+    "games.lead": "Everything I've made. Hover a game to see it in action, click it for the full page.",
+    "game.status": "Status",
+    "game.platform": "Platform",
+    "game.play": "Play",
+    "game.about": "About this project",
     "certs.title": "Certificates",
     "certs.lead": "Highlights from competitions, camps, and workshops.\nUse the arrows or swipe. Click the middle one to view it full size.",
     "contact.title": 'Let\'s make <em class="serif">games</em> together.',
     "contact.lead": "Want to hire me or just chat about a project?\nReach out through any of these, I'm always happy to hear from you.",
   },
   th: {
-    "nav.work": "ผลงาน",
+    "nav.home": "หน้าแรก",
+    "nav.games": "เกม",
     "nav.info": "ข้อมูล",
     "nav.role": "นักพัฒนาเกม",
     "hero.headline": 'ผม เขียนโค้ด แก้บัค\nปรับปรุง พัฒนา <em class="serif">เกม</em>',
@@ -62,6 +71,13 @@ const translations = {
     "about.factNick": "ชื่อเล่น",
     "about.factNickVal": "ปุณณ์",
     "projects.title": "ผลงาน",
+    "game.back": "เกมทั้งหมด",
+    "games.title": "เกมทั้งหมด",
+    "games.lead": "ทุกเกมที่ผมทำ ชี้เมาส์ที่เกมเพื่อดูตัวอย่างการเล่น คลิกเพื่อดูรายละเอียดทั้งหมด",
+    "game.status": "สถานะ",
+    "game.platform": "แพลตฟอร์ม",
+    "game.play": "เล่น",
+    "game.about": "เกี่ยวกับโปรเจกต์นี้",
     "certs.title": "เกียรติบัตร",
     "certs.lead": "ผลงานจากการแข่งขัน ค่าย และการอบรม\nกดลูกศรหรือปัดได้เลย คลิกภาพตรงกลางเพื่อดูขนาดเต็ม",
     "contact.title": 'มาสร้าง <em class="serif">เกม</em> กันเถอะ',
@@ -77,9 +93,17 @@ const translations = {
 //            whole playlist; youtube: is still needed for the cover picture
 //   image:   a picture instead of a video, or with youtube: the cover picture shown before play
 //   link:    optional button, e.g. { url: "https://...", label: { en: "Play on Roblox", th: "เล่นบน Roblox" } }
+//   page:    the project's own page, phunn.me/<page>. Needs a file docs/<page>.html:
+//            copy any game page (e.g. lost-dept.html), rename it, and change the
+//            title / og:title / og:url / og:image lines at the top.
+//   gif:     optional short gameplay clip, played when the mouse is over the card on the
+//            home page, e.g. "assets/projects/lost-dept.webp" (.gif works too).
+//            The full video (youtube:) is on the game's own page.
 const projectData = [
   {
     title: "Help Your Waifu",
+    page: "help-your-waifu",
+    gif: "assets/projects/help-your-waifu.webp",
     status: { en: "Released", th: "เปิดให้เล่นแล้ว" },
     meta: "Roblox, '26",
     desc: {
@@ -101,6 +125,9 @@ const projectData = [
   },
   {
     title: "Lost Dept",
+    page: "lost-dept",
+    gif: "assets/projects/lost-dept.webp",
+    image: "assets/projects/lost-dept-cover.png", // cover picture; the video plays on click
     status: { en: "Released", th: "เปิดให้เล่นแล้ว" },
     meta: "Godot, '26",
     desc: {
@@ -118,6 +145,8 @@ const projectData = [
   },
   {
     title: "AutoBlox",
+    page: "autoblox",
+    gif: "assets/projects/autoblox.webp",
     status: { en: "In development", th: "กำลังพัฒนา" },
     meta: "Roblox, '26",
     desc: { en: "A multiplayer auto-battler inspired by Teamfight Tactics. Draft units from a shared shop, build trait synergies and items, then watch your army fight other players in real time.",
@@ -135,6 +164,8 @@ const projectData = [
   },
   {
     title: "Scary Forest",
+    page: "scary-forest",
+    gif: "assets/projects/scary-forest.webp",
     status: { en: "Released", th: "เปิดให้เล่นแล้ว" },
     meta: "Roblox, '24",
     desc: {
@@ -152,8 +183,10 @@ const projectData = [
     youtube: "XRyY2hqgXyk",
     link: { url: "https://www.roblox.com/games/18830002485", label: { en: "Play on Roblox", th: "เล่นบน Roblox" } },
   },
+  /* HIDDEN FOR NOW. To show it again, delete this line and the closing star-slash line under the block.
   {
     title: "Lumber Chopping System",
+    page: "lumber-chopping-system",
     status: { en: "Live-coded", th: "ไลฟ์โค้ดสด" },
     meta: "Roblox, '26",
     desc: {
@@ -170,6 +203,7 @@ const projectData = [
     youtube: "UQ5mK7B7lXY", // highlight edit; full streams are in the playlist link below
     link: { url: "https://www.youtube.com/playlist?list=PLKeO2w5a0nGY", label: { en: "Watch the full playlist", th: "ดูเพลย์ลิสต์ทั้งหมด" } },
   },
+  */
 ];
 
 // ===== Certificates data =====
