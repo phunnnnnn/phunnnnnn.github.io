@@ -20,6 +20,8 @@
   --accent: #8b7bff;
   --accent-2: #22d3ee;
   --green: #4ade80;
+  --yellow: #facc15;
+  --pink: #f472b6;
   --max: 1400px;                      /* content width cap: grows with the screen up to this, then leaves space at the sides */
   --gutter: clamp(24px, 4vw, 72px);   /* side space, wider on big screens */
   --ease: cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -222,7 +224,28 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.8px;
   padding: 4px 10px; border: 1px solid var(--box-border); color: var(--text-muted);
 }
-.tag--live { color: var(--green); border-color: #4ade8040; }
+/* Status colours, one per games page filter; shared by the status tags and the filter buttons */
+.tag--released, .filter-pill [data-filter="released"], .cover-ph--released { --c: var(--green); }
+.tag--dev, .filter-pill [data-filter="dev"], .cover-ph--dev { --c: var(--yellow); }
+.tag--prototype, .filter-pill [data-filter="prototype"], .cover-ph--prototype { --c: var(--accent-2); }
+.tag--etc, .filter-pill [data-filter="etc"], .cover-ph--etc { --c: var(--pink); }
+.tag--status { color: var(--c); border-color: color-mix(in srgb, var(--c) 30%, transparent); }
+
+/* Plain cover for projects without a picture yet: the name on a dark grid, lit from the top
+   in the status colour. Fills its box (.steam-card__media / .project__visual). */
+.cover-ph {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; padding: 24px; text-align: center;
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--c) 22%, transparent), transparent 70%),
+    repeating-linear-gradient(0deg, #f2f2f20a 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, #f2f2f20a 0 1px, transparent 1px 28px),
+    var(--media-bg);
+}
+.cover-ph__title { font-size: clamp(1.5rem, 2.6vw, 2.2rem); font-weight: 500; letter-spacing: -0.5px; line-height: 1.15; color: var(--text); }
+.cover-ph__meta { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--c); }
+.project__visual--plain { cursor: default; }
+.project__visual--plain .cover-ph__title { font-size: clamp(2rem, 5vw, 3.6rem); }
 .tech { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
 .tech li { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); background: #f2f2f20d; padding: 4px 10px; transition: background-color 0.3s var(--ease), color 0.3s var(--ease); }
 .tech li:has(a) { padding: 0; }
@@ -264,11 +287,13 @@ a { color: inherit; text-decoration: none; }
 
 /* Side games: indigo-tinted covers of the previous / next game, 90% of the card's height, edge to
    edge with it and running off the screen edge; the arrow sits on the part you can see.
-   They are the prev / next buttons and only show when the page margin leaves a strip
-   of 160px+ (from 1611px screens). */
+   They are the prev / next buttons and show on desktop screens (1200px+). */
 .steam-side { display: none; }
-@media (min-width: 1611px) {
-  .steam__track { width: max(100%, 66vw); justify-self: center; } /* card grows with the screen, past the content width */
+@media (min-width: 1200px) {
+  /* Card grows with the screen (66vw, past the content width on big screens) but never wider
+     than 76vw, so laptop-size screens (1280-1700px, e.g. a MacBook) keep a 12vw strip on
+     each side where the side games show. */
+  .steam__track { width: min(max(100%, 66vw), 76vw); justify-self: center; }
   .steam-side {
     display: block; position: absolute; top: 50%; translate: 0 -50%; height: 90%;
     width: calc((100vw - 100%) / 2 - 10px); /* the visible strip: card edge -> screen edge */
@@ -313,6 +338,22 @@ a { color: inherit; text-decoration: none; }
 .steam__dots button[aria-current="true"] { width: 30px; background-color: var(--text); }
 
 /* ===== Games page (games.html): every game as a tile ===== */
+/* Filter buttons above the tiles: same look as the TH | ENG pill, the chosen one filled */
+.filter-pill { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px; margin-bottom: 32px; border: 1px solid var(--box-border); background: var(--surface); }
+.filter-pill button {
+  display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px; border: 0; cursor: pointer;
+  background: transparent; color: var(--text-muted); font-family: var(--mono); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.filter-pill button:hover { color: var(--text); }
+/* a square in the filter's colour; the chosen button fills with that colour (All: white) */
+.filter-pill button:not([data-filter="all"])::before { content: ""; width: 8px; height: 8px; background: var(--c); }
+.filter-pill button[aria-pressed="true"] { background: var(--c, var(--text)); color: var(--bg); }
+.filter-pill button[aria-pressed="true"]::before { background: var(--bg); }
+.filter-pill button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.filter-pill__count { opacity: 0.55; }
+.game-tile[hidden] { display: none; } /* filtered out (the tile's own display would win over [hidden]) */
+.game-grid__empty { color: var(--text-muted); padding: 24px 0 48px; }
 .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 32px; }
 .game-tile { display: flex; flex-direction: column; overflow: hidden; transition: border-color 0.3s var(--ease), transform 0.3s var(--ease); }
 .game-tile:hover { border-color: #f2f2f266; transform: translateY(-4px); }
@@ -326,18 +367,129 @@ a { color: inherit; text-decoration: none; }
 
 /* ===== Game page (one per project, e.g. help-your-waifu.html): Steam-style store page ===== */
 .game { padding: 24px 0 72px; }
-.game__back { display: inline-block; margin-bottom: 12px; color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s var(--ease); }
-.game__back:hover { color: var(--text); }
+.game__crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.85rem; color: var(--text-faint); }
+.game__crumbs a { color: var(--text-muted); transition: color 0.3s var(--ease); }
+.game__crumbs a:hover { color: var(--text); }
 .game__title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 500; letter-spacing: -1px; line-height: 1.1; margin-bottom: 24px; }
-.game__top { display: grid; grid-template-columns: 1.8fr 1fr; gap: 24px; align-items: start; }
-.game__side { padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+.game__top { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.game__side { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.game__capsule { width: 100%; aspect-ratio: 460 / 215; object-fit: cover; object-position: top; display: block; border: 1px solid var(--line); } /* Steam's header capsule shape */
 .game__desc { color: var(--text-muted); font-size: 0.95rem; }
+.game__note { margin-top: -8px; font-size: 0.72rem; color: var(--text-faint); }
+#gameStats { display: flex; flex-direction: column; gap: 14px; padding: 14px 0; border-block: 1px solid var(--line); }
+#gameStats[hidden] { display: none; }
+/* Roblox-style like / dislike buttons with the like share as a bar underneath */
+.rating { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.rating__btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 42px;
+  font-family: var(--mono); font-size: 0.95rem; text-decoration: none;
+  border: 1px solid var(--box-border); background: #f2f2f20d;
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.rating__btn svg { width: 20px; height: 20px; fill: currentColor; transition: transform 0.3s var(--ease); }
+.rating__btn--up { color: var(--green); }
+.rating__btn--down { color: var(--text-muted); }
+.rating__btn--down svg { rotate: 180deg; }
+.rating__btn--up:hover { background: #4ade801f; border-color: #4ade8066; }
+.rating__btn--down:hover { background: #f871711f; border-color: #f8717166; color: #fca5a5; }
+.rating__btn:hover svg { transform: scale(1.15); }
+.rating__btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.rating__bar { grid-column: 1 / -1; height: 4px; background: #f8717140; }
+.rating__bar span { display: block; height: 100%; background: var(--green); }
+.rating__pct { grid-column: 1 / -1; margin-top: -2px; font-size: 0.8rem; color: var(--text-muted); }
+/* Genre tags, like Steam's user tags */
+.game__tags { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.game__tags li { font-size: 0.75rem; padding: 3px 9px; background: #8b7bff24; color: #cdc6ff; }
+
+/* Gallery: big viewer + a strip of thumbnails (only when there's more than one) */
+.gallery { display: grid; gap: 10px; min-width: 0; }
+.gallery__stage { position: relative; }
+.gallery__view > * { animation: gallery-in 0.45s var(--ease); } /* each new picture fades in */
+@keyframes gallery-in { from { opacity: 0; } }
+/* Prev / next arrows on the edges of the viewer, shown on hover (always on touch screens) */
+.gallery__nav {
+  position: absolute; top: 50%; translate: 0 -50%; z-index: 2; width: 44px; height: 72px; padding: 0; border: 0; cursor: pointer;
+  background: #0b0a24b3; opacity: 0; transition: opacity 0.3s var(--ease), background-color 0.3s var(--ease);
+}
+.gallery__nav--prev { left: 0; }
+.gallery__nav--next { right: 0; }
+.gallery__nav::after {
+  content: ""; position: absolute; inset: 0; margin: auto; width: 14px; height: 22px; background: var(--text);
+  clip-path: polygon(100% 0, 0 50%, 100% 100%); transition: background-color 0.3s var(--ease);
+}
+.gallery__nav--next::after { clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.gallery__stage:hover .gallery__nav, .gallery__nav:focus-visible { opacity: 1; }
+.gallery__nav:hover { background: #0b0a24e6; }
+.gallery__nav:hover::after { background: var(--accent); }
+.gallery__nav:focus-visible { outline: 2px solid var(--text); outline-offset: -2px; }
+@media (hover: none) { .gallery__nav { opacity: 0.85; } }
+.gallery__view div.project__visual { cursor: default; }
+.gallery__view div.project__visual > img { object-fit: contain; filter: none; } /* screenshots shown whole, not cropped */
+.gallery__view div.project__visual:hover > img { transform: none; }
+.gallery__strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+.gallery__thumb {
+  position: relative; flex: 0 0 auto; width: clamp(96px, 12vw, 150px); aspect-ratio: 16 / 9; padding: 0;
+  border: 1px solid var(--line); background: var(--media-bg); cursor: pointer; opacity: 0.55;
+  transition: opacity 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.gallery__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gallery__thumb:hover { opacity: 0.9; }
+.gallery__thumb[aria-current="true"] { opacity: 1; border-color: var(--text); }
+.gallery__thumb:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.gallery__play { position: absolute; inset: 0; margin: auto; width: 26px; height: 26px; background: #f2f2f2e6; }
+.gallery__play::after {
+  content: ""; position: absolute; top: 50%; left: 55%; translate: -50% -50%;
+  border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent #101010;
+}
+
+/* Below the play bar: story sections + a sidebar */
+.game__body { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 32px 40px; margin-top: 48px; align-items: start; }
+.game__main { display: flex; flex-direction: column; gap: 44px; min-width: 0; }
+.game__aside { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.game__panel { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.game__panel .project__points { margin-bottom: 0; }
+
+/* Story sections: short intro, then "Read more" loads the rest (story/<page>/<section>.<lang>.md) */
+.story__intro { color: var(--text-muted); line-height: 1.65; }
+.story__more { margin-top: 18px; animation: story-in 0.4s var(--ease); }
+@keyframes story-in { from { opacity: 0; transform: translateY(6px); } }
+.story__toggle {
+  margin-top: 16px; display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; cursor: pointer;
+  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text);
+  background: #f2f2f20f; border: 1px solid var(--box-border);
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.story__toggle::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid; border-bottom: 1.5px solid; rotate: 45deg; translate: 0 -2px; transition: rotate 0.3s var(--ease), translate 0.3s var(--ease); }
+.story__toggle[aria-expanded="true"]::after { rotate: 225deg; translate: 0 2px; }
+.story__toggle:hover { background: #f2f2f21f; border-color: #f2f2f266; }
+.story__toggle:disabled { opacity: 0.6; cursor: progress; }
+.story__toggle:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+/* Text loaded from the Markdown story files */
+.md { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+.md > * + * { margin-top: 14px; }
+.md h3 { margin-top: 30px; color: var(--text); font-size: 1.15rem; font-weight: 500; letter-spacing: -0.2px; }
+.md strong { color: var(--text); font-weight: 600; }
+.md a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.md ul, .md ol { padding-left: 22px; }
+.md ul { list-style: square; }
+.md li::marker { color: var(--accent); }
+.md li + li { margin-top: 6px; }
+.md code { font-family: var(--mono); font-size: 0.85em; padding: 1px 6px; color: var(--text); background: #f2f2f214; }
+.md pre { padding: 16px; overflow-x: auto; background: var(--media-bg); border: 1px solid var(--line); }
+.md pre code { padding: 0; font-size: 0.8rem; line-height: 1.55; background: none; }
+.md blockquote { padding-left: 14px; border-left: 2px solid var(--accent); color: var(--text); }
+.md img { max-width: 100%; height: auto; display: block; border: 1px solid var(--line); }
 .game__facts { display: grid; gap: 10px; }
 .game__facts div { display: grid; grid-template-columns: 90px 1fr; align-items: center; gap: 12px; }
 .game__facts dd { font-size: 0.9rem; }
+/* Code: GitHub repo link(s), one per line */
+.game__repos { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 0; }
+.game__repos a { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--box-border); overflow-wrap: anywhere; transition: color 0.3s var(--ease), border-color 0.3s var(--ease); }
+.game__repos a:hover { color: var(--accent); border-color: var(--accent); }
+.game__repos img { width: 14px; height: 14px; flex: none; }
 .game__play { margin-top: 32px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .game__play h2 { font-size: 1.2rem; font-weight: 500; }
-.game__about { margin-top: 48px; max-width: 760px; }
 .game__heading {
   font-family: var(--mono); font-size: 0.8rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
   color: var(--text-faint); padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 20px;
@@ -423,6 +575,7 @@ a { color: inherit; text-decoration: none; }
 }
 .cert-badge--gold { background: linear-gradient(135deg, #ffe08a, #d4af37); }
 .cert-badge--silver { background: linear-gradient(135deg, #eef1f6, #b8c0cc); }
+.cert-dots { margin-top: 14px; }
 
 .card__tag {
   display: inline-block; margin-bottom: 10px;
@@ -488,7 +641,7 @@ a { color: inherit; text-decoration: none; }
   .cert-slide { width: 72%; transform: translate(-50%, -50%) translateX(calc(var(--o) * 78%)) scale(calc(1 - var(--abs) * 0.18)); }
   /* Picture above the info */
   .steam-card { grid-template-columns: 1fr; }
-  .game__top { grid-template-columns: 1fr; }
+  .game__top, .game__body { grid-template-columns: 1fr; }
   .about { gap: 40px; }
   /* Stack text above its photo, in reading order */
   .about__row { grid-template-columns: 1fr; gap: 20px; }
@@ -500,6 +653,14 @@ a { color: inherit; text-decoration: none; }
   .nav__brand-text { display: none; }
   .steam-card__info { padding: 20px; }
   .contact { padding: 40px 22px; }
+  /* Certificates: too narrow for the side ones, so one full-width certificate at a time that
+     slides sideways (auto slide, swipe or the dots), like the projects carousel */
+  .cert-track { height: auto; aspect-ratio: 3 / 2; -webkit-mask-image: none; mask-image: none; }
+  .cert-slide { width: 100%; box-shadow: none; transform: translate(-50%, -50%) translateX(calc(var(--o) * 100%)); }
+  .cert-slide:not([data-pos="0"]) { opacity: 0; pointer-events: none; } /* the next one fades in as it slides */
+  .cert-slide:not([data-pos="0"]) img { filter: none; }
+  .cert-slide:not([data-pos="0"])::before { opacity: 0; }
+  .cert-slide[data-pos="-1"]::after, .cert-slide[data-pos="1"]::after { content: none; }
   .cert-slide__info { padding: 40px 60px 10px 12px; }
   .cert-slide__title { font-size: 0.9rem; }
   .cert-slide__meta, .cert-slide__count { font-size: 0.72rem; }

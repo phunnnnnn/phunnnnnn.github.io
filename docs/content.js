@@ -9,6 +9,10 @@
 //   • Certificates (title / place · date / tag) are in certData at the
 //     bottom. Their order here is the order on the website.
 //   • Thai text is in the  th: { ... }  block, English in  en: { ... }.
+//   • Games page cards show each project's  short:  text. Keep it to 1-3
+//     short sentences (about 120 characters) that say what the game is,
+//     so it fits on the card, phones included. Longer detail goes in
+//     desc: (home page + the game's own page) and points:.
 //   • Save the file and the page reloads by itself (when the local
 //     server is running).
 // =====================================================================
@@ -40,8 +44,38 @@ const translations = {
     "game.back": "All games",
     "games.title": "All games",
     "games.lead": "Everything I've made. Hover a game to see it in action, click it for the full page.",
+    "games.filter": "Filter",
+    "games.filter.all": "All",
+    "games.filter.released": "Released",
+    "games.filter.dev": "In dev",
+    "games.filter.prototype": "Prototype",
+    "games.filter.etc": "Etc.",
+    "games.empty": "Nothing here yet.",
     "game.status": "Status",
     "game.platform": "Platform",
+    "game.code": "Code",
+    "game.team": "Team",
+    "game.highlights": "Highlights",
+    "game.builtWith": "Built with",
+    "game.story.about": "About this game",
+    "game.story.did": "What I did",
+    "game.story.learned": "What I learned",
+    "game.story.devlog": "Devlog: how it's built",
+    "game.more": "Read more",
+    "game.less": "Show less",
+    "game.loading": "Loading…",
+    "game.loadFail": "Couldn't load, try again",
+    "game.likes": "{n} likes",
+    "game.dislikes": "{n} dislikes",
+    "game.liked": "{pct}% of players liked it",
+    "game.noVotes": "No votes yet",
+    "game.rateOn": "Rate it on Roblox",
+    "game.visits": "Visits",
+    "game.favorites": "Favorites",
+    "game.updated": "Updated",
+    "game.statsNote": "Roblox stats as of {date}",
+    "game.prev": "Previous",
+    "game.next": "Next",
     "game.play": "Play",
     "game.about": "About this project",
     "certs.title": "Certificates",
@@ -74,8 +108,38 @@ const translations = {
     "game.back": "เกมทั้งหมด",
     "games.title": "เกมทั้งหมด",
     "games.lead": "ทุกเกมที่ผมทำ ชี้เมาส์ที่เกมเพื่อดูตัวอย่างการเล่น คลิกเพื่อดูรายละเอียดทั้งหมด",
+    "games.filter": "ตัวกรอง",
+    "games.filter.all": "ทั้งหมด",
+    "games.filter.released": "เปิดให้เล่นแล้ว",
+    "games.filter.dev": "กำลังพัฒนา",
+    "games.filter.prototype": "ต้นแบบ",
+    "games.filter.etc": "อื่นๆ",
+    "games.empty": "ยังไม่มีผลงานในหมวดนี้",
     "game.status": "สถานะ",
     "game.platform": "แพลตฟอร์ม",
+    "game.code": "โค้ด",
+    "game.team": "ทีม",
+    "game.highlights": "จุดเด่น",
+    "game.builtWith": "สร้างด้วย",
+    "game.story.about": "เกี่ยวกับเกมนี้",
+    "game.story.did": "สิ่งที่ผมทำ",
+    "game.story.learned": "สิ่งที่ผมได้เรียนรู้",
+    "game.story.devlog": "บันทึกการพัฒนา: เบื้องหลังและโครงสร้าง",
+    "game.more": "อ่านต่อ",
+    "game.less": "ย่อลง",
+    "game.loading": "กำลังโหลด…",
+    "game.loadFail": "โหลดไม่สำเร็จ ลองอีกครั้ง",
+    "game.likes": "ถูกใจ {n}",
+    "game.dislikes": "ไม่ถูกใจ {n}",
+    "game.liked": "ผู้เล่น {pct}% ถูกใจเกมนี้",
+    "game.noVotes": "ยังไม่มีใครโหวต",
+    "game.rateOn": "ให้คะแนนบน Roblox",
+    "game.visits": "ยอดเข้าเล่น",
+    "game.favorites": "รายการโปรด",
+    "game.updated": "อัปเดตล่าสุด",
+    "game.statsNote": "ข้อมูลจาก Roblox ณ วันที่ {date}",
+    "game.prev": "ก่อนหน้า",
+    "game.next": "ถัดไป",
     "game.play": "เล่น",
     "game.about": "เกี่ยวกับโปรเจกต์นี้",
     "certs.title": "เกียรติบัตร",
@@ -99,13 +163,38 @@ const translations = {
 //   gif:     optional short gameplay clip, played when the mouse is over the card on the
 //            home page, e.g. "assets/projects/lost-dept.webp" (.gif works too).
 //            The full video (youtube:) is on the game's own page.
+//   filter:  which filter button shows it on the games page: "released", "dev",
+//            "prototype" or "etc" (anything that isn't a game, e.g. a system)
+//   home:    false = games page only, not in the home page carousel
+//   repo:    optional GitHub link(s) shown on the game's page, one "https://github.com/..."
+//            or a list ["...", "..."]. The repo must be public, or visitors get a 404.
+//   team:    who made it, shown in the game page's info box, e.g. { en: "Duo · ...", th: "..." }
+//   tags:    genre tags in the info box, like Steam's, e.g. ["Simulator", "Obby"]
+//   media:   the game page gallery, first one shown first, e.g.
+//            [{ youtube: "id" }, { image: "assets/...jpg", thumb: "assets/projects/thumbs/...jpg" }]
+//            thumb: a small picture for the strip (320px wide); a video uses its YouTube thumbnail.
+//            Without media: the gallery is just the youtube: video or the image:.
+//   story:   the game page sections, each a short intro shown right away:
+//              about (About this game), did (What I did), learned (What I learned),
+//              devlog (how it was made / how the code is built)
+//            e.g. story: { about: { en: "...", th: "...", more: true }, ... }
+//            more: true adds a Read more button that loads the full text from
+//            docs/story/<page>/<section>.en.md (and .th.md) only when pressed.
+//            Those files are Markdown: # heading, - list, **bold**, [link](url), ![picture](assets/...).
+//            Without story: the page shows role: and points: under "About this project".
+//   short:   the games page card text: 1-3 short sentences, about 120 characters
+//            (see Rules at the top). desc: is the longer text for the home page
+//            card and the game's own page.
 const projectData = [
   {
     title: "Help Your Waifu",
     page: "help-your-waifu",
     gif: "assets/projects/help-your-waifu.webp",
     status: { en: "Released", th: "เปิดให้เล่นแล้ว" },
+    filter: "released",
     meta: "Roblox, '26",
+    short: { en: "An anime collecting game on Roblox. Run a random obby, grab mystery waifus, and carry them home to earn cash.",
+             th: "เกมสะสมสาวอนิเมะบน Roblox วิ่งฝ่าด่าน obby ที่สุ่มใหม่ เก็บ waifu ปริศนา แล้วแบกกลับบ้านเพื่อหาเงิน" }, // games page card: 1-3 short sentences
     desc: {
       en: "An anime collecting simulator. Run a randomly generated obby to grab mystery waifus, carry them home to your base, and they earn cash for you, even while you're offline. Harder levels hide rarer waifus.",
       th: "เกมซิมูเลเตอร์สะสมสาวอนิเมะ วิ่งฝ่าด่าน obby ที่สุ่มสร้างใหม่เพื่อเก็บ waifu ปริศนา แบกกลับบ้าน แล้วเธอจะช่วยหาเงินให้ แม้ตอนคุณออฟไลน์ ยิ่งด่านยากยิ่งเจอตัวหายาก",
@@ -129,7 +218,10 @@ const projectData = [
     gif: "assets/projects/lost-dept.webp",
     image: "assets/projects/lost-dept-cover.png", // cover picture; the video plays on click
     status: { en: "Released", th: "เปิดให้เล่นแล้ว" },
+    filter: "released",
     meta: "Godot, '26",
+    short: { en: "An underwater wave-survival game. You're a diver who can't fight, so you farm kelp and buy pet fish to fight for you.",
+             th: "เกมเอาชีวิตรอดเป็นเวฟใต้ทะเล คุณเป็นนักดำน้ำที่สู้เองไม่ได้ ต้องเก็บสาหร่ายหาเงิน แล้วซื้อปลาเลี้ยงมาสู้แทน" }, // games page card: 1-3 short sentences
     desc: {
       en: "An underwater wave-survival game. You play a diver who can't fight: sweep your mouse over kelp to earn money, then spend it between waves on pet fish that fight for you.",
       th: "เกมเอาชีวิตรอดเป็นเวฟใต้ทะเล ผู้เล่นเป็นนักดำน้ำที่ต่อสู้เองไม่ได้ ต้องลากเมาส์ผ่านสาหร่ายเพื่อหาเงิน แล้วใช้เงินนั้นซื้อปลาเลี้ยงที่ช่วยต่อสู้แทนในช่วงพักระหว่างเวฟ",
@@ -148,7 +240,10 @@ const projectData = [
     page: "autoblox",
     gif: "assets/projects/autoblox.webp",
     status: { en: "In development", th: "กำลังพัฒนา" },
+    filter: "dev",
     meta: "Roblox, '26",
+    short: { en: "A multiplayer auto-battler inspired by Teamfight Tactics. Draft units, build synergies, and outfight other players.",
+             th: "เกม auto-battler หลายผู้เล่น แรงบันดาลใจจาก Teamfight Tactics ซื้อตัวละคร จัดคอมโบ แล้วสู้กับผู้เล่นคนอื่น" }, // games page card: 1-3 short sentences
     desc: { en: "A multiplayer auto-battler inspired by Teamfight Tactics. Draft units from a shared shop, build trait synergies and items, then watch your army fight other players in real time.",
             th: "เกม auto-battler แบบผู้เล่นหลายคน ได้แรงบันดาลใจจาก Teamfight Tactics ซื้อตัวละครจากร้านค้าที่ทุกคนใช้ร่วมกัน จัดทีมให้เข้าคอมโบ ประกอบไอเทม แล้วดูกองทัพของคุณสู้กับผู้เล่นคนอื่นแบบเรียลไทม์" },
     role: { en: "Duo project · I wrote all the code, my partner handles design & balance",
@@ -167,7 +262,10 @@ const projectData = [
     page: "scary-forest",
     gif: "assets/projects/scary-forest.webp",
     status: { en: "Released", th: "เปิดให้เล่นแล้ว" },
+    filter: "released",
     meta: "Roblox, '24",
+    short: { en: "A round-based zombie survival game. Team up in the lobby and hold off zombie waves until the last player falls.",
+             th: "เกมเอาชีวิตรอดจากซอมบี้แบบเป็นรอบ รวมทีมที่ล็อบบี้ แล้วต้านซอมบี้จนกว่าผู้เล่นคนสุดท้ายจะตาย" }, // games page card: 1-3 short sentences
     desc: {
       en: "A round-based zombie survival game. Players ready up in a lobby, get sent into the arena together, and hold off waves of zombies until the last one falls.",
       th: "เกมเอาชีวิตรอดจากซอมบี้แบบเป็นรอบ ผู้เล่นกดพร้อมที่ล็อบบี้ แล้วถูกส่งเข้าสนามพร้อมกัน ต้องสู้กับซอมบี้ที่บุกมาไม่หยุดจนกว่าคนสุดท้ายจะตาย",
@@ -183,12 +281,15 @@ const projectData = [
     youtube: "XRyY2hqgXyk",
     link: { url: "https://www.roblox.com/games/18830002485", label: { en: "Play on Roblox", th: "เล่นบน Roblox" } },
   },
-  /* HIDDEN FOR NOW. To show it again, delete this line and the closing star-slash line under the block.
   {
     title: "Lumber Chopping System",
     page: "lumber-chopping-system",
     status: { en: "Live-coded", th: "ไลฟ์โค้ดสด" },
+    filter: "etc",
+    home: false, // games page only, not the home carousel
     meta: "Roblox, '26",
+    short: { en: "A Lumber Tycoon-style system for chopping trees and splitting logs, coded live on stream.",
+             th: "ระบบตัดต้นไม้และผ่าท่อนซุงแบบ Lumber Tycoon เขียนโค้ดสดระหว่างไลฟ์" }, // games page card: 1-3 short sentences
     desc: {
       en: "A log chopping and splitting system inspired by Lumber Tycoon on Roblox, coded by hand, live on stream.",
       th: "ระบบตัดไม้และผ่าท่อนซุงเป็นสองส่วน ได้แรงบันดาลใจจากเกม Lumber Tycoon บน Roblox เขียนโค้ดด้วยมือสดๆ ระหว่างไลฟ์",
@@ -203,7 +304,134 @@ const projectData = [
     youtube: "UQ5mK7B7lXY", // highlight edit; full streams are in the playlist link below
     link: { url: "https://www.youtube.com/playlist?list=PLKeO2w5a0nGY", label: { en: "Watch the full playlist", th: "ดูเพลย์ลิสต์ทั้งหมด" } },
   },
-  */
+  // ----- Prototypes: unfinished projects (games page only, no picture yet = plain cover) -----
+  {
+    title: "Red Run",
+    page: "red-run",
+    status: { en: "Prototype", th: "ต้นแบบ" },
+    filter: "prototype",
+    home: false,
+    meta: "Godot, '26",
+    short: { en: "A painting roguelite. Aim and launch a bouncing brush to paint each canvas red, then spend coins on upgrades.",
+             th: "เกมโร้กไลต์ระบายสี เล็งแล้วยิงพู่กันที่เด้งไปมาให้ผ้าใบกลายเป็นสีแดง แล้วใช้เหรียญซื้ออัปเกรด" }, // games page card: 1-3 short sentences
+    desc: {
+      en: "A painting roguelite: place a brush, aim and launch it, and it ricochets around the canvas painting everything it touches. More coverage pays more coins for upgrades between canvases, and every third canvas is a special encounter with its own rule.",
+      th: "เกมโร้กไลต์ระบายสี วางพู่กัน เล็ง แล้วยิงให้มันเด้งไปทั่วผ้าใบ ทาสีทุกอย่างที่โดน ยิ่งทาได้มากยิ่งได้เหรียญมากไว้ซื้ออัปเกรดระหว่างผ้าใบแต่ละผืน และทุกผืนที่สามจะเป็นด่านพิเศษที่มีกฎของตัวเอง",
+    },
+    points: [
+      { en: "Game concept plus a playable bounce-paint prototype in Godot 4.7; the prototype test passed with a verdict to proceed", th: "มีคอนเซปต์เกมและต้นแบบระบบพู่กันเด้งที่เล่นได้ใน Godot 4.7 ผลทดสอบต้นแบบผ่าน ให้ไปต่อได้" },
+      { en: "Pays out by coverage tier instead of pass/fail, with a bonus for every unused shot on a Perfect", th: "ให้รางวัลตามระดับพื้นที่ที่ทาได้แทนการผ่าน/ไม่ผ่าน และมีโบนัสทุกนัดที่เหลือเมื่อได้ Perfect" },
+      { en: "Planned runs of 8 galleries (24 canvases), about 20–25 minutes each", th: "วางแผนให้หนึ่งรอบมี 8 แกลเลอรี (24 ผืน) ใช้เวลาประมาณ 20–25 นาที" },
+    ],
+    tech: ["Godot 4.7", "Git"],
+  },
+  {
+    title: "Stawberry",
+    page: "stawberry",
+    status: { en: "Prototype", th: "ต้นแบบ" },
+    filter: "prototype",
+    home: false,
+    meta: "Roblox, '26",
+    short: { en: "A Roblox strawberry farming tycoon. Buy seeds off a belt, plant and harvest, refine fruit into pies, and hire workers.",
+             th: "เกมฟาร์มสตรอว์เบอร์รีแนวไทคูนบน Roblox ซื้อเมล็ดจากสายพาน ปลูกและเก็บเกี่ยว แปรรูปผลเป็นพาย และจ้างคนงาน" }, // games page card: 1-3 short sentences
+    desc: {
+      en: "A strawberry farming tycoon on Roblox. Buy seeds off a conveyor belt, plant and harvest them, then refine the fruit into pies at factories you place yourself, chained up a five-tier ladder. NPC workers can farm, refine and sell for you.",
+      th: "เกมฟาร์มสตรอว์เบอร์รีแนวไทคูนบน Roblox ซื้อเมล็ดจากสายพาน ปลูกแล้วเก็บเกี่ยว จากนั้นนำผลไปแปรรูปเป็นพายที่โรงงานที่วางเอง ต่อเป็นสายการผลิต 5 ขั้น และจ้างคนงาน NPC ให้ปลูก แปรรูป และขายแทนได้",
+    },
+    points: [
+      { en: "18 seed types come one at a time down a single-file belt, with belt levels to buy in a shop", th: "เมล็ด 18 ชนิดเลื่อนมาทีละเม็ดบนสายพาน และซื้อเลเวลสายพานเพิ่มได้ในร้าน" },
+      { en: "Planting shows a disc under the cursor: green when the spot works, red with the reason when it doesn't", th: "ตอนปลูกมีวงกลมใต้เมาส์ สีเขียวคือปลูกได้ สีแดงจะบอกเหตุผลว่าทำไมปลูกไม่ได้" },
+      { en: "Factories chain into a five-tier refining ladder; levelled factories drop from a per-player generator", th: "ต่อโรงงานเป็นสายการแปรรูป 5 ขั้น และสุ่มได้โรงงานเลเวลสูงจากเครื่องสุ่มของผู้เล่นแต่ละคน" },
+      { en: "NPC workers, hired from a rotating pool, farm, refine and sell on their own", th: "คนงาน NPC ที่จ้างจากรายชื่อหมุนเวียน ช่วยปลูก แปรรูป และขายเองได้" },
+    ],
+    tech: ["Roblox Studio", "Rojo", "Git"],
+    repo: "https://github.com/phunnnnnn/Stawberry",
+  },
+  {
+    title: "Math Quiz",
+    page: "math-quiz",
+    status: { en: "Prototype", th: "ต้นแบบ" },
+    filter: "prototype",
+    home: false,
+    meta: "Godot, '25",
+    short: { en: "An addition quiz with counting grids that picture each number. Pick a difficulty from Easy to Nightmare, or go endless.",
+             th: "เกมควิซบวกเลข มีตารางนับที่แสดงตัวเลขเป็นภาพ เลือกความยากตั้งแต่ Easy ถึง Nightmare หรือเล่นแบบไม่จำกัด" }, // games page card: 1-3 short sentences
+    desc: {
+      en: "An addition quiz game. Type the answer on an on-screen number pad or the keyboard while two counting grids picture both numbers. Difficulties run from Easy to Nightmare with bigger numbers, in a set-length or an endless mode.",
+      th: "เกมควิซบวกเลข พิมพ์คำตอบด้วยแป้นตัวเลขบนจอหรือคีย์บอร์ด โดยมีตารางนับ 2 ชุดแสดงตัวเลขทั้งสองเป็นภาพ ความยากมีตั้งแต่ Easy ถึง Nightmare ที่ตัวเลขใหญ่ขึ้น เล่นแบบกำหนดจำนวนข้อหรือแบบไม่จำกัดก็ได้",
+    },
+    points: [
+      { en: "5 difficulties (Play, Easy, Normal, Hard, Nightmare), each with its own number ranges, up to 90 + 30", th: "ความยาก 5 ระดับ (Play, Easy, Normal, Hard, Nightmare) แต่ละระดับมีช่วงตัวเลขของตัวเอง สูงสุดถึง 90 + 30" },
+      { en: "Set-length mode with the number of questions you choose, or Endless", th: "โหมดเลือกจำนวนข้อได้เอง หรือโหมด Endless ไม่จำกัด" },
+      { en: "Answer with the on-screen number pad or the keyboard", th: "ตอบได้ทั้งแป้นตัวเลขบนจอและคีย์บอร์ด" },
+    ],
+    tech: ["Godot 4.5", "Git"],
+    repo: "https://github.com/phunnnnnn/is-project",
+  },
+  {
+    title: "Ballon",
+    page: "ballon",
+    status: { en: "Prototype", th: "ต้นแบบ" },
+    filter: "prototype",
+    home: false,
+    meta: "Godot, '25",
+    short: { en: "A clicker where you pop balloons for gold. Build combos, then spend the gold on upgrades that make balloons pay more.",
+             th: "เกมคลิกเกอร์ป๊อปลูกโป่งเพื่อเก็บทอง ต่อคอมโบให้ยาว แล้วใช้ทองซื้ออัปเกรดให้ลูกโป่งให้เงินมากขึ้น" }, // games page card: 1-3 short sentences
+    desc: {
+      en: "A balloon-popping clicker. Every pop pays gold, multiplied by your combo and by rarer elite balloons, and the combo drains away if you stop clicking. Gold buys upgrades that make balloons come faster and pay more.",
+      th: "เกมคลิกเกอร์ป๊อปลูกโป่ง ทุกครั้งที่ป๊อปจะได้ทอง คูณด้วยคอมโบและลูกโป่งพิเศษที่หายากกว่า ถ้าหยุดคลิกคอมโบจะค่อยๆ หายไป ใช้ทองซื้ออัปเกรดให้ลูกโป่งมาเร็วขึ้นและให้เงินมากขึ้น",
+    },
+    points: [
+      { en: "Each pop pays upgrade rate × combo × balloon type, with a combo cap and a decay timer", th: "ทุกครั้งที่ป๊อปได้เงินเท่ากับ อัตราอัปเกรด × คอมโบ × ชนิดลูกโป่ง มีเพดานคอมโบและตัวจับเวลาที่ทำให้คอมโบหาย" },
+      { en: "8 upgrade types, like Inflation Rate, Combo Pressure, Elite Balloons and Chain Reaction, levelled from one data table", th: "อัปเกรด 8 แบบ เช่น Inflation Rate, Combo Pressure, Elite Balloons และ Chain Reaction อัปเลเวลจากตารางข้อมูลเดียว" },
+      { en: "Stopped at v0.1.1 in November 2025", th: "หยุดพัฒนาที่เวอร์ชัน 0.1.1 เมื่อ พ.ย. 2568" },
+    ],
+    tech: ["Godot 4.5", "Git"],
+    repo: "https://github.com/phunnnnnn/ballon-game-project",
+  },
+  {
+    title: "Harvest the Dept",
+    page: "harvest-the-dept",
+    status: { en: "Prototype", th: "ต้นแบบ" },
+    filter: "prototype",
+    home: false,
+    meta: "Godot, '25",
+    short: { en: "A farming game made for my IS subject. Drag seeds into pots, press Next Day, and watch the sunflowers grow.",
+             th: "เกมปลูกพืชที่ทำในวิชา IS ลากเมล็ดใส่กระถาง กด Next Day แล้วดูดอกทานตะวันค่อยๆ โต" }, // games page card: 1-3 short sentences
+    desc: {
+      en: "A farming game started for my IS subject. Drag a seed bag onto a pot to plant it, then end the day and the plant grows a stage at a time into a full sunflower. It grew out of NSC, an earlier garden prototype with pots, watering and a garden grid.",
+      th: "เกมปลูกพืชที่เริ่มทำในวิชา IS ลากถุงเมล็ดไปวางบนกระถางเพื่อปลูก แล้วกดจบวัน พืชจะโตขึ้นทีละขั้นจนเป็นดอกทานตะวันเต็มดอก พัฒนาต่อมาจาก NSC ต้นแบบสวนก่อนหน้านี้ที่มีกระถาง การรดน้ำ และตารางแปลงปลูก",
+    },
+    points: [
+      { en: "Drag and drop seed bags onto pots, with a drag-select box and a debug view on the P key", th: "ลากถุงเมล็ดไปวางบนกระถาง มีกรอบลากเลือก และกด P เพื่อเปิดโหมดดีบัก" },
+      { en: "A day counter and a Next Day event that grows every planted pot through its stages", th: "ตัวนับวันและปุ่ม Next Day ที่ทำให้ทุกกระถางที่ปลูกไว้โตขึ้นตามขั้น" },
+      { en: "Pots, seeds and plants live in one global data table, so a new plant is just a new entry", th: "ข้อมูลกระถาง เมล็ด และพืช อยู่ในตารางกลางเดียว เพิ่มพืชใหม่ได้แค่เพิ่มข้อมูล" },
+      { en: "Earlier version, NSC (Mar–Jun 2025): drag-and-drop pots, watering and a garden grid", th: "เวอร์ชันก่อนหน้า NSC (มี.ค.–มิ.ย. 2568): ลากวางกระถาง รดน้ำ และตารางแปลงปลูก" },
+    ],
+    tech: ["Godot 4.4", "Git"],
+    repo: ["https://github.com/phunnnnnn/Harvest-the-dept-project-IS", "https://github.com/phunnnnnn/NSC"],
+  },
+  {
+    title: "GameClick",
+    page: "gameclick",
+    status: { en: "Prototype", th: "ต้นแบบ" },
+    filter: "prototype",
+    home: false,
+    meta: "Godot, '25",
+    short: { en: "A 5-minute clicker. Click for money, let a bomb click for you, and pick upgrades from a shop you can reroll.",
+             th: "เกมคลิกเกอร์ 5 นาที คลิกหาเงิน ให้ระเบิดช่วยคลิกแทน และเลือกอัปเกรดจากร้านที่สุ่มใหม่ได้" }, // games page card: 1-3 short sentences
+    desc: {
+      en: "A clicker played against a 5-minute clock. Click for money while a bomb clicks for you on a timer and gets stronger over time, and pick upgrade cards, like more power per click, from a shop you can reroll.",
+      th: "เกมคลิกเกอร์แข่งกับเวลา 5 นาที คลิกเพื่อหาเงิน ระหว่างนั้นระเบิดจะคลิกให้อัตโนมัติตามเวลาและแรงขึ้นเรื่อยๆ และเลือกการ์ดอัปเกรด เช่น เพิ่มพลังต่อคลิก จากร้านที่กดสุ่มใหม่ได้",
+    },
+    points: [
+      { en: "Start menu, main game and upgrade shop as separate scenes", th: "แยกฉากเมนูเริ่ม เกมหลัก และร้านอัปเกรด" },
+      { en: "Live stats: clicks, clicks per minute, mouse power and bomb power", th: "แสดงสถิติสด: จำนวนคลิก คลิกต่อนาที พลังเมาส์ และพลังระเบิด" },
+      { en: "Made in 3 days (June 14–16, 2025)", th: "ทำเสร็จใน 3 วัน (14–16 มิ.ย. 2568)" },
+    ],
+    tech: ["Godot 4.4", "Git"],
+    repo: "https://github.com/phunnnnnn/GameClick",
+  },
 ];
 
 // ===== Certificates data =====
