@@ -392,6 +392,18 @@ const projectData = [
     filter: "prototype",
     home: false,
     meta: "Godot, '26",
+    team: { en: "Solo", th: "ทำคนเดียว" },
+    tags: ["Roguelite", "Puzzle", "Arcade", "Painting"],
+    story: {
+      about: { en: "A painting roguelite: place a brush, aim, and launch it so it ricochets around the canvas painting everything red. Better coverage pays more coins for upgrades between canvases, and every third canvas is an encounter with its own twist.",
+        th: "เกมโร้กไลต์ระบายสี วางพู่กัน เล็ง แล้วยิงให้มันเด้งไปทั่วผ้าใบ ทาทุกอย่างให้เป็นสีแดง ยิ่งทาได้มากยิ่งได้เหรียญมากไว้ซื้ออัปเกรดระหว่างผ้าใบ และทุกผืนที่สามจะเป็นด่านพิเศษที่มีกติกาแปลกใหม่", more: true },
+      did: { en: "I'm designing and building it with Claude Code as my AI coding partner, following a studio-style process: concept, a playable prototype, design review, then systems design.",
+        th: "ผมกำลังออกแบบและสร้างเกมนี้โดยใช้ Claude Code เป็นผู้ช่วยเขียนโค้ด AI ทำตามขั้นตอนแบบสตูดิโอ: คอนเซปต์ ต้นแบบที่เล่นได้ รีวิวการออกแบบ แล้วจึงออกแบบระบบ" },
+      learned: { en: "Prototype before designing the rest. The first draft was drag-to-paint with an ink budget and an all-or-nothing 100% goal; the prototype replaced both with aim-and-bounce and coverage tiers.",
+        th: "ทำต้นแบบก่อนออกแบบส่วนที่เหลือ ร่างแรกเป็นการลากเมาส์ทาสีโดยมีหมึกจำกัดและต้องทาให้ครบ 100% เท่านั้น ต้นแบบเปลี่ยนทั้งสองอย่างเป็นการเล็งยิงให้เด้ง และให้รางวัลตามระดับพื้นที่ที่ทาได้" },
+      devlog: { en: "Started November 2, 2026 in Godot 4.7: the project set up, the game concept written, a bounce-paint prototype built and tested, the concept approved, and an index of 19 systems drafted. It's now in systems design.",
+        th: "เริ่มวันที่ 2 พฤศจิกายน 2569 ใน Godot 4.7: ตั้งโปรเจกต์ เขียนคอนเซปต์เกม สร้างและทดสอบต้นแบบระบบพู่กันเด้ง ผ่านการอนุมัติคอนเซปต์ และร่างรายการระบบ 19 ระบบ ตอนนี้อยู่ในขั้นออกแบบระบบ" },
+    },
     short: { en: "A painting roguelite. Aim and launch a bouncing brush to paint each canvas red, then spend coins on upgrades.",
              th: "เกมโร้กไลต์ระบายสี เล็งแล้วยิงพู่กันที่เด้งไปมาให้ผ้าใบกลายเป็นสีแดง แล้วใช้เหรียญซื้ออัปเกรด" }, // games page card: 1-3 short sentences
     desc: {
