@@ -328,7 +328,20 @@ const projectData = [
       en: "A round-based zombie survival game. Players ready up in a lobby, get sent into the arena together, and hold off waves of zombies until the last one falls.",
       th: "เกมเอาชีวิตรอดจากซอมบี้แบบเป็นรอบ ผู้เล่นกดพร้อมที่ล็อบบี้ แล้วถูกส่งเข้าสนามพร้อมกัน ต้องสู้กับซอมบี้ที่บุกมาไม่หยุดจนกว่าคนสุดท้ายจะตาย",
     },
-    role: { en: "Solo project · design, scripting and level setup", th: "ทำคนเดียว · ออกแบบเกม เขียนสคริปต์ และจัดฉาก" },
+    team: { en: "Solo: design, scripting and level setup", th: "ทำคนเดียว: ออกแบบเกม เขียนสคริปต์ และจัดฉาก" },
+    tags: ["Survival", "Zombies", "Round-based", "Multiplayer"],
+    story: {
+      about: { en: "A round-based zombie survival game, made for my school's Science Day. Players ready up in a lobby, get sent into the arena together, and hold off waves of zombies until the last one falls.",
+        th: "เกมเอาชีวิตรอดจากซอมบี้แบบเป็นรอบ ทำขึ้นสำหรับงานวันวิทยาศาสตร์ของโรงเรียน ผู้เล่นกดพร้อมที่ล็อบบี้ ถูกส่งเข้าสนามพร้อมกัน แล้วต้องต้านซอมบี้ที่บุกมาจนกว่าคนสุดท้ายจะตาย" },
+      did: { en: "I made it on my own: the game design, every script and the level setup. The lobby, the round flow, the zombie AI and the scoring are all mine.",
+        th: "ผมทำคนเดียวทั้งหมด ทั้งออกแบบเกม เขียนสคริปต์ทุกตัว และจัดฉาก ระบบล็อบบี้ การดำเนินรอบ AI ซอมบี้ และการนับแต้ม เป็นงานของผมทั้งหมด" },
+      devlog: { en: "One server-side flag drives each round: it opens the gates, teleports the teams and starts the spawner, which only runs while someone is still alive in the arena. When the last player dies, the round resets itself and the lobby counts down again.",
+        th: "ค่าเดียวฝั่งเซิร์ฟเวอร์คุมทั้งรอบ ทั้งเปิดประตู วาร์ปทีม และเริ่มตัวปล่อยซอมบี้ ซึ่งทำงานเฉพาะตอนที่ยังมีคนรอดในสนาม เมื่อผู้เล่นคนสุดท้ายตาย รอบจะรีเซ็ตเองและล็อบบี้เริ่มนับถอยหลังใหม่" },
+    },
+    media: [
+      { youtube: "XRyY2hqgXyk" },
+      { image: "assets/projects/scary-forest.webp", thumb: "assets/projects/scary-forest/thumbs/clip.jpg" },
+    ],
     points: [
       { en: "Lobby flow: ready pad, team switch, 10s countdown that cancels if players leave", th: "ระบบล็อบบี้: เหยียบจุดพร้อม เปลี่ยนทีม นับถอยหลัง 10 วิ ถ้าคนออกก็ยกเลิกเอง" },
       { en: "One server-side flag drives the round: opens gates, teleports teams, starts spawns", th: "ใช้ค่าเดียวฝั่งเซิร์ฟเวอร์คุมทั้งรอบ ทั้งเปิดประตู วาร์ปผู้เล่น และเริ่มปล่อยซอมบี้" },
