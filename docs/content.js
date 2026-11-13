@@ -365,7 +365,16 @@ const projectData = [
       en: "A log chopping and splitting system inspired by Lumber Tycoon on Roblox, coded by hand, live on stream.",
       th: "ระบบตัดไม้และผ่าท่อนซุงเป็นสองส่วน ได้แรงบันดาลใจจากเกม Lumber Tycoon บน Roblox เขียนโค้ดด้วยมือสดๆ ระหว่างไลฟ์",
     },
-    role: { en: "Solo project · all scripting, streamed live", th: "ทำคนเดียว · เขียนโค้ดทั้งหมด ถ่ายทอดสด" },
+    team: { en: "Solo, coded live on stream", th: "ทำคนเดียว เขียนโค้ดสดระหว่างไลฟ์" },
+    tags: ["System", "Live-coded", "Tycoon"],
+    story: {
+      about: { en: "A log chopping and splitting system in the style of Lumber Tycoon on Roblox: chop a tree down into logs, then split a log into two pieces right where you cut it.",
+        th: "ระบบตัดไม้และผ่าท่อนซุงแบบเกม Lumber Tycoon บน Roblox ตัดต้นไม้ให้เป็นท่อนซุง แล้วผ่าท่อนซุงออกเป็นสองชิ้นตรงจุดที่ฟัน" },
+      did: { en: "I wrote all of it by hand, live on stream, so every step of the build is on video. The highlight video shows the result; the playlist has the full streams.",
+        th: "ผมเขียนโค้ดทั้งหมดด้วยมือสดๆ ระหว่างไลฟ์ ทุกขั้นตอนของการสร้างจึงมีวิดีโอให้ดู คลิปไฮไลต์แสดงผลลัพธ์ ส่วนเพลย์ลิสต์มีไลฟ์ทั้งหมด" },
+      devlog: { en: "Built step by step on stream: first chopping trees into logs, then cutting a log at the exact point it was hit and splitting it into two pieces. Every hit leaves a cut mark where the axe landed.",
+        th: "สร้างทีละขั้นระหว่างไลฟ์ เริ่มจากตัดต้นไม้เป็นท่อนซุง แล้วตัดท่อนซุงตรงจุดที่โดนฟันพอดีและแยกเป็นสองชิ้น ทุกครั้งที่ฟันจะเหลือรอยตรงจุดที่ขวานลง" },
+    },
     points: [
       { en: "Chop trees down into logs", th: "ตัดต้นไม้ให้กลายเป็นท่อนซุง" },
       { en: "Split a log into two pieces at the point where it was cut", th: "ผ่าท่อนซุงออกเป็นสองชิ้นตรงจุดที่ฟัน" },
