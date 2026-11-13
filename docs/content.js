@@ -489,6 +489,15 @@ const projectData = [
     filter: "prototype",
     home: false,
     meta: "Godot, '25",
+    tags: ["Clicker", "Arcade", "Upgrades"],
+    story: {
+      about: { en: "A balloon-popping clicker. Click balloons for gold, keep your combo alive to multiply every pop, and hunt elite balloons that pay more.",
+        th: "เกมคลิกเกอร์ป๊อปลูกโป่ง คลิกลูกโป่งเพื่อเก็บทอง รักษาคอมโบไว้เพื่อคูณเงินทุกครั้งที่ป๊อป และตามล่าลูกโป่งพิเศษที่ให้เงินมากกว่า" },
+      did: { en: "I wrote all the code in Godot 4.5: balloon spawning, the combo and its decay timer, the reward formula, the money display and the upgrade system.",
+        th: "ผมเขียนโค้ดทั้งหมดใน Godot 4.5 ทั้งการเกิดลูกโป่ง คอมโบและตัวจับเวลาที่ทำให้คอมโบหาย สูตรคำนวณรางวัล การแสดงเงิน และระบบอัปเกรด" },
+      devlog: { en: "Two autoloads hold the game's state: one for values like money, combo and upgrade levels, one for the data tables every upgrade levels up from, so adding an upgrade is a data change. Five commits in November 2025, up to v0.1.1.",
+        th: "มี autoload 2 ตัวเก็บสถานะของเกม ตัวหนึ่งเก็บค่าอย่างเงิน คอมโบ และเลเวลอัปเกรด อีกตัวเก็บตารางข้อมูลที่อัปเกรดทุกตัวใช้ การเพิ่มอัปเกรดจึงเป็นแค่การเพิ่มข้อมูล 5 commit ในเดือนพฤศจิกายน 2568 จนถึง v0.1.1" },
+    },
     short: { en: "A clicker where you pop balloons for gold. Build combos, then spend the gold on upgrades that make balloons pay more.",
              th: "เกมคลิกเกอร์ป๊อปลูกโป่งเพื่อเก็บทอง ต่อคอมโบให้ยาว แล้วใช้ทองซื้ออัปเกรดให้ลูกโป่งให้เงินมากขึ้น" }, // games page card: 1-3 short sentences
     desc: {
