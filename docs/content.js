@@ -424,6 +424,18 @@ const projectData = [
     filter: "prototype",
     home: false,
     meta: "Roblox, '26",
+    team: { en: "Me on code, Kuduck on the map", th: "ผมทำโค้ด Kuduck ช่วยทำแผนที่" },
+    tags: ["Tycoon", "Farming", "Simulator", "Multiplayer"],
+    story: {
+      about: { en: "A strawberry farming tycoon on Roblox. Buy seeds off a conveyor belt, plant and harvest them, refine the fruit at factories you place yourself, and hire NPC workers to run the farm for you.",
+        th: "เกมฟาร์มสตรอว์เบอร์รีแนวไทคูนบน Roblox ซื้อเมล็ดจากสายพาน ปลูกแล้วเก็บเกี่ยว นำผลไปแปรรูปที่โรงงานที่วางเอง และจ้างคนงาน NPC มาดูแลฟาร์มแทน", more: true },
+      did: { en: "I built the game's code with Claude Code as my AI coding partner, synced into Studio with Rojo, while Kuduck worked on the map. In 10 days it went from setup to factories, workers and an upgrade shop, then paused.",
+        th: "ผมสร้างโค้ดของเกมโดยใช้ Claude Code เป็นผู้ช่วยเขียนโค้ด AI ซิงก์เข้า Studio ด้วย Rojo ส่วน Kuduck ช่วยทำแผนที่ ภายใน 10 วันเกมไปถึงโรงงาน คนงาน และร้านอัปเกรด ก่อนจะพักไว้" },
+      learned: { en: "Keep the client and the server on the same rules: the planting preview runs the same placement code the server checks, so it can never promise a spot the server will refuse. And award first, destroy second, so a full backpack never eats a player's fruit.",
+        th: "ให้ฝั่งผู้เล่นกับเซิร์ฟเวอร์ใช้กฎเดียวกัน ตัวแสดงตำแหน่งปลูกใช้โค้ดวางตำแหน่งชุดเดียวกับที่เซิร์ฟเวอร์ตรวจ จึงไม่มีทางบอกว่าปลูกได้ในจุดที่เซิร์ฟเวอร์ปฏิเสธ และต้องให้ของก่อนค่อยลบของ กระเป๋าที่เต็มจะได้ไม่กินผลไม้ของผู้เล่น", more: true },
+      devlog: { en: "18 commits from August 5 to 14, 2026: the seed-to-sale loop on day one, then typed seeds on a belt, pies and a five-tier refining ladder, hireable NPC workers, levelled factories from a generator, and finally belt levels with a shop to buy them.",
+        th: "18 commit ระหว่างวันที่ 5 ถึง 14 สิงหาคม 2569 วันแรกได้วงจรตั้งแต่เมล็ดจนขาย จากนั้นเมล็ดหลายชนิดบนสายพาน พายและสายการแปรรูป 5 ขั้น คนงาน NPC ที่จ้างได้ โรงงานเลเวลจากเครื่องสุ่ม และสุดท้ายเลเวลสายพานพร้อมร้านให้ซื้อ", more: true },
+    },
     short: { en: "A Roblox strawberry farming tycoon. Buy seeds off a belt, plant and harvest, refine fruit into pies, and hire workers.",
              th: "เกมฟาร์มสตรอว์เบอร์รีแนวไทคูนบน Roblox ซื้อเมล็ดจากสายพาน ปลูกและเก็บเกี่ยว แปรรูปผลเป็นพาย และจ้างคนงาน" }, // games page card: 1-3 short sentences
     desc: {
