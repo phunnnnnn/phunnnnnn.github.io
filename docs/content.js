@@ -550,6 +550,15 @@ const projectData = [
     filter: "prototype",
     home: false,
     meta: "Godot, '25",
+    tags: ["Clicker", "Arcade", "Upgrades"],
+    story: {
+      about: { en: "A clicker against a 5-minute clock. Click for money while a bomb clicks for you on a timer and keeps getting stronger, and pick upgrade cards from a shop you can reroll.",
+        th: "เกมคลิกเกอร์แข่งกับเวลา 5 นาที คลิกหาเงินระหว่างที่ระเบิดช่วยคลิกให้ตามเวลาและแรงขึ้นเรื่อยๆ แล้วเลือกการ์ดอัปเกรดจากร้านที่สุ่มใหม่ได้" },
+      did: { en: "I wrote it on my own in Godot 4.4, in three days: the start menu, the clicking and live stats, the bomb, and the upgrade shop.",
+        th: "ผมเขียนคนเดียวใน Godot 4.4 ภายใน 3 วัน ทั้งเมนูเริ่ม ระบบคลิกและสถิติสด ระเบิด และร้านอัปเกรด" },
+      devlog: { en: "Three scenes (start menu, main game, upgrade card) and a global game state the upgrade cards change. Day one was the base game, day two the shop and start menu, day three the upgrades.",
+        th: "มี 3 ฉาก (เมนูเริ่ม เกมหลัก การ์ดอัปเกรด) และสถานะเกมกลางที่การ์ดอัปเกรดเข้าไปเปลี่ยน วันแรกทำเกมพื้นฐาน วันที่สองทำร้านและเมนูเริ่ม วันที่สามทำอัปเกรด" },
+    },
     short: { en: "A 5-minute clicker. Click for money, let a bomb click for you, and pick upgrades from a shop you can reroll.",
              th: "เกมคลิกเกอร์ 5 นาที คลิกหาเงิน ให้ระเบิดช่วยคลิกแทน และเลือกอัปเกรดจากร้านที่สุ่มใหม่ได้" }, // games page card: 1-3 short sentences
     desc: {
