@@ -519,6 +519,15 @@ const projectData = [
     filter: "prototype",
     home: false,
     meta: "Godot, '25",
+    tags: ["Farming", "Simulation", "Drag and drop"],
+    story: {
+      about: { en: "A farming game made for my IS subject. Drag a seed bag onto a pot to plant it, press Next Day, and watch it grow stage by stage into a full sunflower.",
+        th: "เกมปลูกพืชที่ทำในวิชา IS ลากถุงเมล็ดไปวางบนกระถางเพื่อปลูก กด Next Day แล้วดูมันโตทีละขั้นจนเป็นดอกทานตะวันเต็มดอก" },
+      did: { en: "I wrote the code in Godot 4.4: drag and drop with a selection box, the pots and their growth stages, the day system and the item data.",
+        th: "ผมเขียนโค้ดใน Godot 4.4 ทั้งการลากวางพร้อมกรอบเลือก กระถางและขั้นการเติบโต ระบบวัน และข้อมูลไอเทม" },
+      devlog: { en: "It started as NSC (March–June 2025): drag-and-drop pots, watering and a garden grid. In July 2025 I started over as Harvest the Dept with a cleaner structure: global data tables for pots, seeds and plants, and a Next Day event every pot listens to.",
+        th: "เริ่มจาก NSC (มีนาคม–มิถุนายน 2568): ลากวางกระถาง รดน้ำ และตารางแปลงปลูก เดือนกรกฎาคม 2568 ผมเริ่มใหม่เป็น Harvest the Dept ด้วยโครงสร้างที่เป็นระเบียบกว่า: ตารางข้อมูลกลางของกระถาง เมล็ด และพืช และอีเวนต์วันใหม่ที่ทุกกระถางรอฟัง", more: true },
+    },
     short: { en: "A farming game made for my IS subject. Drag seeds into pots, press Next Day, and watch the sunflowers grow.",
              th: "เกมปลูกพืชที่ทำในวิชา IS ลากเมล็ดใส่กระถาง กด Next Day แล้วดูดอกทานตะวันค่อยๆ โต" }, // games page card: 1-3 short sentences
     desc: {
