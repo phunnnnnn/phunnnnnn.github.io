@@ -458,6 +458,16 @@ const projectData = [
     filter: "prototype",
     home: false,
     meta: "Godot, '25",
+    team: { en: "Solo", th: "ทำคนเดียว" },
+    tags: ["Education", "Math", "Quiz"],
+    story: {
+      about: { en: "An addition quiz game: two numbers, an on-screen number pad, and two counting grids that picture both numbers. Five difficulties take you from 1 + 1 up to sums like 90 + 30.",
+        th: "เกมควิซบวกเลข มีตัวเลขสองตัว แป้นตัวเลขบนจอ และตารางนับสองชุดที่แสดงตัวเลขทั้งสองเป็นภาพ ความยาก 5 ระดับพาตั้งแต่ 1 + 1 ไปจนถึงโจทย์อย่าง 90 + 30" },
+      did: { en: "I wrote it on my own in Godot 4.5: the menu with game modes and difficulties, the quiz logic, keyboard and number pad input, and the counting grids.",
+        th: "ผมเขียนคนเดียวใน Godot 4.5 ทั้งเมนูเลือกโหมดและความยาก ระบบควิซ การรับคำตอบจากคีย์บอร์ดและแป้นตัวเลข และตารางนับ" },
+      devlog: { en: "Two scenes (menu and game) and a global script that carries the chosen mode, question count and difficulty between them. Started in December 2025, then rewritten and restructured in January 2026 into v0.1.",
+        th: "มี 2 ฉาก (เมนูและเกม) และสคริปต์กลางที่ส่งโหมด จำนวนข้อ และความยากที่เลือกไว้ข้ามฉาก เริ่มทำเดือนธันวาคม 2568 แล้วเขียนใหม่และจัดโครงสร้างใหม่ในเดือนมกราคม 2569 จนเป็น v0.1" },
+    },
     short: { en: "An addition quiz with counting grids that picture each number. Pick a difficulty from Easy to Nightmare, or go endless.",
              th: "เกมควิซบวกเลข มีตารางนับที่แสดงตัวเลขเป็นภาพ เลือกความยากตั้งแต่ Easy ถึง Nightmare หรือเล่นแบบไม่จำกัด" }, // games page card: 1-3 short sentences
     desc: {
