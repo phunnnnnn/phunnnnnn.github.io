@@ -13,6 +13,15 @@
 
 ### How it works
 
+![The drag-and-drop code for a seed bag](assets/projects/harvest-the-dept/code-1.webp)
+
 - Drag seed bags onto pots with the mouse
 - Press Next Day and every planted pot grows a stage
 - Press P to see hit areas, with the drop target in green
+
+### Growing a stage a day
+
+![The pot code: finding the drop target and growing on Next Day](assets/projects/harvest-the-dept/code-2.webp)
+
+- Each pot checks if the dragged bag overlaps it
+- On Next Day, every planted pot shows its next growth image

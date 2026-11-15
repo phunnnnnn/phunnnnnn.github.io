@@ -475,10 +475,13 @@ function galleryOf(p) {
   if (p.image) return [{ image: p.image }];
   return [];
 }
-const thumbOf = (m) => m.thumb || (m.youtube ? `https://i.ytimg.com/vi/${m.youtube}/mqdefault.jpg` : m.image);
+const thumbOf = (m) => m.thumb || (m.youtube ? `https://i.ytimg.com/vi/${m.youtube}/mqdefault.jpg` : m.image || m.cover);
 // A picture, or a video's cover with a play button
 const galleryView = (p, m) =>
-  m ? projectMedia({ title: p.title, youtube: m.youtube, playlist: m.playlist, image: m.image || m.cover }) : projectMedia(p);
+  m?.play ? `<button class="project__visual" type="button" data-play aria-label="${escHtml(p.title)}: ${translations[currentLang()]["game.playHere"]}">
+      <img src="${m.cover}" alt="" draggable="false" /><span class="yt__play" aria-hidden="true"></span>
+      <span class="play__label">${translations[currentLang()]["game.playHere"]}</span></button>`
+  : m ? projectMedia({ title: p.title, youtube: m.youtube, playlist: m.playlist, image: m.image || m.cover }) : projectMedia(p);
 
 function galleryHtml(p) {
   const items = galleryOf(p);
@@ -756,6 +759,15 @@ if (gameRoot) {
     if (thumb) return showMedia(p, Number(thumb.dataset.media), true);
     const nav = e.target.closest(".gallery__nav");
     if (nav) return showMedia(p, galleryIndex + Number(nav.dataset.step), true);
+    if (e.target.closest(".gallery [data-play]")) { // a playable web build (media: { play: "play/<game>/" })
+      if (gallerySwiped()) return;
+      galleryAuto.stop?.();
+      const m = galleryOf(p)[galleryIndex];
+      gameRoot.querySelector(".gallery__view").innerHTML =
+        `<div class="project__visual"><iframe src="${m.play}" title="${escHtml(p.title)}" allow="fullscreen; autoplay" allowfullscreen></iframe></div>`;
+      gameRoot.querySelector(".gallery__view iframe").focus();
+      return;
+    }
     const cover = e.target.closest(".gallery [data-yt]");
     if (cover) { // the gallery plays its video itself (so it can move on when it ends)
       e.stopPropagation();

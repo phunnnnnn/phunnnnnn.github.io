@@ -1,3 +1,9 @@
+### The gameplay loop
+
+![Red Run's loop: aim the brush, launch it, cover the canvas, earn coins, buy an upgrade, next canvas](assets/projects/red-run/loop.en.webp)
+
+- Paint the canvas red in a few shots, then upgrade and take on the next one
+
 ### Aim, bounce, paint
 
 - Aim the brush, and a preview shows its first bounces
