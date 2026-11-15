@@ -1,24 +1,29 @@
-### Keep your measuring tools up to date
+### Fair attacks are readable
 
-The balance bot plays the game and reports how long waves and boss fights last, and those numbers set each boss's HP. But after harvesting changed from a scythe to clicking, the bot never clicked, so its old numbers meant nothing. Once fixed and re-measured, boss fights came out at 60 to 66 seconds.
+![The Kraken's attacks marked as lines](assets/projects/lost-dept/kraken.jpg)
 
-### Fair attacks are readable attacks
+- Faster moves must be warned first and locked to a line
+- A test checks every homing boss move is slower than the player
+- So no attack is impossible to dodge
 
-The rule became: faster moves must be warned first and locked to a line. A test checks that every homing boss move is slower than the player, so no attack is impossible to dodge.
+### Keep your tools up to date
 
-### Tests must never touch real data
+![Pets fighting the Storm Eel](assets/projects/lost-dept/eel.jpg)
 
-A test run that hung once deleted the real save file. Now tests write to their own save file.
-
-### Timing bugs hide in tests too
-
-One test failed about 2 runs out of 3, because a game-time timer could fire before a real-time cooldown had passed. The fix was to control the clock inside the test.
+- A bot plays the game and times each wave and boss fight
+- Those times set each boss's HP
+- When harvesting switched to clicking, the bot never clicked
+- Fixed and re-measured, boss fights took 60 to 66 seconds
 
 ### Iterate on the core feel
 
-Harvesting went through four versions: a key press, an automatic scythe, clicking, and finally sweeping. Boss fights went from about 5 minutes to 150 seconds to 75 seconds. Even the pets were re-themed: a fire bender, a golden bee and a healing fairy became a vent snail, an archerfish and a cleaner wrasse, to fit the ocean.
+- Harvesting went from a key press to a scythe, clicking, then sweeping
+- Boss fights went from about 5 minutes to 75 seconds
+- A fire bender became a vent snail to fit the ocean
 
-### Engine details
+### Tests need care too
 
-- Firing an ability right inside a physics callback caused errors; it has to wait until the end of the frame.
-- Paused games need care: audio froze while paused, and a hurt flash stuck on screen after a killing blow. The test for that bug was written to fail first.
+- A hung test run once deleted the real save file
+- Now tests write to their own save file
+- One test failed about 2 runs out of 3 from a timing bug
+- Controlling the clock inside the test fixed it

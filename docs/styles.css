@@ -143,7 +143,8 @@ a { color: inherit; text-decoration: none; }
   display: block; padding: 8px 16px; font-size: 0.9rem; font-weight: 500;
   color: var(--text-muted); transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
 }
-.nav__pill a:hover, .nav__pill a.active { background: #f2f2f21a; color: var(--text); }
+.nav__pill a:hover { background: #f2f2f21a; color: var(--text); }
+.nav__pill a.active { background: var(--text); color: var(--bg); } /* current page: filled, like the selected TH | ENG side */
 
 .nav__controls { display: flex; align-items: center; gap: 6px; justify-self: end; }
 /* Language switch: two-sided pill, TH left / ENG right, the selected side is filled */
@@ -168,11 +169,23 @@ a { color: inherit; text-decoration: none; }
 .btn--ghost:hover { transform: translateY(-2px); border-color: #f2f2f266; }
 
 /* ===== Hero window ===== */
-.hero { padding: 48px 0 24px; }
-.window { overflow: hidden; }
+.hero { padding: calc(48px + var(--me-pop)) 0 24px; } /* room above the box for the photo's head */
+/* The box keeps its height; the photo is taller and sticks out above its top edge by --me-pop */
+.window__content {
+  --box-h: clamp(300px, 28vw, 480px);
+  --me-h: clamp(340px, 34vw, 600px);
+  position: relative; padding: 80px 48px 80px;
+  min-height: var(--box-h);
+  display: flex; flex-direction: column; justify-content: center; /* headline centred beside the photo */
+}
+.hero { --me-pop: clamp(40px, 6.25vw, 120px); } /* about --me-h minus --box-h */
+.window__content > *:not(.hero__glitch, .hero__me) { position: relative; z-index: 1; }
 
-.window__content { position: relative; padding: 80px 48px 80px; overflow: hidden; }
-.window__content > *:not(.hero__glitch) { position: relative; z-index: 1; }
+/* Cut-out photo of me on the right, standing on the bottom edge of the box */
+.hero__me {
+  position: absolute; right: 6%; bottom: 0; z-index: 1; height: var(--me-h); width: auto; pointer-events: none;
+  filter: drop-shadow(0 12px 30px #0806268c);
+}
 
 /* LetterGlitch layer (letter-glitch.js), faded toward the edges */
 .hero__glitch {
@@ -182,12 +195,13 @@ a { color: inherit; text-decoration: none; }
 }
 
 .hero__title {
+  max-width: 64%; /* the photo sits on the right */
   font-size: clamp(2.6rem, 6vw, 6rem); font-weight: 500; letter-spacing: -2px; line-height: 0.98;
   white-space: pre-line; /* \n in content.js = line break */
   text-shadow: 0 5px 12px #0057ff26, 0 -5px 12px #ff5a001a, 0 -5px 25px #ffffff33;
 }
 .hero__title .serif { letter-spacing: -1px; }
-:root[data-lang="th"] .hero__title { line-height: 1.2; letter-spacing: -1px; }
+:root[data-lang="th"] .hero__title { line-height: 1.2; letter-spacing: -1px; font-size: clamp(2.2rem, 4.6vw, 4.6rem); } /* Thai glyphs run wider: keep "แก้บัค" etc. on one line */
 
 
 /* ===== Sections ===== */
@@ -372,6 +386,7 @@ a { color: inherit; text-decoration: none; }
 .game__crumbs a:hover { color: var(--text); }
 .game__title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 500; letter-spacing: -1px; line-height: 1.1; margin-bottom: 24px; }
 .game__top { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.game__left { display: flex; flex-direction: column; gap: 24px; min-width: 0; } /* gallery, then the play bar right under it */
 .game__side { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
 .game__capsule { width: 100%; aspect-ratio: 460 / 215; object-fit: cover; object-position: top; display: block; border: 1px solid var(--line); } /* Steam's header capsule shape */
 .game__desc { color: var(--text-muted); font-size: 0.95rem; }
@@ -443,27 +458,27 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* Below the play bar: story sections + a sidebar */
-.game__body { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 32px 40px; margin-top: 48px; align-items: start; }
-.game__main { display: flex; flex-direction: column; gap: 44px; min-width: 0; }
-.game__aside { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-.game__panel { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-.game__panel .project__points { margin-bottom: 0; }
+.game__main { display: flex; flex-direction: column; gap: 44px; min-width: 0; margin-top: 24px; } /* the story, right under the play bar */
+.game__built { display: flex; flex-direction: column; gap: 10px; } /* "Built with" inside the info box */
 
-/* Story sections: short intro, then "Read more" loads the rest (story/<page>/<section>.<lang>.md) */
-.story__intro { color: var(--text-muted); line-height: 1.65; }
-.story__more { margin-top: 18px; animation: story-in 0.4s var(--ease); }
-@keyframes story-in { from { opacity: 0; transform: translateY(6px); } }
-.story__toggle {
-  margin-top: 16px; display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; cursor: pointer;
-  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text);
-  background: #f2f2f20f; border: 1px solid var(--box-border);
-  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
+/* Story tabs: one box, a tab per section; the panel shows its intro, then the rest
+   (loaded from story/<page>/<section>.<lang>.md) */
+.tabs { overflow: hidden; }
+.tabs__bar { display: flex; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--line); } /* phones: swipe the tabs */
+.tabs__bar::-webkit-scrollbar { display: none; }
+.tabs__bar button {
+  flex: none; padding: 14px 20px; border: 0; background: transparent; cursor: pointer; white-space: nowrap;
+  color: var(--text-muted); font-size: 0.92rem; font-weight: 500;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
 }
-.story__toggle::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid; border-bottom: 1.5px solid; rotate: 45deg; translate: 0 -2px; transition: rotate 0.3s var(--ease), translate 0.3s var(--ease); }
-.story__toggle[aria-expanded="true"]::after { rotate: 225deg; translate: 0 2px; }
-.story__toggle:hover { background: #f2f2f21f; border-color: #f2f2f266; }
-.story__toggle:disabled { opacity: 0.6; cursor: progress; }
-.story__toggle:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.tabs__bar button:hover { color: var(--text); background: #f2f2f20f; }
+.tabs__bar button[aria-selected="true"] { background: var(--text); color: var(--bg); } /* same filled look as the current nav page */
+.tabs__bar button:focus-visible, .tabs__panel:focus-visible { outline: 2px solid var(--text); outline-offset: -2px; }
+.tabs__panel { padding: 24px; animation: story-in 0.4s var(--ease); }
+.tabs__panel > .md { margin-top: 18px; }
+@keyframes story-in { from { opacity: 0; transform: translateY(6px); } }
+.story__intro { color: var(--text-muted); line-height: 1.65; }
+.story__status { margin-top: 18px; color: var(--text-faint); font-size: 0.88rem; }
 
 /* Text loaded from the Markdown story files */
 .md { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
@@ -488,7 +503,7 @@ a { color: inherit; text-decoration: none; }
 .game__repos a { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--box-border); overflow-wrap: anywhere; transition: color 0.3s var(--ease), border-color 0.3s var(--ease); }
 .game__repos a:hover { color: var(--accent); border-color: var(--accent); }
 .game__repos img { width: 14px; height: 14px; flex: none; }
-.game__play { margin-top: 32px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.game__play { padding: 20px 24px; /* under the gallery, as wide as it */ display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .game__play h2 { font-size: 1.2rem; font-weight: 500; }
 .game__heading {
   font-family: var(--mono); font-size: 0.8rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
@@ -641,14 +656,21 @@ a { color: inherit; text-decoration: none; }
   .cert-slide { width: 72%; transform: translate(-50%, -50%) translateX(calc(var(--o) * 78%)) scale(calc(1 - var(--abs) * 0.18)); }
   /* Picture above the info */
   .steam-card { grid-template-columns: 1fr; }
-  .game__top, .game__body { grid-template-columns: 1fr; }
+  .game__top { grid-template-columns: 1fr; }
+  /* one column: video, play bar, info box, then the story */
+  .game__left { display: contents; }
+  .game__main { order: 1; }
   .about { gap: 40px; }
   /* Stack text above its photo, in reading order */
   .about__row { grid-template-columns: 1fr; gap: 20px; }
   .about__row--flip .about__photo { order: 0; }
 }
 @media (max-width: 640px) {
-  .window__content { padding: 56px 22px 56px; }
+  .hero { --me-pop: 0px; } /* phone: the photo sits inside the box, under the headline */
+  .window__content { padding: 56px 22px 56px; min-height: 0; }
+  /* Phone: headline full width, photo under it, still standing on the box's bottom edge */
+  .hero__title { max-width: none; }
+  .window__content > .hero__me { position: relative; display: block; height: 360px; margin: 20px 0 -56px auto; }
   .nav__inner { gap: 8px; }
   .nav__brand-text { display: none; }
   .steam-card__info { padding: 20px; }

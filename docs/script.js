@@ -439,15 +439,16 @@ if (gameFilters) {
 // Every game page is the same empty shell; the file name says which project from
 // projectData (its page: field) to show. Layout, top to bottom:
 //   breadcrumb + title
-//   gallery (big viewer + thumbnail strip) | info box (cover, description, Roblox stats, facts, tags)
-//   play bar
-//   story sections (About / What I did / What I learned / Devlog) | sidebar (highlights, built with)
+//   left column: gallery (big viewer + thumbnail strip), play bar, story tabs | right: info box (cover,
+//   description, Roblox stats, facts, tags, built with). On phones the info box comes before the story.
+//   story sections (About / Design board / What I did / What I learned / Devlog), under the gallery
+//   (the info box holds every detail, built-with included; highlights aren't shown when there's a story)
 // Each story section shows its short text from content.js; "Read more" fetches the rest from
 // story/<page>/<section>.<lang>.md only when pressed, so the page itself stays small.
 const gameRoot = document.getElementById("game");
 const gamePage = location.pathname.split("/").pop().replace(/\.html$/, "");
-const STORY = ["about", "did", "learned", "devlog"]; // section order; titles: game.story.* in content.js
-const storyOpen = new Set(); // sections the visitor expanded (re-opened after a language switch)
+const STORY = ["about", "process", "did", "learned", "devlog"]; // section order; titles: game.story.* in content.js
+let storyTab = "about"; // the story tab on show (kept across a language switch)
 const storyCache = new Map(); // "section.lang" -> rendered HTML
 let statsPromise = null; // stats.json, fetched once and only on pages of Roblox games
 
@@ -602,7 +603,7 @@ function statsHtml(p, s, stats, lang) {
 function renderMarkdown(md) {
   const safe = (u) => /^(https?:\/\/|\/|assets\/|story\/|#)/.test(u);
   const inline = (s) => escHtml(s)
-    .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (m, alt, src) => (safe(src) ? `<img src="${src}" alt="${alt}" loading="lazy" />` : ""))
+    .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (m, alt, src) => (safe(src) ? `<a href="${src}" target="_blank" rel="noopener"><img src="${src}" alt="${alt}" loading="lazy" /></a>` : "")) // click: full size
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, txt, href) => (safe(href) ? `<a href="${href}"${href.startsWith("http") ? ' target="_blank" rel="noopener"' : ""}>${txt}</a>` : txt))
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
@@ -650,48 +651,41 @@ async function loadStory(id, lang) {
   return storyCache.get(key);
 }
 
-// Read more / Show less for one story section
-async function setStory(id, open) {
+// Story tabs: one box, a tab per section (About / Design board / ...). Picking a tab shows that
+// section's intro, then fetches the rest from its Markdown file (once, then cached).
+async function showTab(id) {
+  const p = projectData.find((x) => x.page === gamePage);
   const lang = currentLang();
   const tr = translations[lang];
-  const box = document.getElementById(`more-${id}`);
-  const btn = gameRoot.querySelector(`[data-story="${id}"]`);
-  if (!box || !btn) return;
-  if (!open) {
-    storyOpen.delete(id);
-    box.hidden = true;
-    btn.setAttribute("aria-expanded", "false");
-    btn.textContent = tr["game.more"];
-    const section = btn.closest(".story");
-    if (section.getBoundingClientRect().top < 0) section.scrollIntoView({ block: "start" }); // back to its heading
-    return;
-  }
-  storyOpen.add(id);
-  btn.disabled = true;
-  btn.textContent = tr["game.loading"];
-  try {
-    box.innerHTML = await loadStory(id, lang);
-    box.hidden = false;
-    btn.setAttribute("aria-expanded", "true");
-    btn.textContent = tr["game.less"];
-  } catch {
-    storyOpen.delete(id);
-    btn.textContent = tr["game.loadFail"];
-  }
-  btn.disabled = false;
+  const panel = document.getElementById("storyPanel");
+  if (!panel || !p.story?.[id]) return;
+  storyTab = id;
+  gameRoot.querySelectorAll("[data-tab]").forEach((b) => {
+    const on = b.dataset.tab === id;
+    b.setAttribute("aria-selected", String(on));
+    b.tabIndex = on ? 0 : -1; // arrow keys move between tabs, Tab moves into the panel
+  });
+  panel.setAttribute("aria-labelledby", `tab-${id}`);
+  const intro = `<p class="story__intro">${escHtml(p.story[id][lang] || p.story[id].en)}</p>`;
+  panel.innerHTML = intro + (p.story[id].more ? `<p class="story__status">${tr["game.loading"]}</p>` : "");
+  if (!p.story[id].more) return;
+  let html;
+  try { html = `<div class="md">${await loadStory(id, lang)}</div>`; }
+  catch { html = `<p class="story__status">${tr["game.loadFail"]}</p>`; }
+  if (storyTab === id && currentLang() === lang) panel.innerHTML = intro + html; // still on this tab
 }
 
 function storyHtml(p, lang) {
-  const t = (o) => escHtml(o ? o[lang] || o.en : "");
   const tr = translations[lang];
-  return STORY.filter((id) => p.story[id]).map((id) => `
-    <section class="story" id="story-${id}">
-      <h2 class="game__heading">${tr["game.story." + id]}</h2>
-      <p class="story__intro">${t(p.story[id])}</p>
-      ${p.story[id].more ? `
-      <div class="story__more md" id="more-${id}" hidden></div>
-      <button class="story__toggle" type="button" data-story="${id}" aria-expanded="false" aria-controls="more-${id}">${tr["game.more"]}</button>` : ""}
-    </section>`).join("");
+  const ids = STORY.filter((id) => p.story[id]);
+  if (!ids.includes(storyTab)) storyTab = ids[0];
+  // Tab label: the section title before its ":" ("Devlog: how it's built" → "Devlog")
+  return `<div class="box tabs">
+      <div class="tabs__bar" role="tablist">${ids.map((id) => `
+        <button type="button" role="tab" id="tab-${id}" data-tab="${id}" aria-controls="storyPanel" aria-selected="${id === storyTab}">${escHtml(tr["game.story." + id].split(":")[0])}</button>`).join("")}
+      </div>
+      <div class="tabs__panel" id="storyPanel" role="tabpanel" tabindex="0"></div>
+    </div>`;
 }
 
 function renderGame(lang) {
@@ -702,7 +696,6 @@ function renderGame(lang) {
   const tr = translations[lang];
   const f = filterOf(p);
   const cover = coverSrc(p);
-  const highlights = p.story && p.points; // with story sections, the points become a sidebar list
   document.title = `${p.title} | Phunn`;
   // The page shell and gallery are built once (a language switch must not restart the
   // video); the parts with text are filled in again for each language.
@@ -712,11 +705,9 @@ function renderGame(lang) {
         <nav class="game__crumbs" aria-label="Breadcrumb" data-part="crumbs"></nav>
         <h1 class="game__title">${escHtml(p.title)}</h1>
         <div class="game__top">
-          ${galleryHtml(p)}
+          <div class="game__left">${galleryHtml(p)}<div data-part="play"></div><div class="game__main" data-part="body"></div></div>
           <aside class="box game__side" data-part="side"></aside>
         </div>
-        <div data-part="play"></div>
-        <div class="game__body" data-part="body"></div>
       </div>`;
     startGallery(p);
   }
@@ -732,33 +723,19 @@ function renderGame(lang) {
       ${p.team ? `<div><dt class="label">${tr["game.team"]}</dt><dd>${t(p.team)}</dd></div>` : ""}
       ${p.repo ? `<div><dt class="label">${tr["game.code"]}</dt><dd class="game__repos">${[].concat(p.repo).map(repoLink).join("")}</dd></div>` : ""}
     </dl>
-    ${p.tags ? `<ul class="game__tags">${p.tags.map((x) => `<li>${escHtml(x)}</li>`).join("")}</ul>` : ""}`);
+    ${p.tags ? `<ul class="game__tags">${p.tags.map((x) => `<li>${escHtml(x)}</li>`).join("")}</ul>` : ""}
+    ${p.tech ? `<div class="game__built"><h2 class="label">${tr["game.builtWith"]}</h2><ul class="tech">${p.tech.map((n) => techTag(n, true)).join("")}</ul></div>` : ""}`);
   part("play", p.link ? `
     <div class="box game__play">
       <h2>${tr["game.play"]} ${escHtml(p.title)}</h2>
       <a class="btn btn--primary" href="${p.link.url}" target="_blank" rel="noopener">${t(p.link.label)} ↗</a>
     </div>` : "");
-  part("body", `
-    <div class="game__main">
-      ${p.story ? storyHtml(p, lang) : `
-      <section class="story">
-        <h2 class="game__heading">${tr["game.about"]}</h2>
-        ${p.role ? `<p class="project__role">${t(p.role)}</p>` : ""}
-        ${p.points ? `<ul class="project__points">${p.points.map((x) => `<li>${t(x)}</li>`).join("")}</ul>` : ""}
-      </section>`}
-    </div>
-    <aside class="game__aside">
-      ${highlights ? `
-      <div class="box game__panel">
-        <h2 class="label">${tr["game.highlights"]}</h2>
-        <ul class="project__points">${p.points.map((x) => `<li>${t(x)}</li>`).join("")}</ul>
-      </div>` : ""}
-      ${p.tech ? `
-      <div class="box game__panel">
-        <h2 class="label">${tr["game.builtWith"]}</h2>
-        <ul class="tech">${p.tech.map((n) => techTag(n, true)).join("")}</ul>
-      </div>` : ""}
-    </aside>`);
+  part("body", p.story ? storyHtml(p, lang) : `
+    <section class="story">
+      <h2 class="game__heading">${tr["game.about"]}</h2>
+      ${p.role ? `<p class="project__role">${t(p.role)}</p>` : ""}
+      ${p.points ? `<ul class="project__points">${p.points.map((x) => `<li>${t(x)}</li>`).join("")}</ul>` : ""}
+    </section>`);
   gameRoot.querySelectorAll(".gallery__nav").forEach((b) => b.setAttribute("aria-label", tr[b.dataset.step === "-1" ? "game.prev" : "game.next"]));
   if (isRoblox(p)) {
     loadStats().then((stats) => {
@@ -769,7 +746,7 @@ function renderGame(lang) {
       box.hidden = false;
     });
   }
-  storyOpen.forEach((id) => setStory(id, true)); // keep what was open, now in the new language
+  if (p.story) showTab(storyTab); // same tab, now in the new language
 }
 
 if (gameRoot) {
@@ -785,8 +762,21 @@ if (gameRoot) {
       if (!gallerySwiped()) showMedia(p, galleryIndex, true);
       return;
     }
-    const btn = e.target.closest("[data-story]");
-    if (btn && !btn.disabled) setStory(btn.dataset.story, btn.getAttribute("aria-expanded") !== "true");
+    const tab = e.target.closest("[data-tab]");
+    if (tab) showTab(tab.dataset.tab);
+  });
+  // ←/→ (and Home/End) move between story tabs
+  gameRoot.addEventListener("keydown", (e) => {
+    const tab = e.target.closest("[data-tab]");
+    if (!tab) return;
+    const tabs = [...gameRoot.querySelectorAll("[data-tab]")];
+    const i = tabs.indexOf(tab);
+    const j = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+    if (j === undefined) return;
+    e.preventDefault();
+    const next = tabs[(j + tabs.length) % tabs.length];
+    next.focus();
+    showTab(next.dataset.tab);
   });
 }
 

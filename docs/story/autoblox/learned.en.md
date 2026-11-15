@@ -1,25 +1,24 @@
-### What the network does to your data
+### What the network does to data
 
-Roblox sends a table differently when its number keys have gaps: the keys arrive as strings, so lookups by number fail. Deaths never played and dead units kept dancing until the IDs were sent in a shape that survives the trip.
+- Number keys with gaps arrive as strings after Roblox sends them
+- So lookups by number failed
+- Deaths never played and dead units kept dancing
+- Sending IDs in a shape that survives the trip fixed it
 
 ### Don't drop the last frame
 
-Fights stream at about 10 frames a second, and a kill that landed one tick before the end was lost, along with the loot it dropped. Now, when a fight ends, the server sends every frame that hasn't gone out yet.
-
-### Each side has its own copy
-
-Shared modules run separately on the server and on each client, so setting the game mode in one didn't reach the other. The active mode is now published as an attribute everyone can read.
-
-### Engine features interact
-
-- Collision groups also stop `Touched` events, so picking up carousel prizes uses distance checks instead.
-- Dance animations made for R15 characters won't play on R6 rigs.
-- A leaderboard bound itself to a copy of its UI that was destroyed later, and stayed blank.
+- Fights stream at about 10 frames a second
+- A kill one tick before the end was lost, with its loot
+- Now the server sends every leftover frame when a fight ends
 
 ### Refactor before it hurts
 
-By July some files had grown huge (the fight playback code was 1,626 lines, the combat engine 1,253), so I stopped and split the code into smaller pieces over two days before building more on top.
+- By July, the fight playback code was 1,626 lines
+- The combat engine had grown to 1,253 lines
+- I spent two days splitting it up before building more
 
 ### Every choice has a cost
 
-Moving fight rendering to each player's own client means the server no longer builds any fight bodies, but it also took away watching other players' fights for free.
+- Fight rendering moved to each player's own client
+- The server no longer builds any fight bodies
+- But watching other players' fights stopped being free

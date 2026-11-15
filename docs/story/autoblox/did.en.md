@@ -1,15 +1,23 @@
-AutoBlox is a duo project: my partner works on unit design and balance, and I build the game.
+### Fights run on the server
 
-### How I work
+![Units fighting with skills and damage numbers](assets/projects/autoblox/fight-skills.jpg)
 
-I design the architecture and build with Claude Code as an AI coding partner. For big changes I plan with one AI session, have another carry out the plan step by step, then review the result. One review of the new client renderer turned up eleven real defects before they shipped.
+- The server simulates every fight, 10 ticks a second
+- Attacks and skills wind up, hit and recover
+- A stun during a wind-up cancels the attack
+- Each player's own client draws and animates their fight
 
-### What I built
+### Rounds, gold and items
 
-- **Combat engine:** a server-side simulation that ticks 10 times a second, with hex pathfinding, armor and crit math, and attacks and abilities that wind up, hit and recover, so a stun during a wind-up cancels it.
-- **Client rendering:** the server streams each fight to its player, and that player's client spawns and animates the units.
-- **Rounds:** planning, combat, a short victory break and the result, across monster rounds, PvP rounds and carousels.
-- **Economy and shop:** gold, interest, streaks, rerolls, XP and levels, star upgrades and the shared unit pool.
-- **Traits, items and augments:** trait bonuses applied in combat, item components that combine, item passives, and augments.
-- **Lobby and rooms:** rooms with codes and Quick Play, kept in sync across servers, then teleported into reserved match servers.
-- **UI:** the shop, the trait panel, unit info with a stat breakdown and skill tooltips, the item inventory, the round timeline, a health leaderboard, a free spectator camera and an admin menu.
+![Units fighting a group of skeletons](assets/projects/autoblox/skeleton-fight.jpg)
+
+- Monster rounds, PvP rounds and carousels
+- Gold, interest, streaks, rerolls and star upgrades
+- Item parts combine, and traits give bonuses in combat
+
+### Lobby, rooms and UI
+
+- Make a room with a code, or use Quick Play
+- Rooms stay in sync across servers
+- Players then teleport into reserved match servers
+- A shop, trait panel, health leaderboard and spectator camera
