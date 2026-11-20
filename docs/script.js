@@ -264,6 +264,12 @@ const techInfo = {
   Git: { logo: "GitHub_Invertocat_Logo.svg", url: "https://github.com/" },
   Rojo: { logo: "logo.png", url: "https://rojo.space/", wordmark: true },
   ProfileStore: { url: "https://madstudioroblox.github.io/ProfileStore/" },
+  "Blender Source 2 Tools": { url: "https://github.com/FellOffFuji/BlenderSource2Tools" }, // before "Blender": first match wins
+  Blender: { logo: "Blender_logo_no_text.svg", url: "https://www.blender.org/" },
+  "Reduced CSDK": { logo: "csdk-12.png", url: "https://deadlockmodding.pages.dev/modding-tools/csdk-12" },
+  "CS2 Workshop Tools": { logo: "cs2.png", url: "https://developer.valvesoftware.com/wiki/Counter-Strike_2_Workshop_Tools" },
+  "Source 2 Viewer": { logo: "source-2-viewer.png", url: "https://s2v.app/" },
+  "Deadlock Mod Manager": { logo: "deadlock-mod-manager.png", url: "https://deadlockmods.app/" },
 };
 
 // linked: false inside the project cards, which are links themselves.

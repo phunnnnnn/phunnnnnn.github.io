@@ -385,6 +385,48 @@ const projectData = [
     youtube: "UQ5mK7B7lXY", // highlight edit; full streams are in the playlist link below
     link: { url: "https://www.youtube.com/playlist?list=PLKeO2w5a0nGY", label: { en: "Watch the full playlist", th: "ดูเพลย์ลิสต์ทั้งหมด" } },
   },
+  {
+    title: "Nazuna Mina Skin",
+    page: "nazuna-mina-skin",
+    status: { en: "Mod", th: "ม็อด" },
+    filter: "etc",
+    meta: "Deadlock, '26",
+    short: { en: "A Deadlock skin mod. Nazuna from Call of the Night replaces Mina, with new portraits and purple bat effects.",
+             th: "ม็อดสกินสำหรับ Deadlock ให้ Nazuna จาก Call of the Night มาแทน Mina พร้อมภาพตัวละครใหม่และเอฟเฟกต์ค้างคาวสีม่วง" }, // games page card: 1-3 short sentences
+    desc: {
+      en: "A skin mod for Deadlock. Nazuna Nanakusa from Call of the Night replaces Mina: a fan-made 3D model fitted to Mina's skeleton, new hero portraits and hero-select background, and Mina's red bat abilities recoloured purple and pink. Model credit: Aequdsama.",
+      th: "ม็อดสกินสำหรับ Deadlock ให้ Nazuna Nanakusa จาก Call of the Night มาแทน Mina ทั้งโมเดล 3 มิติที่แฟนๆ ทำ นำมาใส่ในโครงกระดูกของ Mina ภาพตัวละครชุดใหม่ ฉากหลังหน้าเลือกตัวละคร และเปลี่ยนสกิลค้างคาวสีแดงของ Mina เป็นสีม่วงชมพู เครดิตโมเดล: Aequdsama",
+    },
+    team: { en: "1 person", th: "1 คน" },
+    tags: ["Mod", "Character skin", "3D", "Anime"],
+    story: {
+      about: { en: "A skin mod for Deadlock, Valve's hero shooter. Nazuna Nanakusa from Call of the Night replaces Mina. Both are vampires, so Mina's bats, fangs and life-steal fit her. Nazuna uses all of Mina's animations, abilities and voice; only the look changes.",
+               th: "ม็อดสกินสำหรับ Deadlock เกมยิงแนวฮีโร่ของ Valve ให้ Nazuna Nanakusa จาก Call of the Night มาแทน Mina ทั้งคู่เป็นแวมไพร์ ค้างคาว เขี้ยว และการดูดเลือดของ Mina จึงเข้ากับเธอพอดี Nazuna ใช้ท่าทาง สกิล และเสียงของ Mina ทั้งหมด เปลี่ยนแค่หน้าตา", more: true }, // more: the credits, story/nazuna-mina-skin/about.<lang>.md
+      did: { en: "I fitted a fan-made Nazuna model to Mina's skeleton, rebuilt the hands, toned her colours down to match the game, made the hero portraits and recoloured 73 ability effects.",
+             th: "ผมนำโมเดล Nazuna ที่แฟนๆ ทำมาใส่ให้เข้ากับโครงกระดูกของ Mina ทำมือใหม่ ลดโทนสีให้เข้ากับเกม ทำภาพตัวละคร และเปลี่ยนสีเอฟเฟกต์สกิล 73 ชิ้น", more: true },
+      learned: { en: "You can't give a skin new bones. The game only moves Mina's skeleton, so the new body has to fit the old one, even if that means borrowing Mina's hands. I also learned to match colours by measuring pixels under the same light instead of guessing.",
+                 th: "สกินเพิ่มกระดูกใหม่ไม่ได้ เกมขยับแค่โครงกระดูกของ Mina ร่างใหม่จึงต้องเข้ากับโครงเดิม ถึงขั้นต้องยืมมือของ Mina มาใช้ และได้เรียนรู้ว่าการปรับสีให้เข้ากันต้องวัดค่าพิกเซลภายใต้แสงเดียวกัน ไม่ใช่กะด้วยตา" },
+      devlog: { en: "Made in one day, November 20, 2026, in about 9 hours: rigged by 1:20 pm, in the game before 3 pm, nearly three hours on the hands, then colours, hero images and purple bats in the evening.",
+                th: "ทำเสร็จในวันเดียว 20 พฤศจิกายน 2569 ใช้เวลาราว 9 ชั่วโมง ใส่โครงกระดูกเสร็จตอน 13:20 น. เข้าเกมได้ก่อนบ่ายสาม แก้มืออีกเกือบ 3 ชั่วโมง แล้วตอนเย็นปรับสี ทำภาพตัวละคร และเปลี่ยนค้างคาวเป็นสีม่วง", more: true },
+    },
+    tech: ["Blender", "Blender Source 2 Tools", "Reduced CSDK 12", "CS2 Workshop Tools", "Source 2 Viewer", "Deadlock Mod Manager"],
+    image: "assets/projects/nazuna-mina-skin/cover.jpg",
+    gif: "assets/projects/nazuna-mina-skin/clip.webp", // in-game: the ult with the purple bats
+    media: [
+      { image: "assets/projects/nazuna-mina-skin/clip.webp", thumb: "assets/projects/nazuna-mina-skin/thumbs/clip.jpg" },
+      { image: "assets/projects/nazuna-mina-skin/hero-select.webp", thumb: "assets/projects/nazuna-mina-skin/thumbs/hero-select.jpg" },
+      { image: "assets/projects/nazuna-mina-skin/hideout.webp", thumb: "assets/projects/nazuna-mina-skin/thumbs/hideout.jpg" },
+      { image: "assets/projects/nazuna-mina-skin/ingame-ult.jpg", thumb: "assets/projects/nazuna-mina-skin/thumbs/ingame-ult.jpg" },
+      { image: "assets/projects/nazuna-mina-skin/ingame-fight.jpg", thumb: "assets/projects/nazuna-mina-skin/thumbs/ingame-fight.jpg" },
+      { image: "assets/projects/nazuna-mina-skin/cover.jpg", thumb: "assets/projects/nazuna-mina-skin/thumbs/cover.jpg" },
+      { image: "assets/projects/nazuna-mina-skin/compare.jpg", thumb: "assets/projects/nazuna-mina-skin/thumbs/compare.jpg" },
+      { image: "assets/projects/nazuna-mina-skin/portraits.jpg", thumb: "assets/projects/nazuna-mina-skin/thumbs/portraits.jpg" },
+      { image: "assets/projects/nazuna-mina-skin/bats.jpg", thumb: "assets/projects/nazuna-mina-skin/thumbs/bats.jpg" },
+      { image: "assets/projects/nazuna-mina-skin/face.jpg", thumb: "assets/projects/nazuna-mina-skin/thumbs/face.jpg" },
+      { image: "assets/projects/nazuna-mina-skin/hands.jpg", thumb: "assets/projects/nazuna-mina-skin/thumbs/hands.jpg" },
+      { image: "assets/projects/nazuna-mina-skin/background.jpg", thumb: "assets/projects/nazuna-mina-skin/thumbs/background.jpg" },
+    ],
+  },
   // ----- Prototypes: unfinished projects (games page only, no picture yet = plain cover) -----
   {
     title: "Red Run",
