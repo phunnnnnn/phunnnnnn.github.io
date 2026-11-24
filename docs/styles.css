@@ -218,9 +218,9 @@ a { color: inherit; text-decoration: none; }
 /* Story rows: text and photo side by side; --flip puts the photo on the left */
 .about__row { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
 .about__row--flip .about__photo { order: -1; }
-.about__text p { color: var(--text-muted); white-space: pre-line; }
-.about__text p + p { margin-top: 16px; }
-.about__text--end { max-width: 640px; }
+.about__text p { color: var(--text-muted); white-space: pre-line; font-size: 1.5rem; } /* 1.5× the body text */
+.about__text p + p { margin-top: 24px; }
+.about__text--end { max-width: 960px; } /* scaled with the text, so lines keep the same length */
 .about__text .about__end { color: var(--text); font-weight: 500; } /* last line of the story */
 .about__photo img { display: block; width: 100%; height: auto; }
 .about__photo figcaption {
@@ -678,6 +678,7 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 640px) {
   .hero { --me-pop: 0px; } /* phone: the photo sits inside the box, under the headline */
   .window__content { padding: 56px 22px 56px; min-height: 0; }
+  .about__text p { font-size: 1.25rem; } /* phones: 1.5× leaves only a few words a line */
   /* Phone: headline full width, photo under it, still standing on the box's bottom edge */
   .hero__title { max-width: none; }
   .window__content > .hero__me { position: relative; display: block; height: 360px; margin: 20px 0 -56px auto; }
