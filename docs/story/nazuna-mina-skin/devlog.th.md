@@ -10,8 +10,8 @@
 ### ขั้นตอนสร้างม็อดหนึ่งรอบ
 
 1. ส่งออกโมเดลจาก Blender เป็นไฟล์ DMX
-2. แปลงวัสดุและโมเดลด้วย Reduced CSDK 12
-3. แปลงรอบสุดท้ายใน CS2 Workshop Tools เพื่อเชื่อมท่าทางของ Mina
+2. compile วัสดุและโมเดลด้วย Reduced CSDK 12
+3. compile รอบสุดท้ายใน CS2 Workshop Tools เพื่อเชื่อมท่าทางของ Mina
 4. จัดไฟล์ด้วยสคริปต์ Python
 5. รวมเป็นไฟล์ VPK ด้วย Source 2 Viewer แล้วโหลดผ่าน Mod Manager
 

@@ -18,9 +18,3 @@
 
 - The carry pose locked the legs: only 1 of 6 test climbs reached the top
 - Switching to piggyback made it 5 of 5
-
-### New tools I learned
-
-- ProfileStore: a Roblox library that saves player data safely
-- MCP: a way to connect the AI to tools like Roblox Studio
-- Claude skills: written instructions the AI can reuse for a task

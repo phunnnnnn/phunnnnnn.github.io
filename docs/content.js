@@ -9,6 +9,8 @@
 //   • Certificates (title / place · date / tag) are in certData at the
 //     bottom. Their order here is the order on the website.
 //   • Thai text is in the  th: { ... }  block, English in  en: { ... }.
+//   • Words kept in English in Thai text (here and in story/*.th.md), never translated:
+//       compile   (not แปลง / คอมไพล์), e.g. "compile วัสดุและโมเดล"
 //   • Games page cards show each project's  short:  text. Keep it to 1-3
 //     short sentences (about 120 characters) that say what the game is,
 //     so it fits on the card, phones included. Longer detail goes in
@@ -62,6 +64,7 @@ const translations = {
     "game.story.process": "Design board: how we planned it",
     "game.story.did": "What I did",
     "game.story.learned": "What I learned",
+    "game.story.tools": "Tools I learned",
     "game.story.devlog": "Devlog: how it's built",
     "game.loading": "Loading…",
     "game.loadFail": "Couldn't load, try again",
@@ -126,6 +129,7 @@ const translations = {
     "game.story.process": "กระดานออกแบบ: เราวางแผนเกมอย่างไร",
     "game.story.did": "สิ่งที่ผมทำ",
     "game.story.learned": "สิ่งที่ผมได้เรียนรู้",
+    "game.story.tools": "เครื่องมือที่ได้เรียนรู้",
     "game.story.devlog": "บันทึกการพัฒนา: เบื้องหลังและโครงสร้าง",
     "game.loading": "กำลังโหลด…",
     "game.loadFail": "โหลดไม่สำเร็จ ลองอีกครั้ง",
@@ -182,6 +186,12 @@ const translations = {
 //            docs/story/<page>/<section>.en.md (and .th.md) only when pressed.
 //            Those files are Markdown: # heading, - list, **bold**, [link](url), ![picture](assets/...).
 //            Without story: the page shows role: and points: under "About this project".
+//   learned: tools: — every project lists the tools I learned in What I learned, under
+//            "Tools I learned". Each tool is a small heading (logo + name, same names as tech:)
+//            with one line under it. A tool used in an earlier project too (Godot, Git, Rojo...)
+//            says only what I learned with it in THIS project, not how to use it again, e.g.
+//            learned: { en: "...", th: "...", tools: [{ name: "Rojo", en: "...", th: "..." }] }
+//            A project with nothing else to say yet can have just  learned: { tools: [...] }
 //   short:   the games page card text: 1-3 short sentences, about 120 characters
 //            (see Rules at the top). desc: is the longer text for the home page
 //            card and the game's own page.
@@ -216,7 +226,19 @@ const projectData = [
       did: { en: "I made the game's code and UI: the obby generator, the waifus and bases, the shop and saving, and the admin panel.",
              th: "ผมทำโค้ดและ UI ของเกม ทั้งตัวสร้างด่าน obby ระบบ waifu และฐาน ร้านค้าและการบันทึกข้อมูล และแผงผู้ดูแล", more: true },
       learned: { en: "Never trust the client: most of my last fixes closed exploits I only found by thinking like a cheater. I also learned to measure instead of guess, and that small engine details like streaming can break a game in ways you only see when it's really played.",
-                 th: "อย่าเชื่อข้อมูลจากฝั่งผู้เล่น การแก้ไขช่วงท้ายส่วนใหญ่คือการปิดช่องโกงที่เจอเพราะลองคิดแบบคนโกง และได้เรียนรู้ว่าต้องวัดผลจริงแทนการเดา รวมถึงรายละเอียดเล็กๆ ของเอนจินอย่างระบบ streaming ที่ทำให้เกมพังได้แบบที่เห็นเฉพาะตอนเล่นจริง", more: true },
+                 th: "อย่าเชื่อข้อมูลจากฝั่งผู้เล่น การแก้ไขช่วงท้ายส่วนใหญ่คือการปิดช่องโกงที่เจอเพราะลองคิดแบบคนโกง และได้เรียนรู้ว่าต้องวัดผลจริงแทนการเดา รวมถึงรายละเอียดเล็กๆ ของเอนจินอย่างระบบ streaming ที่ทำให้เกมพังได้แบบที่เห็นเฉพาะตอนเล่นจริง", more: true,
+        tools: [
+          { name: "Roblox Studio", en: "Selling game passes and developer products, and building loot boxes that follow Roblox's rules for paid random items.",
+            th: "ขาย game pass และ developer product และทำกล่องสุ่มให้ตรงตามนโยบายไอเทมสุ่มแบบเสียเงินของ Roblox" },
+          { name: "Rojo", en: "Moving a game I'd started in Studio out into files on my computer, which Rojo syncs back into Studio, so all of its code could go into Git.",
+            th: "ย้ายเกมที่เริ่มทำใน Studio ออกมาเป็นไฟล์ในเครื่อง ให้ Rojo ซิงก์กลับเข้า Studio โค้ดทั้งหมดจึงเก็บใน Git ได้" },
+          { name: "ProfileStore", en: "A Roblox library that saves player data safely. I used it for the saves, including the cash waifus earn while you're offline.",
+            th: "ชุดโค้ดสำเร็จรูปของ Roblox สำหรับบันทึกข้อมูลผู้เล่นอย่างปลอดภัย ผมใช้บันทึกข้อมูลของเกม รวมถึงเงินที่ waifu หาให้ตอนผู้เล่นออฟไลน์" },
+          { name: "MCP", en: "A way to connect the AI to tools like Roblox Studio.",
+            th: "วิธีเชื่อม AI เข้ากับเครื่องมือต่างๆ อย่าง Roblox Studio" },
+          { name: "Claude skills", en: "Written instructions the AI can reuse for a task.",
+            th: "ชุดคำสั่งที่เขียนไว้ให้ AI นำกลับมาใช้ซ้ำในงานเฉพาะ" },
+        ] },
       devlog: { en: "How the game went from its first commit to launch in 6 days, and how it's put together: server services, shared config tables and client UI, saving through ProfileStore, and an obby generator that builds levels from hand-made pieces.",
                 th: "เส้นทางจาก commit แรกจนเปิดให้เล่นใน 6 วัน และโครงสร้างของเกม: บริการฝั่งเซิร์ฟเวอร์ ตารางค่าที่ใช้ร่วมกัน UI ฝั่งผู้เล่น การบันทึกข้อมูลผ่าน ProfileStore และตัวสร้างด่าน obby ที่ประกอบด่านจากชิ้นส่วนที่ทำมือ", more: true },
     },
@@ -257,7 +279,11 @@ const projectData = [
       did: { en: "I designed the game and made it: the pets, the waves and bosses, the shop, the game feel and the tests.",
              th: "ผมออกแบบและสร้างเกมนี้ ทั้งสัตว์เลี้ยง ระลอกศัตรูและบอส ร้านค้า ความรู้สึกตอนเล่น และการทดสอบ", more: true },
       learned: { en: "A balance bot is only as good as its last update: after harvesting changed to clicking, mine never clicked, so its numbers meant nothing until I fixed it and measured again. Fast attacks need a warning and a fixed line to be fair, and tests must never touch the real save.",
-        th: "บอททดสอบความสมดุลดีได้เท่ากับการอัปเดตครั้งล่าสุด หลังเปลี่ยนการเก็บสาหร่ายเป็นการคลิก บอทของผมไม่เคยคลิกเลย ตัวเลขที่ได้จึงไม่มีความหมายจนกว่าจะแก้แล้ววัดใหม่ ท่าโจมตีที่เร็วต้องมีสัญญาณเตือนและล็อกเป็นเส้นตรงถึงจะยุติธรรม และการทดสอบต้องไม่แตะข้อมูลบันทึกจริงเด็ดขาด", more: true },
+        th: "บอททดสอบความสมดุลดีได้เท่ากับการอัปเดตครั้งล่าสุด หลังเปลี่ยนการเก็บสาหร่ายเป็นการคลิก บอทของผมไม่เคยคลิกเลย ตัวเลขที่ได้จึงไม่มีความหมายจนกว่าจะแก้แล้ววัดใหม่ ท่าโจมตีที่เร็วต้องมีสัญญาณเตือนและล็อกเป็นเส้นตรงถึงจะยุติธรรม และการทดสอบต้องไม่แตะข้อมูลบันทึกจริงเด็ดขาด", more: true,
+        tools: [
+          { name: "Godot 4.7", en: "One event bus of signals for sound and screen effects, water and light shaders, and 15 automated tests.",
+            th: "event bus ตัวเดียวที่รวม signal สำหรับเสียงและเอฟเฟกต์หน้าจอ shader น้ำและแสง และชุดทดสอบอัตโนมัติ 15 ชุด" },
+        ] },
       devlog: { en: "From a kelp-and-fish prototype in May 2026 to release on itch.io on October 21: waves, the shop, pets and five bosses in one week in late September, then polish, pixel art, sound and the web build in the last two days.",
         th: "จากต้นแบบสาหร่ายกับปลาในเดือนพฤษภาคม 2569 จนเปิดให้เล่นบน itch.io วันที่ 21 ตุลาคม: ระลอกศัตรู ร้านค้า สัตว์เลี้ยง และบอส 5 ตัวภายในสัปดาห์เดียวปลายเดือนกันยายน แล้วขัดเกลา ภาพพิกเซล เสียง และเวอร์ชันเว็บในสองวันสุดท้าย", more: true },
     },
@@ -305,7 +331,15 @@ const projectData = [
       did: { en: "I designed how the game is built and made it: the fights on the server, the rounds and gold, and the lobby and rooms.",
              th: "ผมออกแบบโครงสร้างของเกมและสร้างขึ้นมา ทั้งการต่อสู้ที่คำนวณบนเซิร์ฟเวอร์ รอบการเล่นและเงิน และห้องรอกับระบบห้อง", more: true },
       learned: { en: "Networking details decide whether a fight looks right: a table with gaps lost its keys over the network and dead units started dancing, and a kill on the very last tick vanished along with its loot. I also learned to split huge files before they slow everything down.",
-        th: "รายละเอียดของการส่งข้อมูลผ่านเครือข่ายตัดสินว่าการต่อสู้จะดูถูกหรือไม่ ตารางที่มีช่องว่างเสียคีย์ระหว่างส่ง ทำให้ตัวที่ตายแล้วลุกขึ้นเต้น และการฆ่าในจังหวะสุดท้ายหายไปพร้อมของที่ตก ผมยังได้เรียนรู้ว่าต้องแยกไฟล์ที่ใหญ่เกินไปก่อนที่มันจะทำให้ทุกอย่างช้าลง", more: true },
+        th: "รายละเอียดของการส่งข้อมูลผ่านเครือข่ายตัดสินว่าการต่อสู้จะดูถูกหรือไม่ ตารางที่มีช่องว่างเสียคีย์ระหว่างส่ง ทำให้ตัวที่ตายแล้วลุกขึ้นเต้น และการฆ่าในจังหวะสุดท้ายหายไปพร้อมของที่ตก ผมยังได้เรียนรู้ว่าต้องแยกไฟล์ที่ใหญ่เกินไปก่อนที่มันจะทำให้ทุกอย่างช้าลง", more: true,
+        tools: [
+          { name: "Roblox Studio", en: "Teleporting players from a lobby into reserved match servers, with the rooms kept in sync across servers.",
+            th: "ส่งผู้เล่นจากห้องรอเข้าเซิร์ฟเวอร์แข่งที่จองไว้ และทำให้ข้อมูลห้องตรงกันทุกเซิร์ฟเวอร์" },
+          { name: "Rojo", en: "Running two Rojo projects side by side: one for the lobby place, one for the match place.",
+            th: "ใช้โปรเจกต์ Rojo 2 ตัวคู่กัน ตัวหนึ่งสำหรับ place ห้องรอ อีกตัวสำหรับ place แข่ง" },
+          { name: "Git", en: "Doing a two-day refactor in about 50 commits, so every step was saved on its own.",
+            th: "ทำ refactor 2 วันผ่าน commit ราว 50 ครั้ง ทุกขั้นจึงถูกบันทึกแยกกัน" },
+        ] },
       devlog: { en: "Two places with two Rojo projects: a lobby that hosts rooms across servers, and a match place where the rounds run. The server simulates every fight and streams it to each player, whose client draws it.",
         th: "มี 2 place และ 2 โปรเจกต์ Rojo: ห้องรอที่จัดห้องเล่นข้ามเซิร์ฟเวอร์ และ place สำหรับการแข่งที่รอบการเล่นทำงาน เซิร์ฟเวอร์คำนวณการต่อสู้ทุกครั้งแล้วส่งให้ผู้เล่นแต่ละคน ฝั่งผู้เล่นเป็นคนวาดภาพ", more: true },
     },
@@ -336,6 +370,10 @@ const projectData = [
         th: "เกมเอาชีวิตรอดจากซอมบี้แบบเป็นรอบ ทำขึ้นสำหรับงานวันวิทยาศาสตร์ของโรงเรียน ผู้เล่นกดพร้อมที่ห้องรอ ถูกส่งเข้าสนามพร้อมกัน แล้วต้องต้านซอมบี้ที่บุกมาจนกว่าคนสุดท้ายจะตาย", more: true },
       did: { en: "I made all of it: the game design, the level setup, the lobby, the round flow, the zombie AI and the scoring.",
              th: "ผมทำทั้งหมด ทั้งออกแบบเกม จัดฉาก ระบบห้องรอ การดำเนินรอบ AI ซอมบี้ และการนับแต้ม" },
+      learned: { tools: [
+        { name: "Roblox Studio", en: "Server scripts that run a whole round from one value: opening the gates, teleporting the teams and starting the zombie spawner, plus zombies that chase the players.",
+          th: "สคริปต์ฝั่งเซิร์ฟเวอร์ที่คุมทั้งรอบด้วยค่าเดียว ทั้งเปิดประตู วาร์ปทีม และเริ่มปล่อยซอมบี้ และซอมบี้ที่ไล่ล่าผู้เล่น" },
+      ] },
       devlog: { en: "One server-side flag drives each round: it opens the gates, teleports the teams and starts the spawner, which only runs while someone is still alive in the arena. When the last player dies, the round resets itself and the lobby counts down again.",
         th: "ค่าเดียวฝั่งเซิร์ฟเวอร์คุมทั้งรอบ ทั้งเปิดประตู วาร์ปทีม และเริ่มตัวปล่อยซอมบี้ ซึ่งทำงานเฉพาะตอนที่ยังมีคนรอดในสนาม เมื่อผู้เล่นคนสุดท้ายตาย รอบจะรีเซ็ตเองและห้องรอเริ่มนับถอยหลังใหม่" },
     },
@@ -373,6 +411,10 @@ const projectData = [
         th: "ระบบตัดไม้และผ่าท่อนซุงแบบเกม Lumber Tycoon บน Roblox ตัดต้นไม้ให้เป็นท่อนซุง แล้วผ่าท่อนซุงออกเป็นสองชิ้นตรงจุดที่ฟัน" },
       did: { en: "I wrote all the code by hand, live on stream: chopping trees into logs and splitting a log where it's cut.",
              th: "ผมเขียนโค้ดทั้งหมดด้วยมือระหว่างถ่ายทอดสด ทั้งการตัดต้นไม้เป็นท่อนซุง และการผ่าท่อนซุงตรงจุดที่ฟัน" },
+      learned: { tools: [
+        { name: "Roblox Studio", en: "Cutting a log into two parts at the exact spot the axe hit, with a cut mark left where it landed.",
+          th: "ตัดท่อนซุงเป็นสองชิ้นตรงจุดที่ขวานฟันพอดี และทิ้งรอยฟันไว้ตรงที่ขวานลง" },
+      ] },
       devlog: { en: "Built step by step on stream: first chopping trees into logs, then cutting a log at the exact point it was hit and splitting it into two pieces. Every hit leaves a cut mark where the axe landed.",
         th: "สร้างทีละขั้นระหว่างถ่ายทอดสด เริ่มจากตัดต้นไม้เป็นท่อนซุง แล้วตัดท่อนซุงตรงจุดที่โดนฟันพอดีและแยกเป็นสองชิ้น ทุกครั้งที่ฟันจะเหลือรอยตรงจุดที่ขวานลง" },
     },
@@ -403,9 +445,23 @@ const projectData = [
       about: { en: "A skin mod for Deadlock, Valve's hero shooter. Nazuna Nanakusa from Call of the Night replaces Mina. Both are vampires, so Mina's bats, fangs and life-steal fit her. Nazuna uses all of Mina's animations, abilities and voice; only the look changes.",
                th: "ม็อดสกินสำหรับ Deadlock เกมยิงแนวฮีโร่ของ Valve ให้ Nazuna Nanakusa จาก Call of the Night มาแทน Mina ทั้งคู่เป็นแวมไพร์ ค้างคาว เขี้ยว และการดูดเลือดของ Mina จึงเข้ากับเธอพอดี Nazuna ใช้ท่าทาง สกิล และเสียงของ Mina ทั้งหมด เปลี่ยนแค่หน้าตา", more: true }, // more: the credits, story/nazuna-mina-skin/about.<lang>.md
       did: { en: "I fitted a fan-made Nazuna model to Mina's skeleton, rebuilt the hands, toned her colours down to match the game, made the hero portraits and recoloured 73 ability effects.",
-             th: "ผมนำโมเดล Nazuna ที่แฟนๆ ทำมาใส่ให้เข้ากับโครงกระดูกของ Mina ทำมือใหม่ ลดโทนสีให้เข้ากับเกม ทำภาพตัวละคร และเปลี่ยนสีเอฟเฟกต์สกิล 73 ชิ้น", more: true },
+             th: "ผมขอโมเดล Nazuna จากคุณ Aequdsama ทำมาใส่ให้เข้ากับโครงกระดูกของ Mina ทำมือใหม่ ลดโทนสีให้เข้ากับเกม ทำภาพตัวละคร และเปลี่ยนสีเอฟเฟกต์สกิล 73 ชิ้น", more: true },
       learned: { en: "You can't give a skin new bones. The game only moves Mina's skeleton, so the new body has to fit the old one, even if that means borrowing Mina's hands. I also learned to match colours by measuring pixels under the same light instead of guessing.",
-                 th: "สกินเพิ่มกระดูกใหม่ไม่ได้ เกมขยับแค่โครงกระดูกของ Mina ร่างใหม่จึงต้องเข้ากับโครงเดิม ถึงขั้นต้องยืมมือของ Mina มาใช้ และได้เรียนรู้ว่าการปรับสีให้เข้ากันต้องวัดค่าพิกเซลภายใต้แสงเดียวกัน ไม่ใช่กะด้วยตา" },
+                 th: "สกินเพิ่มกระดูกใหม่ไม่ได้ เกมขยับแค่โครงกระดูกของ Mina ร่างใหม่จึงต้องเข้ากับโครงเดิม ถึงขั้นต้องยืมมือของ Mina มาใช้ และได้เรียนรู้ว่าการปรับสีให้เข้ากันต้องวัดค่าพิกเซลภายใต้แสงเดียวกัน ไม่ใช่กะด้วยตา",
+        tools: [
+          { name: "Blender", en: "Copying one model's bone weights onto another, keeping every vertex to 4 bones, and rendering two models under the same light to compare their colours.",
+            th: "คัดลอกน้ำหนักกระดูกจากโมเดลหนึ่งไปอีกโมเดล ให้ทุกจุดยึดกับกระดูกไม่เกิน 4 ชิ้น และเรนเดอร์สองโมเดลใต้แสงเดียวกันเพื่อเทียบสี" },
+          { name: "Blender Source 2 Tools", en: "Exporting the model from Blender as DMX, the file the Source 2 tools read.",
+            th: "ส่งออกโมเดลจาก Blender เป็นไฟล์ DMX ที่เครื่องมือของ Source 2 อ่านได้" },
+          { name: "Reduced CSDK 12", en: "Compiling the materials and the model for Source 2.",
+            th: "compile วัสดุและโมเดลสำหรับ Source 2" },
+          { name: "CS2 Workshop Tools", en: "The final compile, which links Mina's animations to the new model.",
+            th: "compile รอบสุดท้าย ซึ่งเชื่อมท่าทางของ Mina เข้ากับโมเดลใหม่" },
+          { name: "Source 2 Viewer", en: "Packing the finished files into a VPK, the package the game loads.",
+            th: "รวมไฟล์ที่เสร็จแล้วเป็นไฟล์ VPK ซึ่งเป็นแพ็กเกจที่เกมโหลด" },
+          { name: "Deadlock Mod Manager", en: "Loading each build into Deadlock to test it in the game.",
+            th: "โหลดม็อดแต่ละเวอร์ชันเข้า Deadlock เพื่อทดสอบในเกม" },
+        ] },
       devlog: { en: "Made in one day, November 20, 2026, in about 9 hours: rigged by 1:20 pm, in the game before 3 pm, nearly three hours on the hands, then colours, hero images and purple bats in the evening.",
                 th: "ทำเสร็จในวันเดียว 20 พฤศจิกายน 2569 ใช้เวลาราว 9 ชั่วโมง ใส่โครงกระดูกเสร็จตอน 13:20 น. เข้าเกมได้ก่อนบ่ายสาม แก้มืออีกเกือบ 3 ชั่วโมง แล้วตอนเย็นปรับสี ทำภาพตัวละคร และเปลี่ยนค้างคาวเป็นสีม่วง", more: true },
     },
@@ -443,7 +499,11 @@ const projectData = [
       did: { en: "I'm designing and building it: the concept, a playable prototype, the design review and the systems design.",
              th: "ผมกำลังออกแบบและสร้างเกมนี้ ทั้งแนวคิด ต้นแบบที่เล่นได้ การตรวจทานการออกแบบ และการออกแบบระบบ" },
       learned: { en: "Prototype before designing the rest. The first draft was drag-to-paint with an ink budget and an all-or-nothing 100% goal; the prototype replaced both with aim-and-bounce and coverage tiers.",
-        th: "ทำต้นแบบก่อนออกแบบส่วนที่เหลือ ร่างแรกเป็นการลากเมาส์ทาสีโดยมีหมึกจำกัดและต้องทาให้ครบ 100% เท่านั้น ต้นแบบเปลี่ยนทั้งสองอย่างเป็นการเล็งยิงให้เด้ง และให้รางวัลตามระดับพื้นที่ที่ทาได้" },
+        th: "ทำต้นแบบก่อนออกแบบส่วนที่เหลือ ร่างแรกเป็นการลากเมาส์ทาสีโดยมีหมึกจำกัดและต้องทาให้ครบ 100% เท่านั้น ต้นแบบเปลี่ยนทั้งสองอย่างเป็นการเล็งยิงให้เด้ง และให้รางวัลตามระดับพื้นที่ที่ทาได้",
+        tools: [
+          { name: "Godot 4.7", en: "Making a brush ricochet around the canvas and paint where it hits, in a playable prototype.",
+            th: "ทำให้พู่กันเด้งไปรอบผ้าใบและทาสีตรงที่โดน ในต้นแบบที่เล่นได้" },
+        ] },
       devlog: { en: "Started November 2, 2026 in Godot 4.7: the project set up, the game concept written, a bounce-paint prototype built and tested, the concept approved, and an index of 19 systems drafted. It's now in systems design.",
         th: "เริ่มวันที่ 2 พฤศจิกายน 2569 ใน Godot 4.7: ตั้งโปรเจกต์ เขียนแนวคิดเกม สร้างและทดสอบต้นแบบระบบพู่กันเด้ง ผ่านการอนุมัติแนวคิด และร่างรายการระบบ 19 ระบบ ตอนนี้อยู่ในขั้นออกแบบระบบ" },
     },
@@ -475,7 +535,15 @@ const projectData = [
       did: { en: "I made the game's code: the farm setup, the factories, the workers and the upgrade shop.",
              th: "ผมทำโค้ดของเกม ทั้งการตั้งค่าฟาร์ม โรงงาน คนงาน และร้านอัปเกรด" },
       learned: { en: "Keep the client and the server on the same rules: the planting preview runs the same placement code the server checks, so it can never promise a spot the server will refuse. And award first, destroy second, so a full backpack never eats a player's fruit.",
-        th: "ให้ฝั่งผู้เล่นกับเซิร์ฟเวอร์ใช้กฎเดียวกัน ตัวแสดงตำแหน่งปลูกใช้โค้ดวางตำแหน่งชุดเดียวกับที่เซิร์ฟเวอร์ตรวจ จึงไม่มีทางบอกว่าปลูกได้ในจุดที่เซิร์ฟเวอร์ปฏิเสธ และต้องให้ของก่อนค่อยลบของ กระเป๋าที่เต็มจะได้ไม่กินผลไม้ของผู้เล่น", more: true },
+        th: "ให้ฝั่งผู้เล่นกับเซิร์ฟเวอร์ใช้กฎเดียวกัน ตัวแสดงตำแหน่งปลูกใช้โค้ดวางตำแหน่งชุดเดียวกับที่เซิร์ฟเวอร์ตรวจ จึงไม่มีทางบอกว่าปลูกได้ในจุดที่เซิร์ฟเวอร์ปฏิเสธ และต้องให้ของก่อนค่อยลบของ กระเป๋าที่เต็มจะได้ไม่กินผลไม้ของผู้เล่น", more: true,
+        tools: [
+          { name: "Roblox Studio", en: "Building NPC workers as R6 rigs, part by part, with a walk that follows the distance they travel, so their legs stop when they stop.",
+            th: "สร้างคนงาน NPC เป็นตัว R6 ทีละชิ้น และให้ท่าเดินขยับตามระยะที่เดินจริง ขาจึงหยุดตอนที่ตัวหยุด" },
+          { name: "Rojo", en: "Rojo syncs only the scripts, so the map has to live in a Studio place file kept in the repo.",
+            th: "Rojo ซิงก์แค่สคริปต์ แผนที่จึงต้องเก็บเป็นไฟล์ place ของ Studio ไว้ใน repo ด้วย" },
+          { name: "Git", en: "A pre-commit hook that adds the map file to every commit and warns when it looks older than the code.",
+            th: "pre-commit hook ที่ใส่ไฟล์แผนที่เข้าไปในทุก commit และเตือนเมื่อไฟล์แผนที่ดูเก่ากว่าโค้ด" },
+        ] },
       devlog: { en: "18 commits from August 5 to 14, 2026: the seed-to-sale loop on day one, then typed seeds on a belt, pies and a five-tier refining ladder, hireable NPC workers, levelled factories from a generator, and finally belt levels with a shop to buy them.",
         th: "18 commit ระหว่างวันที่ 5 ถึง 14 สิงหาคม 2569 วันแรกได้วงจรตั้งแต่เมล็ดจนขาย จากนั้นเมล็ดหลายชนิดบนสายพาน พายและสายการแปรรูป 5 ขั้น คนงาน NPC ที่จ้างได้ โรงงานเลเวลจากเครื่องสุ่ม และสุดท้ายเลเวลสายพานพร้อมร้านให้ซื้อ", more: true },
     },
@@ -518,6 +586,12 @@ const projectData = [
         th: "เกมทำโจทย์บวกเลข อ่านโจทย์ พิมพ์คำตอบด้วยแป้นตัวเลขบนจอหรือคีย์บอร์ด แล้วรู้ทันทีว่าถูกหรือผิด ความยาก 4 ระดับพาตั้งแต่ 1 + 1 ไปจนถึงผลบวกเกือบ 100", more: true },
       did: { en: "I wrote it on my own in Godot 4.5: the menu with game modes and difficulties, the question generator, and keyboard and number pad input.",
         th: "ผมเขียนคนเดียวใน Godot 4.5 ทั้งเมนูเลือกโหมดและความยาก ตัวสร้างโจทย์ และการรับคำตอบจากคีย์บอร์ดและแป้นตัวเลข" },
+      learned: { tools: [
+        { name: "Godot 4.5", en: "Exporting a web build that plays right on this site, and taking answers from both the keyboard and an on-screen number pad.",
+          th: "export เวอร์ชันเว็บที่เล่นบนเว็บนี้ได้เลย และรับคำตอบได้ทั้งจากคีย์บอร์ดและแป้นตัวเลขบนจอ" },
+        { name: "Git", en: "Rewriting the project in January 2026 in the same repo, so the December version is still in its history.",
+          th: "เขียนโปรเจกต์ใหม่ในเดือนมกราคม 2569 ใน repo เดิม เวอร์ชันเดือนธันวาคมจึงยังอยู่ในประวัติ" },
+      ] },
       devlog: { en: "Two scenes (menu and game) and a global script that carries the chosen mode, question count and difficulty between them. Started in December 2025, then rewritten and restructured in January 2026 into v0.1.",
         th: "มี 2 ฉาก (เมนูและเกม) และสคริปต์กลางที่ส่งโหมด จำนวนข้อ และความยากที่เลือกไว้ข้ามฉาก เริ่มทำเดือนธันวาคม 2568 แล้วเขียนใหม่และจัดโครงสร้างใหม่ในเดือนมกราคม 2569 จนเป็น v0.1", more: true },
     },
@@ -558,6 +632,12 @@ const projectData = [
         th: "เกมคลิกเกอร์เจาะลูกโป่ง คลิกลูกโป่งเพื่อเก็บทอง ต่อคอมโบเพื่อคูณเงินทุกครั้งที่ลูกโป่งแตก และตามล่าลูกโป่งพิเศษที่ให้เงินมากกว่า", more: true },
       did: { en: "I wrote all the code in Godot 4.5: balloon spawning, the combo, the reward formula, the money display and the upgrade system.",
         th: "ผมเขียนโค้ดทั้งหมดใน Godot 4.5 ทั้งการเกิดลูกโป่ง คอมโบ สูตรคำนวณรางวัล การแสดงเงิน และระบบอัปเกรด" },
+      learned: { tools: [
+        { name: "Godot 4.5", en: "Spawning balloons at random spots in the play area, each rolling its type from the elite balloon odds.",
+          th: "สุ่มจุดเกิดลูกโป่งในพื้นที่เล่น และสุ่มชนิดของแต่ละลูกตามโอกาสเกิดลูกโป่งพิเศษ" },
+        { name: "Git", en: "Naming each commit after its version, from v0.0.2 up to v0.1.1.",
+          th: "ตั้งชื่อ commit ตามเวอร์ชัน ตั้งแต่ v0.0.2 จนถึง v0.1.1" },
+      ] },
       devlog: { en: "Two autoloads hold the game's state: one for values like money, combo and upgrade levels, one for the data tables every upgrade levels up from, so adding an upgrade is a data change. Five commits in November 2025, up to v0.1.1.",
         th: "มี autoload 2 ตัวเก็บสถานะของเกม ตัวหนึ่งเก็บค่าอย่างเงิน คอมโบ และเลเวลอัปเกรด อีกตัวเก็บตารางข้อมูลที่อัปเกรดทุกตัวใช้ การเพิ่มอัปเกรดจึงเป็นแค่การเพิ่มข้อมูล 5 commit ในเดือนพฤศจิกายน 2568 จนถึง v0.1.1", more: true },
     },
@@ -597,6 +677,12 @@ const projectData = [
         th: "เกมปลูกพืชที่ทำในวิชา IS ลากถุงเมล็ดไปวางบนกระถางเพื่อปลูก กด Next Day แล้วดูมันโตทีละขั้นจนเป็นดอกทานตะวันเต็มดอก", more: true },
       did: { en: "I wrote the code in Godot 4.4: drag and drop with a selection box, the pots and their growth stages, the day system and the item data.",
         th: "ผมเขียนโค้ดใน Godot 4.4 ทั้งการลากวางพร้อมกรอบเลือก กระถางและขั้นการเติบโต ระบบวัน และข้อมูลไอเทม" },
+      learned: { tools: [
+        { name: "Godot 4.4", en: "Drag and drop that checks which pot the seed bag overlaps, a Next Day event every pot listens to, and a key that shows the hit areas for debugging.",
+          th: "ลากวางที่เช็กว่าถุงเมล็ดทับกระถางใบไหน เหตุการณ์ Next Day ที่ทุกกระถางรอฟัง และปุ่มเปิดดูพื้นที่ชนไว้ดีบัก" },
+        { name: "Git", en: "Starting over in a new repo for a cleaner structure, while NSC, the first version, keeps its own repo.",
+          th: "เริ่มใหม่ใน repo ใหม่เพื่อโครงสร้างที่เป็นระเบียบกว่า ส่วน NSC เวอร์ชันแรกยังมี repo ของตัวเอง" },
+      ] },
       devlog: { en: "It started as NSC (March–June 2025): drag-and-drop pots, watering and a garden grid. In July 2025 I started over as Harvest the Dept with a cleaner structure: global data tables for pots, seeds and plants, and a Next Day event every pot listens to.",
         th: "เริ่มจาก NSC (มีนาคม–มิถุนายน 2568): ลากวางกระถาง รดน้ำ และตารางแปลงปลูก เดือนกรกฎาคม 2568 ผมเริ่มใหม่เป็น Harvest the Dept ด้วยโครงสร้างที่เป็นระเบียบกว่า: ตารางข้อมูลกลางของกระถาง เมล็ด และพืช และเหตุการณ์วันใหม่ที่ทุกกระถางรอฟัง", more: true },
     },
@@ -638,6 +724,12 @@ const projectData = [
         th: "เกมคลิกเกอร์แข่งกับเวลา 5 นาที คลิกเพิ่มยอดคลิกของคุณ ระหว่างที่ระเบิดคอยลดยอดคลิกลงและแรงขึ้นทุก 5 วินาที แล้วรับการ์ดอัปเกรดจากร้านที่สุ่มใหม่ได้", more: true },
       did: { en: "I wrote it on my own in Godot 4.4, in three days: the start menu, the clicking and live stats, the bomb, and the upgrade shop.",
         th: "ผมเขียนคนเดียวใน Godot 4.4 ภายใน 3 วัน ทั้งเมนูเริ่ม ระบบคลิกและสถิติสด ระเบิด และร้านอัปเกรด" },
+      learned: { tools: [
+        { name: "Godot 4.4", en: "Timers: a clock that ticks every 0.1 seconds, a bomb that hits every second, and pausing them all while the shop is open.",
+          th: "Timer: นาฬิกาที่เดินทุก 0.1 วินาที ระเบิดที่ลดคลิกทุกวินาที และหยุด timer ทั้งหมดไว้ตอนเปิดร้าน" },
+        { name: "Git", en: "One commit per day of work: the base game, then the shop and start menu, then the upgrades.",
+          th: "commit วันละครั้งตามงานที่ทำ วันแรกเกมพื้นฐาน วันที่สองร้านและเมนูเริ่ม วันที่สามอัปเกรด" },
+      ] },
       devlog: { en: "Three scenes (start menu, main game, upgrade card) and a global game state the upgrade cards change. Day one was the base game, day two the shop and start menu, day three the upgrades.",
         th: "มี 3 ฉาก (เมนูเริ่ม เกมหลัก การ์ดอัปเกรด) และสถานะเกมกลางที่การ์ดอัปเกรดเข้าไปเปลี่ยน วันแรกทำเกมพื้นฐาน วันที่สองทำร้านและเมนูเริ่ม วันที่สามทำอัปเกรด", more: true },
     },

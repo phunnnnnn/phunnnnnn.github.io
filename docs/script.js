@@ -272,13 +272,19 @@ const techInfo = {
   "Deadlock Mod Manager": { logo: "deadlock-mod-manager.png", url: "https://deadlockmods.app/" },
 };
 
-// linked: false inside the project cards, which are links themselves.
-function techTag(name, linked) {
+// A tool's logo + name (just the logo when it's a wordmark), for the tech tags and the tool
+// headings in What I learned.
+function techLabel(name) {
   const key = Object.keys(techInfo).find((k) => name.startsWith(k));
   const info = techInfo[key] || {};
   const img = info.logo ? `<img src="assets/logo/${info.logo}" alt="${info.wordmark ? escHtml(name) : ""}" draggable="false"${info.wordmark ? ' class="tech__wordmark"' : ""} />` : "";
-  const inner = img + (info.wordmark ? "" : escHtml(name));
-  return info.url && linked ? `<li><a href="${info.url}" target="_blank" rel="noopener">${inner}</a></li>` : `<li>${inner}</li>`;
+  return { info, html: img + (info.wordmark ? "" : escHtml(name)) };
+}
+
+// linked: false inside the project cards, which are links themselves.
+function techTag(name, linked) {
+  const { info, html } = techLabel(name);
+  return info.url && linked ? `<li><a href="${info.url}" target="_blank" rel="noopener">${html}</a></li>` : `<li>${html}</li>`;
 }
 
 // ===== Projects carousel (home page): Steam-style, one card at a time =====
@@ -675,13 +681,23 @@ async function showTab(id) {
     b.tabIndex = on ? 0 : -1; // arrow keys move between tabs, Tab moves into the panel
   });
   panel.setAttribute("aria-labelledby", `tab-${id}`);
-  const intro = `<p class="story__intro">${escHtml(p.story[id][lang] || p.story[id].en)}</p>`;
-  panel.innerHTML = intro + (p.story[id].more ? `<p class="story__status">${tr["game.loading"]}</p>` : "");
+  const text = p.story[id][lang] || p.story[id].en; // What I learned can hold just tools:, with no intro
+  const intro = text ? `<p class="story__intro">${escHtml(text)}</p>` : "";
+  const tools = toolsHtml(p.story[id].tools, lang); // under everything else, after the Markdown too
+  panel.innerHTML = intro + (p.story[id].more ? `<p class="story__status">${tr["game.loading"]}</p>` : "") + tools;
   if (!p.story[id].more) return;
   let html;
   try { html = `<div class="md">${await loadStory(id, lang)}</div>`; }
   catch { html = `<p class="story__status">${tr["game.loadFail"]}</p>`; }
-  if (storyTab === id && currentLang() === lang) panel.innerHTML = intro + html; // still on this tab
+  if (storyTab === id && currentLang() === lang) panel.innerHTML = intro + html + tools; // still on this tab
+}
+
+// What I learned → "Tools I learned": a small heading per tool (its logo + name), then what I
+// learned with it in this project. From story.learned.tools in content.js.
+function toolsHtml(tools, lang) {
+  if (!tools?.length) return "";
+  return `<div class="md story__tools"><h3>${translations[lang]["game.story.tools"]}</h3>${tools.map((t) => `
+      <h4>${techLabel(t.name).html}</h4><p>${escHtml(t[lang] || t.en)}</p>`).join("")}</div>`;
 }
 
 function storyHtml(p, lang) {
